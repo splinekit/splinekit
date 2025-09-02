@@ -9,6 +9,7 @@ Periodic Spline 1D [toc]
      - **PeriodicSpline1D** is a class of ``splinekit``. It provides a comprehensive set of functions to create, transform, process, and display a one-dimensional spline extended by periodic padding.
 
 .. toctree::
-   :maxdepth: 0
+   :maxdepth: 4
+   :caption: Contents:
 
    01_periodic_spline_1d

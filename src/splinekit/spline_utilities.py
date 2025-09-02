@@ -2,6 +2,9 @@
 The :class:`splinekit.spline_utilities` module provides the building blocks
 and low-level methods associated to the efficient and stable computation of
 polynomial B-splines of arbitrary degree.
+
+====
+
 """
 
 #---------------
@@ -57,6 +60,10 @@ def _sgn_frac (
     -------
     int
         The signum of :math:`x.`
+
+
+    ----
+
     """
 
     return 1 if 0 < x else (-1 if 0 > x else 0)
@@ -82,6 +89,10 @@ def _sgn (
     -------
     float
         The signum of :math:`x.`
+
+
+    ----
+
     """
 
     return 1.0 if 0.0 < x else (-1.0 if 0.0 > x else 0.0)
@@ -112,6 +123,10 @@ def _pse_frac (
     -------
     Fraction
         The rational value of the polynomial simple element at :math:`x.`
+
+
+    ----
+
     """
 
     if 0 == x:
@@ -138,6 +153,10 @@ def _pse (
     See Also
     --------
     splinekit.bsplines.polynomial_simple_element : Polynomial simple element.
+
+
+    ----
+
     """
 
     if 0.0 == x:
@@ -191,6 +210,10 @@ def _db_frac (
     Fraction
         The rational value of the :math:`d`-th derivative of a B-spline at
         rational :math:`x.`
+
+
+    ----
+
     """
 
     return sum(
@@ -228,6 +251,10 @@ def _db (
     -------
     float
         The value of the :math:`d`-th derivative of a B-spline at :math:`x.`
+
+
+    ----
+
     """
 
     if 0.5 * (n + 1.0) < abs(x):
@@ -315,6 +342,15 @@ def _b (
     -------
     np.ndarray[tuple[int], np.dtype[np.float64]]
         The samples of the B-spline.
+
+    Notes
+    -----
+    The results of this method are cached. If the returned results are
+    mutated, the cache gets modified and the next call will return corrupted
+    values.
+
+    ----
+
     """
 
     if n in _bn:
@@ -331,74 +367,78 @@ def _b (
     )
     return _bn[n]
 
-#---------------
-@functools.lru_cache(maxsize = 32)
-def _b_dft_expression (
-    n: int,
-    *,
-    fourier_idx: sympy.symbols = sympy.symbols("nu"),
-    data_len: sympy.symbols = sympy.symbols("K")
-) -> sympy.Function:
+# Discarded
+# #---------------
+# @functools.lru_cache(maxsize = 32)
+# def _b_dft_expression (
+#     n: int,
+#     *,
+#     fourier_idx: sympy.symbols = sympy.symbols("nu"),
+#     data_len: sympy.symbols = sympy.symbols("K")
+# ) -> sympy.Function:
 
-    r"""
-    .. _b_dft_expression:
+#     r"""
+#     .. _b_dft_expression:
 
-    Expression of the :math:`\nu`-th term of the DFT of the
-    periodized :ref:`B-spline discrete sequence<b>` :math:`{\mathrm{b}}^{n}.`
+#     Expression of the :math:`\nu`-th term of the DFT of the
+#     periodized :ref:`B-spline discrete sequence<b>` :math:`{\mathrm{b}}^{n}.`
 
-    Returns a ``sympy`` expression of the :math:`\nu`-th term of the
-    discrete Fourier transform of the :math:`K`-periodized one-dimensional
-    array of the sampled values
+#     Returns a ``sympy`` expression of the :math:`\nu`-th term of the
+#     discrete Fourier transform of the :math:`K`-periodized one-dimensional
+#     array of the sampled values
 
-    ..  math::
+#     ..  math::
 
-        b_{{\mathrm{per}},K}^{n}[k]=\sum_{p\in{\mathbb{Z}}}\,\beta^{n}(p\,K+k)
+#         b_{{\mathrm{per}},K}^{n}[k]=\sum_{p\in{\mathbb{Z}}}\,\beta^{n}(p\,K+k)
 
-    of a :ref:`polynomial B-spline<db_frac>` :math:`\beta^{n}` of
-    :ref:`nonnegative<def-negative>` degree :math:`n,` for
-    :math:`\nu\in[1\ldots K-1].` The :math:`\nu`-th term is
+#     of a :ref:`polynomial B-spline<db_frac>` :math:`\beta^{n}` of
+#     :ref:`nonnegative<def-negative>` degree :math:`n,` for
+#     :math:`\nu\in[1\ldots K-1].` The :math:`\nu`-th term is
 
-    ..  math::
+#     ..  math::
 
-        \begin{eqnarray*}
-        \hat{b}_{{\mathrm{per}},K}^{n}[\nu]&=&\sum_{k=0}^{K-1}\,
-        b_{{\mathrm{per}},K}^{n}[k]\,
-        {\mathrm{e}}^{{\mathrm{j}}\,\nu\,\frac{2\,\pi}{K}\,k}\\
-        &=&\left\{\begin{array}{ll}1,&\nu=0\\
-        \left.\frac{{\mathrm{d}}^{n}\csc\omega}{{\mathrm{d}}\omega^{n}}\right|
-        _{\omega=\nu\,\frac{\pi}{K}}\,\frac{1}{n!}\,
-        \sin^{n+1}(\nu\,\frac{\pi}{K}),&\nu\in[1\ldots K-1]\wedge
-        n\in2\,{\mathbb{N}}\\
-        \left.-\frac{{\mathrm{d}}^{n}\cot\omega}{{\mathrm{d}}\omega^{n}}\right|
-        _{\omega=\nu\,\frac{\pi}{K}}\,\frac{1}{n!}\,
-        \sin^{n+1}(\nu\,\frac{\pi}{K}),&\nu\in[1\ldots K-1]\wedge
-        n\in2\,{\mathbb{N}}+1.\end{array}\right.
-        \end{eqnarray*}
+#         \begin{eqnarray*}
+#         B_{{\mathrm{per}},K}^{n}[\nu]&=&\sum_{k=0}^{K-1}\,
+#         b_{{\mathrm{per}},K}^{n}[k]\,
+#         {\mathrm{e}}^{-{\mathrm{j}}\,\nu\,\frac{2\,\pi}{K}\,k}\\
+#         &=&\left\{\begin{array}{ll}1,&\nu=0\\
+#         \left.\frac{{\mathrm{d}}^{n}\csc\omega}{{\mathrm{d}}\omega^{n}}\right|
+#         _{\omega=\nu\,\frac{\pi}{K}}\,\frac{1}{n!}\,
+#         \sin^{n+1}(\nu\,\frac{\pi}{K}),&\nu\in[1\ldots K-1]\wedge
+#         n\in2\,{\mathbb{N}}\\
+#         \left.-\frac{{\mathrm{d}}^{n}\cot\omega}{{\mathrm{d}}\omega^{n}}\right|
+#         _{\omega=\nu\,\frac{\pi}{K}}\,\frac{1}{n!}\,
+#         \sin^{n+1}(\nu\,\frac{\pi}{K}),&\nu\in[1\ldots K-1]\wedge
+#         n\in2\,{\mathbb{N}}+1.\end{array}\right.
+#         \end{eqnarray*}
 
-    Parameters
-    ----------
-    n : int
-        Nonnegative degree of the polynomial B-spline.
+#     Parameters
+#     ----------
+#     n : int
+#         Nonnegative degree of the polynomial B-spline.
 
-    Returns
-    -------
-    sympy.Function
-        The expression of the :math:`\nu`-th term of the DFT.
+#     Returns
+#     -------
+#     sympy.Function
+#         The expression of the :math:`\nu`-th term of the DFT.
 
-    Notes
-    -----
-    The results of this method are cached. If the returned results are
-    mutated, the cache gets modified and the next call will return corrupted
-    values.
-    """
+#     Notes
+#     -----
+#     The results of this method are cached. If the returned results are
+#     mutated, the cache gets modified and the next call will return corrupted
+#     values.
 
-    omega = sympy.symbols("omega")
-    term = (sympy.sin(omega) ** (n+1) / factorial(n))
-    if 0 == n % 2:
-        term *= sympy.diff(sympy.csc(omega), omega, n)
-    else:
-        term *= -sympy.diff(sympy.cot(omega), omega, n)
-    return term.subs(omega, fourier_idx * sympy.pi / data_len)
+#     ----
+
+#     """
+
+#     omega = sympy.symbols("omega")
+#     term = (sympy.sin(omega) ** (n+1) / factorial(n))
+#     if 0 == n % 2:
+#         term *= sympy.diff(sympy.csc(omega), omega, n)
+#     else:
+#         term *= -sympy.diff(sympy.cot(omega), omega, n)
+#     return term.subs(omega, fourier_idx * sympy.pi / data_len)
 
 #---------------
 _poles: Dict[int, np.ndarray[tuple[int], np.dtype[np.float64]]] = {
@@ -453,6 +493,15 @@ def _pole (
     See Also
     --------
     splinekit.bsplines.pole : Poles of polynomial B-splines.
+
+    Notes
+    -----
+    The results of this method are cached. If the returned results are
+    mutated, the cache gets modified and the next call will return corrupted
+    values.
+
+    ----
+
     """
 
     if 0 > n:
@@ -666,6 +715,15 @@ def _knots (
     -------
     np.ndarray[tuple[int], np.dtype[np.float64]]
         The knots of the B-spline.
+
+    Notes
+    -----
+    The results of this method are cached. If the returned results are
+    mutated, the cache gets modified and the next call will return corrupted
+    values.
+
+    ----
+
     """
 
     if n in _knotsn:
@@ -725,6 +783,9 @@ def _w_frac (
     The results of this method are cached. If the returned results are
     mutated, the cache gets modified and the next call will return corrupted
     values.
+
+    ----
+
     """
 
     return [
@@ -911,6 +972,9 @@ def _w (
     The results of this method are cached. If the returned results are
     mutated, the cache gets modified and the next call will return corrupted
     values.
+
+    ----
+
     """
 
     if n in _wn:
@@ -963,6 +1027,9 @@ def _inv_w (
     The results of this method are cached. If the returned results are
     mutated, the cache gets modified and the next call will return corrupted
     values.
+
+    ----
+
     """
 
     if n in _iwn:
@@ -1191,6 +1258,9 @@ def _wint (
     The results of this method are cached. If the returned results are
     mutated, the cache gets modified and the next call will return corrupted
     values.
+
+    ----
+
     """
 
     if n in _wintn:
@@ -1365,6 +1435,9 @@ def _wd (
     The results of this method are cached. If the returned results are
     mutated, the cache gets modified and the next call will return corrupted
     values.
+
+    ----
+
     """
 
     if n in _wdn:
@@ -1445,6 +1518,9 @@ def _iota (
     The results of this method are cached. If the returned results are
     mutated, the cache gets modified and the next call will return corrupted
     values.
+
+    ----
+
     """
 
     if n in _iotan:
@@ -1532,6 +1608,9 @@ def _v_frac (
     The results of this method are cached. If the returned results are
     mutated, the cache gets modified and the next call will return corrupted
     values.
+
+    ----
+
     """
 
     if n in _vn_frac:
@@ -1595,6 +1674,9 @@ def _alpha_frac (
     The results of this method are cached. If the returned results are
     mutated, the cache gets modified and the next call will return corrupted
     values.
+
+    ----
+
     """
 
     return [

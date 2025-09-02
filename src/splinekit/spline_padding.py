@@ -125,6 +125,9 @@ def pad_p (
     Short data at large index ``-42``.
         >>> sk.pad_p([1, 5, -3], at = -42)
         1
+
+    ----
+
     """
 
     return data[at % len(data)]
@@ -186,6 +189,9 @@ def change_basis_p (
     Notes
     -----
     The computations are performed in-place.
+
+    ----
+
     """
 
     if 0 == len(data):
@@ -314,6 +320,9 @@ def samples_to_coeff_p (
     Notes
     -----
     The computations are performed in-place.
+
+    ----
+
     """
 
     if np.ndarray != type(data):
@@ -409,6 +418,9 @@ def coeff_to_samples_p (
     Notes
     -----
     The computations are performed in-place.
+
+    ----
+
     """
 
     if np.ndarray != type(data):
@@ -463,9 +475,9 @@ def coeff_to_ortho_p (
     where :math:`K` is the length of the provided data, :math:`\beta^{n}` is
     is a :ref:`polynomial B-spline<def-b_spline>` of
     :ref:`nonnegative<def-negative>` degree :math:`n,` and :math:`\phi^{n}`
-    is an :ref:`orthonormal polynomial spline<def-o_b_spline>`. The spline
-    coefficients are assumed to conform to a :ref:`periodic padding<pad_p>`
-    of period :math:`K.`
+    is an :ref:`orthonormal polynomial spline<def-orthonormal_b_spline>`.
+    The spline coefficients are assumed to conform to a
+    :ref:`periodic padding<pad_p>` of period :math:`K.`
 
     Parameters
     ----------
@@ -488,19 +500,22 @@ def coeff_to_ortho_p (
         >>> a1 = np.array([1, 2.75714286, -0.75714286], dtype = "float")
     Spline coefficients.
         >>> c = a1.copy()
-        >>> sk.samples_to_coeff_p(c, degree = 7)
+        >>> sk.samples_to_coeff_p(c, degree = 2 * 3 + 1)
     Orthonormal coefficients.
         >>> g = c.copy()
-        >>> sk.coeff_to_ortho_p(g, degree = 7)
+        >>> sk.coeff_to_ortho_p(g, degree = 3)
     The re-application of ``coeff_to_ortho_p`` yields back the dual coefficients, up to numerical accuracy.
         >>> a2 = g.copy()
-        >>> sk.coeff_to_ortho_p(a2, degree = 7)
+        >>> sk.coeff_to_ortho_p(a2, degree = 3)
         >>> print(a1 - a2)
         [-2.22044605e-16 -1.06581410e-14  1.18793864e-14]
 
     Notes
     -----
     The computations are performed in-place.
+
+    ----
+
     """
 
     if np.ndarray != type(data):
@@ -518,8 +533,8 @@ def coeff_to_ortho_p (
     p0 = len(data)
     if not (degree, p0) in _sqrtdftbn:
         periodized_b = np.zeros(p0, dtype = float)
-        for (x, bx) in enumerate(_b(degree)):
-            periodized_b[(x - (degree // 2)) % p0] += bx
+        for (x, bx) in enumerate(_b(2 * degree + 1)):
+            periodized_b[(x - degree) % p0] += bx
         _sqrtdftbn[(degree, p0)] = cast(
             np.ndarray[tuple[int], np.dtype[np.complex128]],
             np.sqrt(np.fft.rfft(periodized_b))
@@ -552,7 +567,7 @@ def ortho_to_coeff_p (
         \phi^{n}(x-q)=\sum_{q\in{\mathbb{Z}}}\,c[q]\,\beta^{n}(x-q),
 
     where :math:`K` is the length of the provided data, :math:`\phi^{n}`
-    is an :ref:`orthonormal polynomial spline<def-o_b_spline>` of
+    is an :ref:`orthonormal polynomial spline<def-orthonormal_b_spline>` of
     :ref:`nonnegative<def-negative>` degree :math:`n,` and :math:`\beta^{n}`
     is a :ref:`polynomial B-spline<def-b_spline>`. The orthonormal spline
     coefficients are assumed to conform to a :ref:`periodic padding<pad_p>`
@@ -579,19 +594,22 @@ def ortho_to_coeff_p (
         >>> c1 = np.array([1, 9, -7], dtype = "float")
     Dual-spline coefficients.
         >>> a = c1.copy()
-        >>> sk.coeff_to_samples_p(a, degree = 7)
+        >>> sk.coeff_to_samples_p(a, degree = 2 * 3 + 1)
     Orthonormal coefficients.
         >>> g1 = a.copy()
-        >>> sk.ortho_to_coeff_p(g1, degree = 7)
+        >>> sk.ortho_to_coeff_p(g1, degree = 3)
     The re-application of ``ortho_to_coeff_p`` yields back the spline coefficients, up to numerical accuracy.
         >>> g2 = g1.copy()
-        >>> sk.ortho_to_coeff_p(g2, degree = 7)
+        >>> sk.ortho_to_coeff_p(g2, degree = 3)
         >>> print(c1 - g2)
         [ 3.33066907e-16  3.55271368e-15 -2.66453526e-15]
 
     Notes
     -----
     The computations are performed in-place.
+
+    ----
+
     """
 
     if np.ndarray != type(data):
@@ -609,14 +627,14 @@ def ortho_to_coeff_p (
     p0 = len(data)
     if not (degree, p0) in _sqrtdftbn:
         periodized_b = np.zeros(p0, dtype = float)
-        for (x, bx) in enumerate(_b(degree)):
-            periodized_b[(x - (degree // 2)) % p0] += bx
+        for (x, bx) in enumerate(_b(2 * degree + 1)):
+            periodized_b[(x - degree) % p0] += bx
         _sqrtdftbn[(degree, p0)] = cast(
             np.ndarray[tuple[int], np.dtype[np.complex128]],
             np.sqrt(np.fft.rfft(periodized_b))
         )
-    np.fft.irfft(np.fft.rfft(data) /
-        _sqrtdftbn[(degree, p0)],
+    np.fft.irfft(
+        np.fft.rfft(data) / _sqrtdftbn[(degree, p0)],
         n = p0,
         out = data
     )
@@ -725,6 +743,9 @@ def pad_n (
     Short data at large index ``-42``.
         >>> sk.pad_n([1, 5, -3], at = -42)
         -3
+
+    ----
+
     """
 
     k0 = len(data)
@@ -789,6 +810,9 @@ def samples_to_coeff_n (
     Notes
     -----
     The computations are performed in-place.
+
+    ----
+
     """
 
     if np.ndarray != type(data):
@@ -929,6 +953,9 @@ def pad_w (
     Short data at large index ``-42``.
         >>> sk.pad_w([1, 5, -3], at = -42)
         1
+
+    ----
+
     """
 
     k0 = len(data)
@@ -991,6 +1018,9 @@ def samples_to_coeff_w (
     Notes
     -----
     The computations are performed in-place.
+
+    ----
+
     """
 
     if np.ndarray != type(data):
@@ -1132,6 +1162,9 @@ def pad_a (
     Short data at large index ``-42``.
         >>> sk.pad_a([1, 5, -3], at = -42)
         85
+
+    ----
+
     """
 
     k0 = len(data)
@@ -1197,6 +1230,9 @@ def samples_to_coeff_a (
     Notes
     -----
     The computations are performed in-place.
+
+    ----
+
     """
 
     if np.ndarray != type(data):
@@ -1337,6 +1373,9 @@ def pad_np (
     Short data at large index ``-42``.
         >>> sk.pad_np([1, 5, -3], at = -42)
         1
+
+    ----
+
     """
 
     k0 = len(data)
@@ -1398,6 +1437,9 @@ def samples_to_coeff_np (
     Notes
     -----
     The computations are performed in-place.
+
+    ----
+
     """
 
     if np.ndarray != type(data):
@@ -1546,6 +1588,9 @@ def pad_nn (
     Short data at large index ``-42``.
         >>> sk.pad_nn([1, 5, -3], at = -42)
         -1
+
+    ----
+
     """
 
     k0 = len(data)
@@ -1611,6 +1656,9 @@ def samples_to_coeff_nn (
     Notes
     -----
     The computations are performed in-place.
+
+    ----
+
     """
 
     if np.ndarray != type(data):
@@ -1753,6 +1801,9 @@ def pad_nw (
     Short data at large index ``-42``.
         >>> sk.pad_nw([1, 5, -3], at = -42)
         1
+
+    ----
+
     """
 
     k0 = len(data)

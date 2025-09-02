@@ -25,7 +25,7 @@ from splinekit import grad_b_spline
 from splinekit import diff_b_spline
 from splinekit import mscale_filter
 from splinekit import ib_coeff
-from splinekit import interpolating_b_spline
+from splinekit import cardinal_b_spline
 from splinekit import dual_b_spline
 from splinekit import spline_polynomial
 from splinekit import partition_of_monomial
@@ -2725,10 +2725,10 @@ class TestBSplines:
                 )
 
     #---------------
-    def test_interpolating_b_spline (
+    def test_cardinal_b_spline (
         self
     ):
-        known_interpolating_b_splines = [
+        known_cardinal_b_splines = [
             # [degree, argument, intpbspline]
             [0, 0.44559361317003526, 1],
             [0, 0.07827524908962334, 1],
@@ -3061,13 +3061,13 @@ class TestBSplines:
             [9, 9.5, -0.0028509329390952777],
             [9, 10, 4.5102810375396984e-15]
         ]
-        for test in known_interpolating_b_splines:
+        for test in known_cardinal_b_splines:
             degree = test[0]
             argument = test[1]
             intpbspline = test[2]
             assert isclose(
                 intpbspline,
-                interpolating_b_spline(
+                cardinal_b_spline(
                     argument,
                     degree
                 ),

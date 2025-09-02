@@ -87,9 +87,9 @@ Glossary
 
 **Interpolating Function** A real function :math:`f:{\mathbb{R}}\rightarrow{\mathbb{R}}` is said to be interpolating when its restriction to the integers is such that :math:`\forall k\in{\mathbb{Z}}:f(k)={\mathbf{[\![}}k=0\,{\mathbf{]\!]}},` where the notation :math:`{\mathbf{[\![}}P\,{\mathbf{]\!]}}` is that of the :ref:`Iverson bracket<def-iverson>`.
 
-.. _def-interpolating_b_spline:
+.. _def-cardinal_b_spline:
 
-**Interpolating Polynomial B-Spline** An interpolating polynomial B-spline of :ref:`nonnegative<def-negative>` integer degree is uniquely defined as a :ref:`uniform spline<def-uniform_spline>` that is :ref:`interpolating<def-interpolating_function>`, :ref:`pointwise even-symmetric<def-even_symmetry>`, and that satisfies the :ref:`pointwise partition of unity<def-partition_of_unity>`. It is notated :math:`\eta^{n}:{\mathbb{R}}\rightarrow{\mathbb{R}},` where :math:`n` is the degree.
+**Cardinal Polynomial B-Spline** A cardinal polynomial B-spline of :ref:`nonnegative<def-negative>` integer degree is uniquely defined as a :ref:`uniform spline<def-uniform_spline>` that is :ref:`interpolating<def-interpolating_function>`, :ref:`pointwise even-symmetric<def-even_symmetry>`, and that satisfies the :ref:`pointwise partition of unity<def-partition_of_unity>`. It is notated :math:`\eta^{n}:{\mathbb{R}}\rightarrow{\mathbb{R}},` where :math:`n` is the degree.
 
 .. _def-integer-shift_orthogonal:
 
@@ -103,7 +103,7 @@ Glossary
 
 **Polynomial Dual B-Spline** A polynomial dual B-spline is notated :math:`\mathring{\beta}^{m,n}.` It is a real function indexed by a :ref:`nonnegative<def-negative>` integer dual degree :math:`m` and a :ref:`nonnegative<def-negative>` integer primal degree :math:`n.` It is uniquely defined as the spline of dual degree :math:`m` that is :ref:`integer-shift-orthonormal<def-integer-shift_orthonormal>` to a :ref:`polynomial B-spline<def-b_spline>` of primal degree :math:`n,` so that :math:`{\mathbf{[\![}}k=0\,{\mathbf{]\!]}}=\int_{-\infty}^{\infty}\,\mathring{\beta}^{m,n}(x)\,\beta^{n}(x+k)\,{\mathrm{d}}x,` where the notation :math:`{\mathbf{[\![}}P\,{\mathbf{]\!]}}` is that of the :ref:`Iverson bracket<def-iverson>`.
 
-.. _def-o_b_spline:
+.. _def-orthonormal_b_spline:
 
 **Polynomial Orthonormal B-Spline** A polynomial orthonormal B-spline is notated :math:`\phi^{n}.` It is a real function indexed by a :ref:`nonnegative<def-negative>` integer degree :math:`n.` It is uniquely defined as the :ref:`uniform spline<def-uniform_spline>` of degree :math:`n` that is :ref:`integer-shift-orthonormal<def-integer-shift_orthonormal>` to itself, so that :math:`{\mathbf{[\![}}k=0\,{\mathbf{]\!]}}=\int_{-\infty}^{\infty}\,\phi^{n}(x)\,\phi^{n}(x+k)\,{\mathrm{d}}x,` along with :math:`\phi^{n}(x)=\sum_{k\in{\mathbb{Z}}}\,p[k]\,\beta^{n}(x-k)` for some well-chosen sequence :math:`p,` where the notation :math:`{\mathbf{[\![}}P\,{\mathbf{]\!]}}` is that of the :ref:`Iverson bracket<def-iverson>`.
 

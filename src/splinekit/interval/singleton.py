@@ -1,6 +1,9 @@
 """
 This concrete class honors ``Interval`` and ``Degenerate``; it handles
 intervals made of just one finite real number.
+
+====
+
 """
 
 #---------------
@@ -26,6 +29,9 @@ class Singleton (
 
     The degenerate interval
     :math:`\{x\in{\mathbb{R}}|x=x_{0}\}=[x_{0},x_{0}].`
+
+    ====
+
     """
 
     #---------------
@@ -35,6 +41,9 @@ class Singleton (
     ) -> float:
         """
         ``self.value``
+
+        ----
+
         """
         return self._value
 
@@ -45,6 +54,9 @@ class Singleton (
     ) -> float:
         """
         ``self.value``
+
+        ----
+
         """
         return self._value
 
@@ -55,6 +67,9 @@ class Singleton (
     ) -> bool:
         """
         ``False``
+
+        ----
+
         """
         return False
 
@@ -65,6 +80,9 @@ class Singleton (
     ) -> bool:
         """
         ``False``
+
+        ----
+
         """
         return False
 
@@ -75,6 +93,9 @@ class Singleton (
     ) -> bool:
         """
         ``False``
+
+        ----
+
         """
         return False
 
@@ -85,6 +106,9 @@ class Singleton (
     ) -> bool:
         """
         ``False``
+
+        ----
+
         """
         return False
 
@@ -95,6 +119,9 @@ class Singleton (
     ) -> bool:
         """
         ``True``
+
+        ----
+
         """
         return True
 
@@ -105,6 +132,9 @@ class Singleton (
     ) -> bool:
         """
         ``True``
+
+        ----
+
         """
         return True
 
@@ -115,6 +145,9 @@ class Singleton (
     ) -> bool:
         """
         ``True``
+
+        ----
+
         """
         return True
 
@@ -125,6 +158,9 @@ class Singleton (
     ) -> bool:
         """
         ``False``
+
+        ----
+
         """
         return False
 
@@ -135,6 +171,9 @@ class Singleton (
     ) -> bool:
         """
         ``True``
+
+        ----
+
         """
         return True
 
@@ -145,6 +184,9 @@ class Singleton (
     ) -> bool:
         """
         ``True``
+
+        ----
+
         """
         return True
 
@@ -155,6 +197,9 @@ class Singleton (
     ) -> bool:
         """
         ``False``
+
+        ----
+
         """
         return False
 
@@ -165,6 +210,9 @@ class Singleton (
     ) -> Self:
         """
         ``Empty()``
+
+        ----
+
         """
         return cast(Self, Empty())
 
@@ -175,6 +223,9 @@ class Singleton (
     ) -> Self:
         """
         ``Singleton(self.value)``
+
+        ----
+
         """
         return self
 
@@ -185,6 +236,9 @@ class Singleton (
     ) -> float:
         """
         ``0.0``
+
+        ----
+
         """
         return 0.0
 
@@ -195,6 +249,9 @@ class Singleton (
     ) -> float:
         """
         ``self.value``
+
+        ----
+
         """
         return self._value
 
@@ -204,6 +261,9 @@ class Singleton (
     ) -> float:
         """
         ``self.value``
+
+        ----
+
         """
         return self._value
 

@@ -4,6 +4,7 @@ from __future__ import annotations
 #---------------
 from typing import Any
 from typing import List
+from typing import NamedTuple
 from typing import cast
 
 #---------------
@@ -38,6 +39,9 @@ class PeriodicNonuniformPiecewise:
     class ``PeriodicNonuniformPiecewise`` maintains a database of such pieces
     and provides a convenience method to access the appropriate piece at any
     :math:`x\in{\mathbb{R}}`.
+
+    ====
+
     """
 
     #---------------
@@ -54,6 +58,10 @@ class PeriodicNonuniformPiecewise:
         -------
         list of Piece
             All pieces as a list.
+
+
+        ----
+
         """
 
         return self._pieces
@@ -71,34 +79,48 @@ class PeriodicNonuniformPiecewise:
         -------
         int
             The period.
+
+
+        ----
+
         """
 
         return self._period
 
     #---------------
-    @dataclass
-    class Piece:
+    class Piece (
+        NamedTuple
+    ):
 
         """
         .. _Piece:
 
-        Each piece of a ``PeriodicNonuniformPiecewise`` object is made of two
-        components. The first component is an ``Interval`` object that
-        describes an arbitrary domain over which the piece extends. The
-        second component is an arbitrary item that carries the attributes
-        of the piece—often, a function.
+        Each piece of a ``PeriodicNonuniformPiecewise`` object is a named
+        tuple made of two fields. The first field is named ``domain`` and is
+        an :ref:`Interval<Interval>` object that describes an arbitrary domain
+        over which the piece extends. The second field is named ``item`` and
+        carries the attributes of the piece—often, a function.
+
+        ====
+
         """
 
         domain: Interval
 
         """
         The domain of the piece.
+
+        ----
+
         """
 
         item: Any
 
         """
         The item of the piece.
+
+        ----
+
         """
 
     #---------------
@@ -130,6 +152,10 @@ class PeriodicNonuniformPiecewise:
         ValueError
             Raised when the pieces do not provide a valid partition of the
             :ref:`closed-open<ClosedOpen>` interval ``[0, period)``.
+
+
+        ----
+
         """
 
         if 0 == len(pieces):

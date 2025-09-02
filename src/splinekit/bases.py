@@ -38,7 +38,7 @@ class Bases:
             f(x)=\sum_{k\in{\mathbb{Z}}}\,c[k]\,\beta^{n}(x-k).
 
     *   For ``splinekit.Bases.CARDINAL``, the coefficients are :math:`f` and
-        the basis is the :ref:`cardinal spline<def-interpolating_b_spline>`
+        the basis is the :ref:`cardinal spline<def-cardinal_b_spline>`
         :math:`\eta^{n},` so that
 
         ..  math::
@@ -55,7 +55,7 @@ class Bases:
 
     *   For ``splinekit.Bases.ORTHONORMAL``, the coefficients are :math:`a`
         and the basis is the
-        :ref:`polynomial orthonormal b-spline<def-o_b_spline>`
+        :ref:`polynomial orthonormal b-spline<def-orthonormal_b_spline>`
         :math:`\phi^{n},` so that
 
         ..  math::
@@ -65,8 +65,12 @@ class Bases:
     See Also
     --------
     splinekit.bsplines.b_spline : B-spline basis (BASIC).
-    splinekit.bsplines.interpolating_b_spline : Cardinal-spline basis (CARDINAL).
+    splinekit.bsplines.cardinal_b_spline : Cardinal-spline basis (CARDINAL).
     splinekit.bsplines.dual_b_spline : Dual-spline basis (DUAL).
+    splinekit.periodic_spline_1d.PeriodicSpline1D.periodized_b_spline : Periodized B-spline basis.
+    splinekit.periodic_spline_1d.PeriodicSpline1D.periodized_cardinal_b_spline : Periodized cardinal-spline basis.
+    splinekit.periodic_spline_1d.PeriodicSpline1D.periodized_dual_b_spline : Periodized dual-spline basis.
+    splinekit.periodic_spline_1d.PeriodicSpline1D.periodized_orthonormal_b_spline : Periodized orthonormal-spline basis.
     """
 
     (

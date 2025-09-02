@@ -1,5 +1,8 @@
 """
 This abstract class handles half-bounded intervals of real numbers.
+
+====
+
 """
 
 #---------------
@@ -16,6 +19,9 @@ class HalfBounded (
 
     """
     A half-bounded interval that depends on a threshold.
+
+    ====
+
     """
 
     #---------------
@@ -31,6 +37,10 @@ class HalfBounded (
         -------
         float
             The threshold.
+
+
+        ----
+
         """
 
         return self._threshold

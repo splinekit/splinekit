@@ -1,6 +1,9 @@
 """
 This concrete class honors ``Interval`` and ``HalfBounded``; it handles
 right-bounded intervals below a finite real number.
+
+====
+
 """
 
 #---------------
@@ -29,6 +32,9 @@ class Below (
 
     The left-unbounded interval
     :math:`\{x\in{\mathbb{R}}|x<x_{0}\}=(—\infty,x_{0}).`
+
+    ====
+
     """
 
     #---------------
@@ -41,6 +47,9 @@ class Below (
     ) -> float:
         """
         ``float("-inf")``
+
+        ----
+
         """
         return float("-inf")
 
@@ -51,6 +60,9 @@ class Below (
     ) -> float:
         """
         ``self.threshold``
+
+        ----
+
         """
         return self._threshold
 
@@ -61,6 +73,9 @@ class Below (
     ) -> bool:
         """
         ``True``
+
+        ----
+
         """
         return True
 
@@ -71,6 +86,9 @@ class Below (
     ) -> bool:
         """
         ``True``
+
+        ----
+
         """
         return True
 
@@ -81,6 +99,9 @@ class Below (
     ) -> bool:
         """
         ``True``
+
+        ----
+
         """
         return True
 
@@ -91,6 +112,9 @@ class Below (
     ) -> bool:
         """
         ``False``
+
+        ----
+
         """
         return False
 
@@ -101,6 +125,9 @@ class Below (
     ) -> bool:
         """
         ``False``
+
+        ----
+
         """
         return False
 
@@ -111,6 +138,9 @@ class Below (
     ) -> bool:
         """
         ``False``
+
+        ----
+
         """
         return False
 
@@ -121,6 +151,9 @@ class Below (
     ) -> bool:
         """
         ``True``
+
+        ----
+
         """
         return True
 
@@ -131,6 +164,9 @@ class Below (
     ) -> bool:
         """
         ``True``
+
+        ----
+
         """
         return True
 
@@ -141,6 +177,9 @@ class Below (
     ) -> bool:
         """
         ``False``
+
+        ----
+
         """
         return False
 
@@ -151,6 +190,9 @@ class Below (
     ) -> bool:
         """
         ``False``
+
+        ----
+
         """
         return False
 
@@ -161,6 +203,9 @@ class Below (
     ) -> bool:
         """
         ``True``
+
+        ----
+
         """
         return True
 
@@ -171,6 +216,9 @@ class Below (
     ) -> Self:
         """
         ``Below(self.threshold)``
+
+        ----
+
         """
         return self
 
@@ -181,6 +229,9 @@ class Below (
     ) -> Self:
         """
         ``NotAbove(self.threshold)``
+
+        ----
+
         """
         return cast(Self, self._not_above.NotAbove(self._threshold))
 
@@ -191,6 +242,9 @@ class Below (
     ) -> float:
         """
         ``float("inf")``
+
+        ----
+
         """
         return float("inf")
 
@@ -201,6 +255,9 @@ class Below (
     ) -> float:
         """
         ``float("nan")``
+
+        ----
+
         """
         return float("nan")
 
@@ -210,6 +267,9 @@ class Below (
     ) -> float:
         """
         ``self.threshold``
+
+        ----
+
         """
         return self._threshold
 
@@ -219,6 +279,10 @@ class Below (
         x: float
     ) -> bool:
         """
+        ``math.isfinite(x) and (x < self.threshold)``
+
+        ----
+
         """
         return math.isfinite(x) and (x < self._threshold)
 

@@ -1,6 +1,9 @@
 """
 This concrete class honors ``Interval`` and ``Universal``; it handles
 the empty interval of real numbers.
+
+====
+
 """
 
 #---------------
@@ -21,6 +24,9 @@ class Empty (
 
     The empty interval
     :math:`\{x\in{\mathbb{R}}|x\neq x\}=\emptyset` that contains no number.
+
+    ====
+
     """
 
     #---------------
@@ -30,6 +36,9 @@ class Empty (
     ) -> float:
         """
         ``float("nan")``
+
+        ----
+
         """
         return float("nan")
 
@@ -40,6 +49,9 @@ class Empty (
     ) -> float:
         """
         ``float("nan")``
+
+        ----
+
         """
         return float("nan")
 
@@ -50,6 +62,9 @@ class Empty (
     ) -> bool:
         """
         ``True``
+
+        ----
+
         """
         return True
 
@@ -60,6 +75,9 @@ class Empty (
     ) -> bool:
         """
         ``True``
+
+        ----
+
         """
         return True
 
@@ -70,6 +88,9 @@ class Empty (
     ) -> bool:
         """
         ``True``
+
+        ----
+
         """
         return True
 
@@ -80,6 +101,9 @@ class Empty (
     ) -> bool:
         """
         ``False``
+
+        ----
+
         """
         return False
 
@@ -90,6 +114,9 @@ class Empty (
     ) -> bool:
         """
         ``True``
+
+        ----
+
         """
         return True
 
@@ -100,6 +127,9 @@ class Empty (
     ) -> bool:
         """
         ``True``
+
+        ----
+
         """
         return True
 
@@ -110,6 +140,9 @@ class Empty (
     ) -> bool:
         """
         ``True``
+
+        ----
+
         """
         return True
 
@@ -120,6 +153,9 @@ class Empty (
     ) -> bool:
         """
         ``False``
+
+        ----
+
         """
         return False
 
@@ -130,6 +166,9 @@ class Empty (
     ) -> bool:
         """
         ``True``
+
+        ----
+
         """
         return True
 
@@ -140,6 +179,9 @@ class Empty (
     ) -> bool:
         """
         ``False``
+
+        ----
+
         """
         return False
 
@@ -150,6 +192,9 @@ class Empty (
     ) -> bool:
         """
         ``False``
+
+        ----
+
         """
         return False
 
@@ -160,6 +205,9 @@ class Empty (
     ) -> Self:
         """
         ``Empty()``
+
+        ----
+
         """
         return self
 
@@ -170,6 +218,9 @@ class Empty (
     ) -> Self:
         """
         ``Empty()``
+
+        ----
+
         """
         return self
 
@@ -180,6 +231,9 @@ class Empty (
     ) -> float:
         """
         ``float("nan")``
+
+        ----
+
         """
         return float("nan")
 
@@ -190,6 +244,9 @@ class Empty (
     ) -> float:
         """
         ``float("nan")``
+
+        ----
+
         """
         return float("nan")
 
@@ -199,6 +256,9 @@ class Empty (
     ) -> float:
         """
         ``float("-inf")``
+
+        ----
+
         """
         return float("-inf")
 

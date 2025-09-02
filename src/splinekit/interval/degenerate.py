@@ -1,5 +1,8 @@
 """
 This abstract class handles degenerate intervals of real numbers.
+
+====
+
 """
 
 #---------------
@@ -17,6 +20,9 @@ class Degenerate (
     Notes
     -----
     Subclasses that implement this class have the property ``value``.
+
+    ====
+
     """
 
     #---------------
@@ -32,6 +38,10 @@ class Degenerate (
         -------
         float
             The value.
+
+
+        ----
+
         """
 
         return self._value

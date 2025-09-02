@@ -1,6 +1,9 @@
 """
 This concrete class honors ``Interval`` and ``Universal``; it handles
 the interval of all finite real numbers.
+
+====
+
 """
 
 #---------------
@@ -24,6 +27,9 @@ class RR (
 
     All finite real numbers
     :math:`{\mathbb{R}}=(-\infty,\infty).`
+
+    ====
+
     """
 
     #---------------
@@ -33,6 +39,9 @@ class RR (
     ) -> float:
         """
         ``float("-inf")``
+
+        ----
+
         """
         return float("-inf")
 
@@ -43,6 +52,9 @@ class RR (
     ) -> float:
         """
         ``float("inf")``
+
+        ----
+
         """
         return float("inf")
 
@@ -53,6 +65,9 @@ class RR (
     ) -> bool:
         """
         ``True``
+
+        ----
+
         """
         return True
 
@@ -63,6 +78,9 @@ class RR (
     ) -> bool:
         """
         ``True``
+
+        ----
+
         """
         return True
 
@@ -73,6 +91,9 @@ class RR (
     ) -> bool:
         """
         ``True``
+
+        ----
+
         """
         return True
 
@@ -83,6 +104,9 @@ class RR (
     ) -> bool:
         """
         ``False``
+
+        ----
+
         """
         return False
 
@@ -93,6 +117,9 @@ class RR (
     ) -> bool:
         """
         ``True``
+
+        ----
+
         """
         return True
 
@@ -103,6 +130,9 @@ class RR (
     ) -> bool:
         """
         ``False``
+
+        ----
+
         """
         return False
 
@@ -113,6 +143,9 @@ class RR (
     ) -> bool:
         """
         ``False``
+
+        ----
+
         """
         return False
 
@@ -123,6 +156,9 @@ class RR (
     ) -> bool:
         """
         ``False``
+
+        ----
+
         """
         return False
 
@@ -133,6 +169,9 @@ class RR (
     ) -> bool:
         """
         ``False``
+
+        ----
+
         """
         return False
 
@@ -143,6 +182,9 @@ class RR (
     ) -> bool:
         """
         ``False``
+
+        ----
+
         """
         return False
 
@@ -153,6 +195,9 @@ class RR (
     ) -> bool:
         """
         ``True``
+
+        ----
+
         """
         return True
 
@@ -163,6 +208,9 @@ class RR (
     ) -> Self:
         """
         ``RR()``
+
+        ----
+
         """
         return self
 
@@ -173,6 +221,9 @@ class RR (
     ) -> Self:
         """
         ``RR()``
+
+        ----
+
         """
         return self
 
@@ -183,6 +234,9 @@ class RR (
     ) -> float:
         """
         ``float("inf")``
+
+        ----
+
         """
         return float("inf")
 
@@ -193,6 +247,9 @@ class RR (
     ) -> float:
         """
         ``float("nan")``
+
+        ----
+
         """
         return float("nan")
 
@@ -202,6 +259,9 @@ class RR (
     ) -> float:
         """
         ``float("inf")``
+
+        ----
+
         """
         return float("inf")
 
@@ -210,6 +270,9 @@ class RR (
         self,
         x: float
     ) -> bool:
+        """
+        ``math.isfinite(x)``
+        """
         return math.isfinite(x)
 
     #---------------

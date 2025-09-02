@@ -1,5 +1,8 @@
 """
 This abstract class handles bounded intervals of real numbers.
+
+====
+
 """
 
 #---------------
@@ -17,6 +20,9 @@ class Bounded (
 
     """
     A bounded interval that depends on a pair of endpoints.
+
+    ====
+
     """
 
     #---------------
@@ -32,6 +38,9 @@ class Bounded (
         -------
         tuple of float
             The left- and right-endpoint of this interval, in that order.
+
+        ----
+
         """
 
         return (self._leftbound, self._rightbound)
@@ -49,6 +58,10 @@ class Bounded (
         -------
         float
             The left endpoint of this interval.
+
+
+        ----
+
         """
 
         return self._leftbound
@@ -74,6 +87,10 @@ class Bounded (
         -------
         float
             The right endpoint of this interval.
+
+
+        ----
+
         """
 
         return self._rightbound

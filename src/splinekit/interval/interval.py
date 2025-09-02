@@ -72,6 +72,8 @@ Concrete Classes
 - :ref:`Closed <Closed>`
 - :ref:`ClosedOpen <ClosedOpen>`
 
+====
+
 """
 
 #---------------
@@ -129,6 +131,9 @@ class Interval (
           :math:`\{x\in{\mathbb{R}}|x_{0}\leq x\leq x_{1}\}=[x_{0},x_{1}]`
         - ``ClosedOpen`` The bounded interval
           :math:`\{x\in{\mathbb{R}}|x_{0}\leq x<x_{1}\}=[x_{0},x_{1})`
+
+    ====
+
     """
 
     #---------------
@@ -175,6 +180,9 @@ class Interval (
               :math:`\{x\in{\mathbb{R}}|x_{0}\leq x\leq x_{1}\}=[x_{0},x_{1}]`
             - ``ClosedOpen`` The bounded interval
               :math:`\{x\in{\mathbb{R}}|x_{0}\leq x<x_{1}\}=[x_{0},x_{1})`
+
+        ----
+
         """
 
     #---------------
@@ -221,6 +229,9 @@ class Interval (
               :math:`\{x\in{\mathbb{R}}|x_{0}\leq x\leq x_{1}\}=[x_{0},x_{1}]`
             - ``ClosedOpen`` The bounded interval
               :math:`\{x\in{\mathbb{R}}|x_{0}\leq x<x_{1}\}=[x_{0},x_{1})`
+
+        ----
+
         """
 
     #---------------
@@ -276,6 +287,9 @@ class Interval (
               :math:`\{x\in{\mathbb{R}}|x_{0}\leq x\leq x_{1}\}=[x_{0},x_{1}]`
             - ``ClosedOpen`` The bounded interval
               :math:`\{x\in{\mathbb{R}}|x_{0}\leq x<x_{1}\}=[x_{0},x_{1})`
+
+        ----
+
         """
 
     #---------------
@@ -331,6 +345,9 @@ class Interval (
               :math:`\{x\in{\mathbb{R}}|x_{0}<x\leq x_{1}\}=(x_{0},x_{1}]`
             - ``Closed`` The bounded interval
               :math:`\{x\in{\mathbb{R}}|x_{0}\leq x\leq x_{1}\}=[x_{0},x_{1}]`
+
+        ----
+
         """
 
     #---------------
@@ -384,6 +401,9 @@ class Interval (
               :math:`\{x\in{\mathbb{R}}|x_{0}\leq x\leq x_{1}\}=[x_{0},x_{1}]`
             - ``ClosedOpen`` The bounded interval
               :math:`\{x\in{\mathbb{R}}|x_{0}\leq x<x_{1}\}=[x_{0},x_{1})`
+
+        ----
+
         """
 
         return self.isleftopen and self.isrightopen
@@ -439,6 +459,9 @@ class Interval (
               :math:`\{x\in{\mathbb{R}}|x_{0}<x<x_{1}\}=(x_{0},x_{1})`
             - ``Closed`` The bounded interval
               :math:`\{x\in{\mathbb{R}}|x_{0}\leq x\leq x_{1}\}=[x_{0},x_{1}]`
+
+        ----
+
         """
 
         return ((self.isleftopen and not self.isrightopen) or
@@ -497,6 +520,9 @@ class Interval (
               :math:`\{x\in{\mathbb{R}}|x_{0}<x\leq x_{1}\}=(x_{0},x_{1}]`
             - ``ClosedOpen`` The bounded interval
               :math:`\{x\in{\mathbb{R}}|x_{0}\leq x<x_{1}\}=[x_{0},x_{1})`
+
+        ----
+
         """
 
         return self.closure == self
@@ -553,6 +579,9 @@ class Interval (
               :math:`\{x\in{\mathbb{R}}|x\leq x_{0}\}=(—\infty,x_{0}]`
             - ``Below`` The left-unbounded interval
               :math:`\{x\in{\mathbb{R}}|x<x_{0}\}=(—\infty,x_{0})`
+
+        ----
+
         """
 
         return not math.isinf(self.infimum)
@@ -609,6 +638,9 @@ class Interval (
               :math:`\{x\in{\mathbb{R}}|x>x_{0}\}=(x_{0},\infty)`
             - ``NotBelow`` The right-unbounded interval
               :math:`\{x\in{\mathbb{R}}|x\geq x_{0}\}=[x_{0},\infty)`
+
+        ----
+
         """
 
         return not math.isinf(self.supremum)
@@ -664,6 +696,9 @@ class Interval (
               :math:`\{x\in{\mathbb{R}}|x_{0}\leq x\leq x_{1}\}=[x_{0},x_{1}]`
             - ``ClosedOpen`` The bounded interval
               :math:`\{x\in{\mathbb{R}}|x_{0}\leq x<x_{1}\}=[x_{0},x_{1})`
+
+        ----
+
         """
 
         return ((self.isleftbounded and not self.isrightbounded) or
@@ -720,6 +755,9 @@ class Interval (
               :math:`\{x\in{\mathbb{R}}|x\leq x_{0}\}=(—\infty,x_{0}]`
             - ``Below`` The left-unbounded interval
               :math:`\{x\in{\mathbb{R}}|x<x_{0}\}=(—\infty,x_{0})`
+
+        ----
+
         """
 
         return self.isleftbounded and self.isrightbounded
@@ -775,6 +813,9 @@ class Interval (
               :math:`\{x\in{\mathbb{R}}|x_{0}\leq x\leq x_{1}\}=[x_{0},x_{1}]`
             - ``ClosedOpen`` The bounded interval
               :math:`\{x\in{\mathbb{R}}|x_{0}\leq x<x_{1}\}=[x_{0},x_{1})`
+
+        ----
+
         """
 
         if math.isnan(self.infimum) and math.isnan(self.supremum):
@@ -832,6 +873,9 @@ class Interval (
               :math:`\{x\in{\mathbb{R}}|x\neq x\}=\emptyset`
             - ``Singleton`` The degenerate interval
               :math:`\{x\in{\mathbb{R}}|x=x_{0}\}=[x_{0},x_{0}]`
+
+        ----
+
         """
 
         if math.isnan(self.infimum) and math.isnan(self.supremum):
@@ -891,6 +935,9 @@ class Interval (
               :math:`\{x\in{\mathbb{R}}|x_{0}\leq x\leq x_{1}\}=[x_{0},x_{1}]`
             - ``ClosedOpen`` The bounded interval
               :math:`\{x\in{\mathbb{R}}|x_{0}\leq x<x_{1}\}=[x_{0},x_{1})`
+
+        ----
+
         """
 
     #---------------
@@ -947,6 +994,9 @@ class Interval (
               :math:`\{x\in{\mathbb{R}}|x_{0}\leq x\leq x_{1}\}=[x_{0},x_{1}]`
             - ``ClosedOpen`` The bounded interval
               :math:`\{x\in{\mathbb{R}}|x_{0}\leq x<x_{1}\}=[x_{0},x_{1})`
+
+        ----
+
         """
 
     #---------------
@@ -1001,6 +1051,9 @@ class Interval (
               :math:`\{x\in{\mathbb{R}}|x_{0}\leq x\leq x_{1}\}=[x_{0},x_{1}]`
             - ``ClosedOpen`` The bounded interval
               :math:`\{x\in{\mathbb{R}}|x_{0}\leq x<x_{1}\}=[x_{0},x_{1})`
+
+        ----
+
         """
 
         if math.isinf(self.infimum) or math.isinf(self.supremum):
@@ -1057,6 +1110,9 @@ class Interval (
               :math:`\{x\in{\mathbb{R}}|x_{0}\leq x\leq x_{1}\}=[x_{0},x_{1}]`
             - ``ClosedOpen`` The bounded interval
               :math:`\{x\in{\mathbb{R}}|x_{0}\leq x<x_{1}\}=[x_{0},x_{1})`
+
+        ----
+
         """
 
         if math.isfinite(self.infimum) and math.isfinite(self.supremum):
@@ -1110,6 +1166,9 @@ class Interval (
               :math:`\{x\in{\mathbb{R}}|x_{0}\leq x\leq x_{1}\}=[x_{0},x_{1}]`
             - ``ClosedOpen`` The bounded interval
               :math:`\{x\in{\mathbb{R}}|x_{0}\leq x<x_{1}\}=[x_{0},x_{1})`
+
+        ----
+
         """
 
     #---------------
@@ -1146,6 +1205,9 @@ class Interval (
         ``float("inf")`` is not in ``RR()``.
             >>> float("inf") in ivl.RR()
             False
+
+        ----
+
         """
 
     #---------------
@@ -1191,6 +1253,9 @@ class Interval (
         Infinite numbers do not belong to ``RR()``.
             >>> ivl.Interval.ismember(float("-inf"), {ivl.RR()})
             False
+
+        ----
+
         """
 
         for s0 in s:
@@ -1236,6 +1301,9 @@ class Interval (
         The enclosure of an empty set of intervals is ``Empty()``.
             >>> ivl.Interval.enclosure({})
             Empty()
+
+        ----
+
         """
 
         _ki = _KnownIntervals()
@@ -1323,6 +1391,9 @@ class Interval (
         The complement of an empty set of intervals is ``{RR()}``.
             >>> ivl.Interval.complement({})
             {RR()}
+
+        ----
+
         """
 
         _ki = _KnownIntervals()
@@ -1436,6 +1507,9 @@ class Interval (
         The intersection of an empty set of intervals is ``{Empty()}``.
             >>> ivl.Interval.intersection({})
             Empty()
+
+        ----
+
         """
 
         _ki = _KnownIntervals()
@@ -1482,6 +1556,9 @@ class Interval (
         The union of an empty set of intervals is ``{Empty()}``.
             >>> ivl.Interval.union({})
             {Empty()}
+
+        ----
+
         """
 
         _ki = _KnownIntervals()
@@ -1606,6 +1683,9 @@ class Interval (
 
             In some cases, the center of gravity will fail to exist at all.
             If such is the case, ``float("nan")`` is returned.
+
+        ----
+
         """
 
         _ki = _KnownIntervals()
@@ -1690,6 +1770,9 @@ class Interval (
         Here are two non-kissing intervals.
             >>> ivl.Below(0.0).iskissing(ivl.Above(0.0))
             False
+
+        ----
+
         """
 
         if self.infimum == other.supremum:
@@ -1731,6 +1814,9 @@ class Interval (
         Here are two non-overlapping intervals.
             >>> ivl.Below(0.0).isoverlapping(ivl.Above(0.0))
             False
+
+        ----
+
         """
 
         _ki = _KnownIntervals()
@@ -1767,6 +1853,9 @@ class Interval (
             >>> import splinekit.interval as ivl
             >>> ivl.NotAbove(5.0).partition({2.0, 4.0, 6.0})
             [Below(2.0), Singleton(2.0), Open((2.0, 4.0)), Singleton(4.0), Open((4.0, 5.0)), Singleton(5.0)]
+
+        ----
+
         """
 
         _ki = _KnownIntervals()
@@ -1816,6 +1905,9 @@ class Interval (
             True
             >>> ivl.RR() is ivl.RR().copy()
             True
+
+        ----
+
         """
 
         _ki = _KnownIntervals()
@@ -1889,6 +1981,9 @@ class Interval (
         Here are two different intervals.
             >>> ivl.OpenClosed((1.0, 3.0)) == ivl.ClosedOpen((1.0, 3.0))
             False
+
+        ----
+
         """
 
         if not isinstance(self, other.__class__):
@@ -1937,6 +2032,9 @@ class Interval (
         Here are two different intervals.
             >>> ivl.OpenClosed((1.0, 3.0)) != ivl.ClosedOpen((1.0, 3.0))
             True
+
+        ----
+
         """
 
         if not isinstance(self, other.__class__):
@@ -1988,6 +2086,9 @@ class Interval (
         The empty interval is a proper subset of every interval except itself.
             >>> ivl.Empty() < ivl.Empty()
             False
+
+        ----
+
         """
 
         if self == other:
@@ -2026,6 +2127,9 @@ class Interval (
             >>> import splinekit.interval as ivl
             >>> ivl.Empty() <= ivl.Empty()
             True
+
+        ----
+
         """
 
         _ki = _KnownIntervals()
@@ -2063,6 +2167,9 @@ class Interval (
             >>> import splinekit.interval as ivl
             >>> -ivl.Below(0.0)
             {NotBelow(0.0)}
+
+        ----
+
         """
 
         _ki = _KnownIntervals()
@@ -2136,6 +2243,9 @@ class Interval (
             >>> import splinekit.interval as ivl
             >>> ivl.NotBelow(0.0) - ivl.Above(0.0)
             {Singleton(0.0)}
+
+        ----
+
         """
 
         return cast(Set[Self], Interval.union({self & o for o in -other}))
@@ -2171,6 +2281,9 @@ class Interval (
             >>> import splinekit.interval as ivl
             >>> ivl.Below(0.0) & ivl.Above(0.0)
             Empty()
+
+        ----
+
         """
 
         _ki = _KnownIntervals()
@@ -2243,6 +2356,9 @@ class Interval (
             >>> import splinekit.interval as ivl
             >>> ivl.Singleton(0.0) | ivl.Above(0.0)
             {NotBelow(0.0)}
+
+        ----
+
         """
 
         _ki = _KnownIntervals()

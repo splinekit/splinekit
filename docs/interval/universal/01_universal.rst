@@ -8,5 +8,5 @@ The :class:`splinekit.interval.Universal` module provides the abstract base clas
 .. automodule:: splinekit.interval.universal
    :members:
    :show-inheritance:
-   :special-members: __new__
+   :no-special-members:
    :member-order: bysource

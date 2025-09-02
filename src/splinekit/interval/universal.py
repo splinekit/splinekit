@@ -1,5 +1,8 @@
 """
 This abstract class handles non-parametric intervals of real numbers.
+
+====
+
 """
 
 #---------------

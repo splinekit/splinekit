@@ -1,6 +1,9 @@
 """
 This concrete class honors ``Interval`` and ``Bounded``; it handles
 open-closed intervals between a pair of finite real numbers.
+
+====
+
 """
 
 #---------------
@@ -33,6 +36,9 @@ class OpenClosed (
 
     The bounded interval
     :math:`\{x\in{\mathbb{R}}|x_{0}<x\leq x_{1}\}=(x_{0},x_{1}].`
+
+    ====
+
     """
 
     #---------------
@@ -45,6 +51,9 @@ class OpenClosed (
     ) -> float:
         """
         Left endpoint.
+
+        ----
+
         """
         return self._leftbound
 
@@ -55,6 +64,9 @@ class OpenClosed (
     ) -> float:
         """
         Right endpoint.
+
+        ----
+
         """
         return self._rightbound
 
@@ -65,6 +77,9 @@ class OpenClosed (
     ) -> bool:
         """
         ``True``
+
+        ----
+
         """
         return True
 
@@ -75,6 +90,9 @@ class OpenClosed (
     ) -> bool:
         """
         ``False``
+
+        ----
+
         """
         return False
 
@@ -85,6 +103,9 @@ class OpenClosed (
     ) -> bool:
         """
         ``False``
+
+        ----
+
         """
         return False
 
@@ -95,6 +116,9 @@ class OpenClosed (
     ) -> bool:
         """
         ``True``
+
+        ----
+
         """
         return True
 
@@ -105,6 +129,9 @@ class OpenClosed (
     ) -> bool:
         """
         ``False``
+
+        ----
+
         """
         return False
 
@@ -115,6 +142,9 @@ class OpenClosed (
     ) -> bool:
         """
         ``True``
+
+        ----
+
         """
         return True
 
@@ -125,6 +155,9 @@ class OpenClosed (
     ) -> bool:
         """
         ``True``
+
+        ----
+
         """
         return True
 
@@ -135,6 +168,9 @@ class OpenClosed (
     ) -> bool:
         """
         ``False``
+
+        ----
+
         """
         return False
 
@@ -145,6 +181,9 @@ class OpenClosed (
     ) -> bool:
         """
         ``True``
+
+        ----
+
         """
         return True
 
@@ -155,6 +194,9 @@ class OpenClosed (
     ) -> bool:
         """
         ``False``
+
+        ----
+
         """
         return False
 
@@ -165,6 +207,9 @@ class OpenClosed (
     ) -> bool:
         """
         ``True``
+
+        ----
+
         """
         return True
 
@@ -175,6 +220,9 @@ class OpenClosed (
     ) -> Self:
         """
         ``Open((self.infimum, self.supremum))``
+
+        ----
+
         """
         return cast(Self, Open((self._leftbound, self._rightbound)))
 
@@ -185,6 +233,9 @@ class OpenClosed (
     ) -> Self:
         """
         ``Closed((self.infimum, self.supremum))``
+
+        ----
+
         """
         return cast(Self, self._closed.Closed((
             self._leftbound,
@@ -198,6 +249,9 @@ class OpenClosed (
     ) -> float:
         """
         ``self.supremum - self.infimum``
+
+        ----
+
         """
         return self._rightbound - self._leftbound
 
@@ -208,6 +262,9 @@ class OpenClosed (
     ) -> float:
         """
         ``0.5 * (self.supremum + self.infimum)``
+
+        ----
+
         """
         return 0.5 * (self._leftbound + self._rightbound)
 
@@ -217,6 +274,9 @@ class OpenClosed (
     ) -> float:
         """
         ``self.midpoint``
+
+        ----
+
         """
         return self.midpoint
 
@@ -226,6 +286,10 @@ class OpenClosed (
         x: float
     ) -> bool:
         """
+        ``self.leftbound < x <= self.rightbound``
+
+        ----
+
         """
         return self._leftbound < x <= self._rightbound
 

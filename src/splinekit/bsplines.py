@@ -95,6 +95,9 @@ def polynomial_simple_element (
     Polynomial simple elements of negative degrees vanish everywhere except at the origin.
         >>> sk.polynomial_simple_element(1.0, -5)
         0.0
+
+    ----
+
     """
 
     return _pse(x, n)
@@ -168,6 +171,9 @@ def b_spline (
     The B-spline of degree ``0`` satisfies the partition of unity, also at its discontinuity.
         >>> 1.0 == sk.b_spline(-0.5, 0) + sk.b_spline(0.5, 0)
         True
+
+    ----
+
     """
 
     if 0 > n:
@@ -225,6 +231,9 @@ def b_spline_support (
     Support of the cubic B-spline.
         >>> sk.b_spline_support(3)
         Open((-2.0, 2.0))
+
+    ----
+
     """
 
     if 0 > n:
@@ -269,6 +278,9 @@ def b_spline_variance (
     Variance of the cubic B-spline.
         >>> sk.b_spline_variance(3)
         0.3333333333333333
+
+    ----
+
     """
 
     if 0 > n:
@@ -325,6 +337,9 @@ def pole (
     The results of this method are cached. If the returned results are
     mutated, the cache gets modified and the next call will return corrupted
     values.
+
+    ----
+
     """
 
     return _pole(n)
@@ -388,6 +403,9 @@ def integrated_b_spline (
     Value of the integrated B-spline of degree 11 at the origin.
         >>> sk.integrated_b_spline(0.0, 11)
         0.5
+
+    ----
+
     """
 
     if 0 > n:
@@ -475,6 +493,9 @@ def grad_b_spline (
     Value of the differentiated B-spline of degree ``0`` at ``0.5``.
         >>> sk.grad_b_spline(0.5, 0)
         nan
+
+    ----
+
     """
 
     if 0 > n:
@@ -573,6 +594,9 @@ def diff_b_spline (
     Value of the Hessian of the quartic B-spline at the origin.
         >>> sk.diff_b_spline(0.0, degree = 4, differentiation_order = 2)
         -1.25
+
+    ----
+
     """
 
     if 0 > degree:
@@ -665,6 +689,9 @@ def mscale_filter (
     The results of this method are cached. If the returned results are
     mutated, the cache gets modified and the next call will return corrupted
     values.
+
+    ----
+
     """
 
     if 0 > degree:
@@ -759,6 +786,9 @@ def ib_coeff (
     The results of this method are cached. If the returned results are
     mutated, the cache gets modified and the next call will return corrupted
     values.
+
+    ----
+
     """
 
     if 0 > n:
@@ -768,18 +798,18 @@ def ib_coeff (
     return float(_iota(n) @ np.array([z ** abs(k) for z in pole(n)]))
 
 #---------------
-def interpolating_b_spline (
+def cardinal_b_spline (
     x: float,
     degree: int
 ) -> float:
 
     r"""
-    .. _interpolating_b_spline:
+    .. _cardinal_b_spline:
 
-    Interpolating B-spline :math:`\eta^{n}.`
+    Cardinal B-spline :math:`\eta^{n}.`
 
     Returns the value of the
-    :ref:`interpolating polynomial B-spline<def-interpolating_b_spline>`
+    :ref:`cardinal polynomial B-spline<def-cardinal_b_spline>`
     :math:`\eta^{n}` of :ref:`nonnegative<def-negative>` degree :math:`n`
     evaluated at the argument :math:`x.` This function is defined as
 
@@ -797,32 +827,35 @@ def interpolating_b_spline (
     x : float
         Argument.
     n : int
-        Nonnegative degree of the interpolating polynomial B-spline.
+        Nonnegative degree of the cardinal polynomial B-spline.
 
     Returns
     -------
     float
-        The value of an interpolating B-spline.
+        The value of a cardinal B-spline.
 
     Examples
     --------
     Load the library.
         >>> import splinekit as sk
-    Values of the interpolating quadratic B-spline at a few integers.
-        >>> [sk.interpolating_b_spline(k, 2) for k in range(-3, 3)]
+    Values of the cardinal quadratic B-spline at a few integers.
+        >>> [sk.cardinal_b_spline(k, 2) for k in range(-3, 3)]
         [-3.230922474006803e-17,
          1.9949319973733282e-16,
          1.0000000000000002,
          1.9949319973733282e-16,
          -3.230922474006803e-17]
-    Values of the interpolating quadratic B-spline at a few half integers.
-        >>> [sk.interpolating_b_spline(k + 0.5, 2) for k in range(-3, 3)]
+    Values of the cardinal quadratic B-spline at a few half integers.
+        >>> [sk.cardinal_b_spline(k + 0.5, 2) for k in range(-3, 3)]
         [0.017243942703102966,
          -0.10050506338833456,
          0.5857864376269051,
          0.5857864376269051,
          -0.10050506338833456,
          0.017243942703102966]
+
+    ----
+
     """
 
     if 0 > degree:
@@ -882,6 +915,9 @@ def dual_b_spline (
     Value of the (dual-five, primal-two) B-spline at the origin.
         >>> sk.dual_b_spline(0.0, dual_degree = 5, primal_degree = 2)
         1.7451037781381014
+
+    ----
+
     """
 
     if 0 > dual_degree:
@@ -970,6 +1006,9 @@ def spline_polynomial (
     The results of this method are cached. If the returned results are
     mutated, the cache gets modified and the next call will return corrupted
     values.
+
+    ----
+
     """
 
     if 0 > monomial_degree:
@@ -1083,6 +1122,9 @@ def partition_of_monomial (
     The results of this method are cached. If the returned results are
     mutated, the cache gets modified and the next call will return corrupted
     values.
+
+    ----
+
     """
 
     if 0 > spline_degree:

@@ -1,3 +1,99 @@
+"""
+This class handles periodic splines.
+
+Properties
+==========
+- :ref:`period <periodic_spline_1d-attributes>`
+- :ref:`degree <periodic_spline_1d-attributes>`
+- :ref:`delay <periodic_spline_1d-attributes>`
+- :ref:`spline_coeff <periodic_spline_1d-attributes>`
+
+Constructors
+============
+-   Zero-Valued Spline
+
+    - :ref:`init <periodic_spline_1d-init>`
+-   Periodized Spline Bases
+
+    - :ref:`periodized_b_spline <periodic_spline_1d-periodized_b_spline>`
+    - :ref:`periodized_cardinal_b_spline <periodic_spline_1d-periodized_cardinal_b_spline>`
+    - :ref:`periodized_dual_b_spline <periodic_spline_1d-periodized_dual_b_spline>`
+    - :ref:`periodized_orthonormal_b_spline <periodic_spline_1d-periodized_orthonormal_b_spline>`
+-   From Data
+
+    - :ref:`from_samples <periodic_spline_1d-from_samples>`
+    - :ref:`from_smoothed_samples <periodic_spline_1d-from_smoothed_samples>`
+    - :ref:`from_spline_coeff <periodic_spline_1d-from_spline_coeff>`
+
+Class Methods
+=============
+-   Combine Two Splines
+
+    - :ref:`add <periodic_spline_1d-add>`
+    - :ref:`add_projected <periodic_spline_1d-add_projected>`
+    - :ref:`convolve <periodic_spline_1d-convolve>`
+    - :ref:`normed_cross_correlate <periodic_spline_1d-normed_cross_correlate>`
+-   Evaluate Nonstandard Spline Representations
+
+    - :ref:`eval_piecewise_polynomials_at <periodic_spline_1d-eval_piecewise_polynomials_at>`
+    - :ref:`eval_piecewise_signs_at <periodic_spline_1d-eval_piecewise_signs_at>`
+
+Instance Methods
+================
+-   Utility Methods
+
+    - :ref:`copy <periodic_spline_1d-copy>`
+    - :ref:`plot <periodic_spline_1d-plot>`
+-   Evaluate a Spline
+
+    - :ref:`at <periodic_spline_1d-at>`
+    - :ref:`get_samples <periodic_spline_1d-get_samples>`
+-   Empirical Statistics
+
+    - :ref:`mean <periodic_spline_1d-mean>`
+    - :ref:`variance <periodic_spline_1d-variance>`
+    - :ref:`lower_bound <periodic_spline_1d-lower_bound>`
+    - :ref:`upper_bound <periodic_spline_1d-upper_bound>`
+-   Locations of Interest
+
+    - :ref:`get_knots <periodic_spline_1d-get_knots>`
+    - :ref:`zeros <periodic_spline_1d-zeros>`
+    - :ref:`zero_crossings <periodic_spline_1d-zero_crossings>`
+    - :ref:`Extremum <periodic_spline_1d-Extremum>`
+    - :ref:`extrema <periodic_spline_1d-extrema>`
+-   Arithmetic and Geometric Operations
+
+    - :ref:`plus <periodic_spline_1d-plus>`
+    - :ref:`times <periodic_spline_1d-times>`
+    - :ref:`negated <periodic_spline_1d-negated>`
+    - :ref:`mirrored <periodic_spline_1d-mirrored>`
+    - :ref:`fractionalized_delay <periodic_spline_1d-fractionalized_delay>`
+    - :ref:`delayed_by <periodic_spline_1d-delayed_by>`
+-   Calculus
+
+    - :ref:`differentiated <periodic_spline_1d-differentiated>`
+    - :ref:`gradient <periodic_spline_1d-gradient>`
+    - :ref:`anti_grad <periodic_spline_1d-anti_grad>`
+    - :ref:`integrate <periodic_spline_1d-integrate>`
+
+-   Nonstandard Representations
+
+    - :ref:`fourier_coeff <periodic_spline_1d-fourier_coeff>`
+    - :ref:`piecewise_polynomials <periodic_spline_1d-piecewise_polynomials>`
+    - :ref:`piecewise_signs <periodic_spline_1d-piecewise_signs>`
+
+-   Resampling and Projections
+
+    - :ref:`projected <periodic_spline_1d-projected>`
+    - :ref:`upscaled <periodic_spline_1d-upscaled>`
+    - :ref:`upscaled_projected <periodic_spline_1d-upscaled_projected>`
+    - :ref:`downscaled_projected <periodic_spline_1d-downscaled_projected>`
+    - :ref:`rescaled_projected <periodic_spline_1d-rescaled_projected>`
+
+====
+
+"""
+
 #---------------
 from __future__ import annotations
 
@@ -29,6 +125,7 @@ from splinekit import PeriodicNonuniformPiecewise
 
 #---------------
 from splinekit import b_spline
+from splinekit import diff_b_spline
 from splinekit import integrated_b_spline
 from splinekit import mscale_filter
 
@@ -86,18 +183,34 @@ class PeriodicSpline1D:
     controls the placement of the uniform knots. The array of coefficients
     :math:`c` is giving its shape to the spline.
 
+    .. _periodic_spline_1d-attributes:
+
     Attributes
     ----------
     period : int
-        (R/O) The positive period :math:`K\in{\mathbb{N}}+1.`
+        (R/O) The :ref:`positive<def-positive>` period
+        :math:`K\in{\mathbb{N}}+1.`
     degree : int
-        (R/W) The nonnegative degree :math:`n\in{\mathbb{N}}` of the
-        polynomial spline.
+        (R/W) The :ref:`nonnegative<def-negative>` degree
+        :math:`n\in{\mathbb{N}}` of the polynomial spline.
     delay : float
         (R/W) The delay :math:`\delta x\in{\mathbb{R}}.`
     spline_coeff : np.ndarray[tuple[int], np.dtype[np.float64]]
         (R/W) The spline coefficients :math:`c\in{\mathbb{R}}^{K}.` The setter
         creates a local copy and updates the period.
+
+
+    Raises
+    ------
+    ValueError
+        Raised when ``degree`` is :ref:`negative<def-negative>`.
+    ValueError
+        Raised when ``spline_coeff`` fails to be a ``numpy`` one-dimensional
+        ``float`` array that contains at least one element.
+
+
+    ====
+
     """
 
     #---------------
@@ -192,6 +305,9 @@ class PeriodicSpline1D:
         Create a default spline.
             >>> sk.PeriodicSpline1D()
             PeriodicSpline1D([0.], degree = 0, delay = 0.0)
+
+        ----
+
         """
 
         self.spline_coeff = cast(
@@ -227,12 +343,53 @@ class PeriodicSpline1D:
         degree: int
     ) -> PeriodicSpline1D:
 
-        # TODO: code
-        # TODO: docstring
-        # TODO: tests
-
         r"""
         .. _periodic_spline_1d-periodized_b_spline:
+
+        The constructor of a periodized B-spline.
+
+        This constructor populates the attributes of a ``PeriodicSpline1D``
+        object that represents the one-dimensional spline
+
+        ..  math::
+
+            f(x)=\sum_{k\in{\mathbb{Z}}}\,\beta^{n}(k\,K+x),
+
+        as defined :ref:`here<periodic_spline_1d>`. This spline has period
+        :math:`K` and is the periodized version of a centered
+        :ref:`B-spline<def-b_spline>` of degree :math:`n.`
+
+        Parameters
+        ----------
+        period : int
+            The :ref:`positive<def-positive>` period of the
+            periodized B-spline.
+        degree : int
+            The :ref:`nonnegative<def-negative>` degree of the periodized
+            B-spline.
+
+        Returns
+        -------
+        PeriodicSpline1D
+            The periodized B-spline centered at the origin.
+
+        Examples
+        --------
+        Load the library.
+            >>> import splinekit as sk
+        Create a nonic B-spline of period ``6``.
+            >>> sk.PeriodicSpline1D.periodized_b_spline(period = 6, degree = 9)
+            PeriodicSpline1D([1. 0. 0. 0. 0. 0.], degree = 9, delay = 0.0)
+
+        Raises
+        ------
+        ValueError
+            Raised when ``period`` is :ref:`nonpositive<def-positive>`.
+        ValueError
+            Raised when ``degree`` is :ref:`negative<def-negative>`.
+
+
+        ----
 
         """
 
@@ -256,12 +413,53 @@ class PeriodicSpline1D:
         degree: int
     ) -> PeriodicSpline1D:
 
-        # TODO: code
-        # TODO: docstring
-        # TODO: tests
-
         r"""
         .. _periodic_spline_1d-periodized_cardinal_b_spline:
+
+        The constructor of a periodized cardinal B-spline.
+
+        This constructor populates the attributes of a ``PeriodicSpline1D``
+        object that represents the one-dimensional spline
+
+        ..  math::
+
+            f(x)=\sum_{k\in{\mathbb{Z}}}\,\eta^{n}(k\,K+x),
+
+        as defined :ref:`here<periodic_spline_1d>`. This spline has period
+        :math:`K` and is the periodized version of a centered
+        :ref:`cardinal B-spline<def-cardinal_b_spline>` of degree :math:`n.`
+
+        Parameters
+        ----------
+        period : int
+            The :ref:`positive<def-positive>` period of the periodized
+            cardinal B-spline.
+        degree : int
+            The :ref:`nonnegative<def-negative>` degree of the periodized
+            cardinal B-spline.
+
+        Returns
+        -------
+        PeriodicSpline1D
+            The periodized cardinal B-spline centered at the origin.
+
+        Examples
+        --------
+        Load the library.
+            >>> import splinekit as sk
+        Create a nonic cardinal B-spline of period ``6``.
+            >>> sk.PeriodicSpline1D.periodized_cardinal_b_spline(period = 6, degree = 9)
+            PeriodicSpline1D([10.54181435 -8.30274513  6.41054444 -5.75741296  6.41054444 -8.30274513], degree = 9, delay = 0.0)
+
+        Raises
+        ------
+        ValueError
+            Raised when ``period`` is :ref:`nonpositive<def-positive>`.
+        ValueError
+            Raised when ``degree`` is :ref:`negative<def-negative>`.
+
+
+        ----
 
         """
 
@@ -274,8 +472,8 @@ class PeriodicSpline1D:
         change_basis_p(
             coeffs,
             degree = degree,
-            source_basis = cast(Bases, Bases.BASIC),
-            target_basis = cast(Bases, Bases.CARDINAL),
+            source_basis = cast(Bases, Bases.CARDINAL),
+            target_basis = cast(Bases, Bases.BASIC),
         )
         return cls.from_spline_coeff(
             coeffs,
@@ -288,33 +486,83 @@ class PeriodicSpline1D:
         cls,
         *,
         period: int,
-        degree: int
+        dual_degree: int,
+        primal_degree: int
     ) -> PeriodicSpline1D:
-
-        # TODO: code
-        # TODO: docstring
-        # TODO: tests
 
         r"""
         .. _periodic_spline_1d-periodized_dual_b_spline:
+
+        The constructor of a periodized dual B-spline.
+
+        This constructor populates the attributes of a ``PeriodicSpline1D``
+        object that represents the one-dimensional spline
+
+        ..  math::
+
+            f(x)=\sum_{k\in{\mathbb{Z}}}\,\mathring{\beta}^{m,n}(k\,K+x),
+
+        as defined :ref:`here<periodic_spline_1d>`. This spline has period
+        :math:`K` and is the periodized version of a centered
+        :ref:`dual B-spline<def-dual_b_spline>` of dual degree :math:`m`
+        and primal degree :math:`n.`
+
+        Parameters
+        ----------
+        period : int
+            The :ref:`positive<def-positive>` period of the periodized dual
+            B-spline.
+        dual_degree : int
+            The :ref:`nonnegative<def-negative>` dual degree of the periodized
+            dual B-spline.
+        primal_degree : int
+            The :ref:`nonnegative<def-negative>` primal degree of the
+            periodized dual B-spline.
+
+        Returns
+        -------
+        PeriodicSpline1D
+            The periodized dual B-spline centered at the origin.
+
+        Examples
+        --------
+        Load the library.
+            >>> import splinekit as sk
+        Create a nonic dual B-spline of quadratic primal degree and period ``6``.
+            >>> sk.PeriodicSpline1D.periodized_dual_b_spline(period = 6, dual_degree = 9, primal_degree = 2)
+            PeriodicSpline1D([ 34.24972088 -31.03664923  27.43176629 -26.039955    27.43176629 -31.03664923], degree = 9, delay = 0.0)
+
+        Raises
+        ------
+        ValueError
+            Raised when ``period`` is :ref:`nonpositive<def-positive>`.
+        ValueError
+            Raised when ``dual_degree`` is :ref:`negative<def-negative>`.
+        ValueError
+            Raised when ``primal_degree`` is :ref:`negative<def-negative>`.
+
+
+        ----
 
         """
 
         if 1 > period:
             raise ValueError("Period must be at least one")
-        if 0 > degree:
-            raise ValueError("Degree must be nonnegative")
+        if 0 > dual_degree:
+            raise ValueError("Dual degree must be nonnegative")
+        if 0 > primal_degree:
+            raise ValueError("Primal degree must be nonnegative")
         coeffs = np.zeros(period, dtype = float)
         coeffs[0] = 1.0
         change_basis_p(
             coeffs,
-            degree = degree,
-            source_basis = cast(Bases, Bases.BASIC),
-            target_basis = cast(Bases, Bases.DUAL),
+            degree = primal_degree + dual_degree + 1,
+            source_basis = cast(Bases, Bases.CARDINAL),
+            target_basis = cast(Bases, Bases.BASIC),
         )
         return cls.from_spline_coeff(
             coeffs,
-            degree = degree
+            degree = dual_degree
         )
 
     #---------------
@@ -326,12 +574,54 @@ class PeriodicSpline1D:
         degree: int
     ) -> PeriodicSpline1D:
 
-        # TODO: code
-        # TODO: docstring
-        # TODO: tests
-
         r"""
-        .. _periodic_spline_1d-periodized__orthonormal_b_spline:
+        .. _periodic_spline_1d-periodized_orthonormal_b_spline:
+
+        The constructor of a periodized orthonormal B-spline.
+
+        This constructor populates the attributes of a ``PeriodicSpline1D``
+        object that represents the one-dimensional spline
+
+        ..  math::
+
+            f(x)=\sum_{k\in{\mathbb{Z}}}\,\phi^{n}(k\,K+x),
+
+        as defined :ref:`here<periodic_spline_1d>`. This spline has period
+        :math:`K` and is the periodized version of a centered
+        :ref:`orthonormal B-spline<def-orthonormal_b_spline>` of degree
+        :math:`n.`
+
+        Parameters
+        ----------
+        period : int
+            The :ref:`positive<def-positive>` period of the periodized
+            orthonormal B-spline.
+        degree : int
+            The :ref:`nonnegative<def-negative>` degree of the periodized
+            orthonormal B-spline.
+
+        Returns
+        -------
+        PeriodicSpline1D
+            The periodized orthonormal B-spline centered at the origin.
+
+        Examples
+        --------
+        Load the library.
+            >>> import splinekit as sk
+        Create a nonic orthonormal B-spline of period ``6``.
+            >>> sk.PeriodicSpline1D.periodized_orthonormal_b_spline(period = 6, degree = 9)
+            PeriodicSpline1D([ 13.70088094 -11.4607243    9.56634894  -8.91213021   9.56634894  -11.4607243 ], degree = 9, delay = 0.0)
+
+        Raises
+        ------
+        ValueError
+            Raised when ``period`` is :ref:`nonpositive<def-positive>`.
+        ValueError
+            Raised when ``degree`` is :ref:`negative<def-negative>`.
+
+
+        ----
 
         """
 
@@ -344,8 +634,8 @@ class PeriodicSpline1D:
         change_basis_p(
             coeffs,
             degree = degree,
-            source_basis = cast(Bases, Bases.BASIC),
-            target_basis = cast(Bases, Bases.ORTHONORMAL),
+            source_basis = cast(Bases, Bases.ORTHONORMAL),
+            target_basis = cast(Bases, Bases.BASIC),
         )
         return cls.from_spline_coeff(
             coeffs,
@@ -379,7 +669,7 @@ class PeriodicSpline1D:
         as defined :ref:`here<periodic_spline_1d>`. The provided data samples
         :math:`\left(s[k]\right)_{k=0}^{K-1}` are assumed to have been taken
         at the integers.
-        
+
         *   When ``regularized == False``, this constructor determines the
             spline coefficients :math:`\left(c[k]\right)_{k=0}^{K-1}` such
             that the periodic spline :math:`f` interpolates the samples
@@ -397,8 +687,8 @@ class PeriodicSpline1D:
             :math:`K\in2\,{\mathbb{N}}+2,` however, this constructor
             determines the spline coefficients
             :math:`\left(c[k]\right)_{k=0}^{K-1}` that minimize
-            the criterion :math:`\sum_{k=0}^{K-1}\,\left(f(k)-s[k]\right)^{2}`
-            such that
+            the criterion
+            :math:`J=\sum_{k=0}^{K-1}\,\left(f(k)-s[k]\right)^{2}` such that
             :math:`\sum_{k=0}^{K/2-1}\,f(2\,k)=\sum_{k=0}^{K/2-1}\,f(2\,k+1),`
             which happens to lift the restriction of non-half-integer delays.
 
@@ -408,7 +698,8 @@ class PeriodicSpline1D:
             A one-dimensional ``numpy`` array of real data samples. The
             period of the spline will be set to the length of this array.
         degree : int
-            Nonnegative degree of the polynomial spline.
+            The :ref:`nonnegative<def-negative>` degree of the polynomial
+            spline.
         delay : float
             The delay of this spline.
         regularized : bool
@@ -432,9 +723,14 @@ class PeriodicSpline1D:
         Raises
         ------
         ValueError
-            Raised when ``degree`` is negative or when ``samples`` is not a
-            ``numpy`` one-dimensional float array that contains at least one
-            element.
+            Raised when ``samples`` fails to be a ``numpy`` one-dimensional
+            ``float`` array that contains at least one element.
+        ValueError
+            Raised when ``degree`` is :ref:`negative<def-negative>`.
+
+
+        ----
+
         """
 
         if np.ndarray != type(samples):
@@ -549,12 +845,79 @@ class PeriodicSpline1D:
         smoothing: np.ndarray[tuple[int], np.dtype[np.float64]]
     ) -> PeriodicSpline1D:
 
-        # TODO: code
-        # TODO: docstring
-        # TODO: tests
-
         r"""
         .. _periodic_spline_1d-from_smoothed_samples:
+
+        A constructor from data samples.
+
+        This constructor populates the attributes of a ``PeriodicSpline1D``
+        object, which represents the one-dimensional spline
+
+        ..  math::
+
+            f(x)=\sum_{k\in{\mathbb{Z}}}\,c[{k\bmod K}]\,
+            \beta^{n}(x-\delta x-k),
+
+        as defined :ref:`here<periodic_spline_1d>`. The provided data samples
+        :math:`\left(s[k]\right)_{k=0}^{K-1}` are assumed to have been taken
+        at the integers.
+
+        The constructed spline minimizes the criterion
+
+        ..  math::
+
+            J=\sum_{k=0}^{K-1}\,\left(f(k)-s[k]\right)^{2}+\sum_{m=0}^{n}\,
+            \lambda[m]\,\int_{0}^{K}\,
+            \left(\frac{{\mathrm{d}}^{m}f(x)}{{\mathrm{d}}x^{m}}\right)^{2}\,
+            {\mathrm{d}}x.
+
+        The first term encourages the spline to interpolate the samples, while
+        the second term discourages the spline derivatives to be large, as
+        controlled by the vector :math:`\lambda` of smoothing parameters.
+
+        Parameters
+        ----------
+        samples : np.ndarray[tuple[int], np.dtype[np.float64]]
+            A one-dimensional ``numpy`` array of real data samples. The
+            period of the spline will be set to the length of this array.
+        degree : int
+            The :ref:`nonnegative<def-negative>` degree of the polynomial
+            spline.
+        delay : float
+            The delay of this spline.
+        smoothing : np.ndarray[tuple[int], np.dtype[np.float64]]
+            A one-dimensional ``numpy`` array of ``n + 1`` regularization
+            weights.
+
+        Returns
+        -------
+        PeriodicSpline1D
+            The spline.
+    
+        Examples
+        --------
+        Load the libraries.
+            >>> import numpy as np
+            >>> import splinekit as sk
+        Create an undelayed cubic spline with highly attenuated second-order derivatives.
+            >>> samples = np.array([1, 5, -3], dtype = float)
+            >>> regularization = np.array([0, 0, 5, 0], dtype = float)
+            >>> sk.PeriodicSpline1D.from_smoothed_samples(samples, degree = 3, smoothing = regularization)
+            PeriodicSpline1D([1.         1.08791209 0.91208791], degree = 3, delay = 0.0)
+
+        Raises
+        ------
+        ValueError
+            Raised when ``samples`` fails to be a ``numpy`` one-dimensional
+            ``float`` array that contains at least one element.
+        ValueError
+            Raised when ``degree`` is :ref:`negative<def-negative>`.
+        ValueError
+            Raised when ``smoothing`` fails to be a ``numpy`` one-dimensional
+            ``float`` array that contains ``degree + 1`` elements.
+
+
+        ----
 
         """
 
@@ -580,16 +943,115 @@ class PeriodicSpline1D:
             )
         if degree + 1 != len(smoothing):
             raise ValueError("smoothing must be of length (degree + 1)")
-
         p0 = len(samples)
         if 1 == p0:
             return cls.from_spline_coeff(
-                samples,
+                cast(
+                    np.ndarray[tuple[int], np.dtype[np.float64]],
+                    np.array(
+                        [
+                            _sgn(samples[0]) * float("inf")
+                                if isclose(
+                                    1.0 + smoothing[0],
+                                    0.0,
+                                    rel_tol = sqrt(ulp(1.0)),
+                                    abs_tol = sqrt(ulp(1.0))
+                                )
+                                else samples[0] / (1.0 + smoothing[0])
+                        ],
+                        dtype = float
+                    )
+                ),
                 degree = degree,
                 delay = delay
             )
-        # TODO: Fourier
-        return None
+        rdftbm = np.fft.rfft(np.fromiter(
+            (
+                fsum(
+                    b_spline(k - delay - p * p0, degree)
+                    for p in range(
+                        int((k - delay - 0.5 * (degree - 1.0)) // p0),
+                        int((k - delay + 0.5 * (degree + 1.0)) // p0) + 1
+                    )
+                )
+                for k in range(p0)
+            ),
+            dtype = float,
+            count = p0
+        ))
+        rdftbp = np.fft.rfft(np.fromiter(
+            (
+                fsum(
+                    b_spline(k + delay - p * p0, degree)
+                    for p in range(
+                        int((k + delay - 0.5 * (degree - 1.0)) // p0),
+                        int((k + delay + 0.5 * (degree + 1.0)) // p0) + 1
+                    )
+                )
+                for k in range(p0)
+            ),
+            dtype = float,
+            count = p0
+        ))
+        rdftdb = [
+            np.fft.rfft(np.fromiter(
+                (
+                    fsum(
+                        diff_b_spline(
+                            k - p * p0,
+                            degree = 2 * degree + 1,
+                            differentiation_order = 2 * m
+                        )
+                        for p in range(
+                            int((k - degree) // p0),
+                            int((k + degree + 1) // p0) + 1
+                        )
+                    )
+                    for k in range(p0)
+                ),
+                dtype = float,
+                count = p0
+            ))
+            for m in range(degree + 1)
+        ]
+        rdftdenum = np.fromiter(
+            (
+                rdftbm[nu] * rdftbp[nu] + sum(
+                    ((-1) ** m) * lmbd * rdftdb[m][nu]
+                    for (m, lmbd) in enumerate(smoothing)
+                )
+                for nu in range(p0 // 2 + 1)
+            ),
+            dtype = complex,
+            count = p0 // 2 + 1
+        )
+        rdftsamples = np.fft.rfft(samples)
+        return cls.from_spline_coeff(
+            cast(
+                np.ndarray[tuple[int], np.dtype[np.float64]],
+                np.fft.irfft(
+                    np.fromiter(
+                        (
+                            0.0
+                                if isclose(
+                                    abs(rdftdenum[nu]),
+                                    0.0,
+                                    rel_tol = sqrt(ulp(1.0)),
+                                    abs_tol = sqrt(ulp(1.0))
+                                )
+                                else (rdftsamples[nu] * rdftbp[nu] /
+                                    rdftdenum[nu])
+                            for nu in range(p0 // 2 + 1)
+                        ),
+                        dtype = complex,
+                        count = p0 // 2 + 1
+                    ),
+                    n = p0,
+                )
+            ),
+            degree = degree,
+            delay = delay
+        )
 
     #---------------
     @classmethod
@@ -616,7 +1078,8 @@ class PeriodicSpline1D:
             A one-dimensional ``numpy`` array of real spline coefficients. The
             period of the spline will be set to the length of this array.
         degree : int
-            Nonnegative degree of the polynomial spline.
+            The :ref:`nonnegative<def-negative>` degree of the polynomial
+            spline.
         delay : float
             The delay of this spline.
 
@@ -638,9 +1101,14 @@ class PeriodicSpline1D:
         Raises
         ------
         ValueError
-            Raised when ``degree`` is negative or when ``spline_coeff`` is not
-            a ``numpy`` one-dimensional float array that contains at least one
-            element.
+            Raised when ``spline_coeff`` fails to be a ``numpy``
+            one-dimensional ``float`` array that contains at least one element.
+        ValueError
+            Raised when ``degree`` is :ref:`negative<def-negative>`.
+
+
+        ----
+
         """
 
         if np.ndarray != type(spline_coeff):
@@ -653,6 +1121,8 @@ class PeriodicSpline1D:
             raise ValueError(
                 "Spline_coeff must be of type np.ndarray[tuple[int], np.dtype[np.float64]]"
             )
+        if 0 > degree:
+            raise ValueError("Degree must be nonnegative")
         s = cls()
         s.spline_coeff = spline_coeff
         s.degree = degree
@@ -695,7 +1165,7 @@ class PeriodicSpline1D:
         Load the libraries.
             >>> import numpy as np
             >>> import splinekit as sk
-        Create undelayed cubic splines from a few arbitrary coefficients and sum them.
+        Create two undelayed cubic splines and sum them.
             >>> c1 = np.array([1, 9, -7], dtype = float)
             >>> s1 = sk.PeriodicSpline1D.from_spline_coeff(c1, degree = 3)
             >>> c2 = np.array([6, -3, -2], dtype = float)
@@ -706,9 +1176,15 @@ class PeriodicSpline1D:
         Raises
         ------
         ValueError
-            Raised when ``augend.period != addend.period`` or when
-            ``augend.degree != addend.degree`` or when
-            ``augend.delay != addend.delay``.
+            Raised when ``augend.period != addend.period``.
+        ValueError
+            Raised when ``augend.degree != addend.degree``.
+        ValueError
+            Raised when ``augend.delay != addend.delay``.
+
+
+        ----
+
         """
 
         if augend.period != addend.period:
@@ -746,10 +1222,11 @@ class PeriodicSpline1D:
         Given two ``PeriodicSpline1D`` objects of identical period :math:`K,`
         independent degree :math:`(n_{1}, n_{2}),` and independent delay
         :math:`(\delta x_{1}, \delta x_{2}),` this constructor
-        returns a new ``PeriodicSpline1D`` spline that represents the best
-        least-squares approximation of their sum by a ``PeriodicSpline1D``
-        spline of period :math:`K,` :ref:`nonnegative<def-negative>` degree
-        :math:`n,` and delay :math:`\delta x\in{\mathbb{R}}.`
+        returns a new ``PeriodicSpline1D`` spline that represents the
+        continuous least-squares approximation of their sum by a
+        ``PeriodicSpline1D`` spline of period :math:`K,`
+        :ref:`nonnegative<def-negative>` degree :math:`n,` and delay
+        :math:`\delta x\in{\mathbb{R}}.`
 
         With
 
@@ -769,7 +1246,7 @@ class PeriodicSpline1D:
             f(x)=\sum_{k\in{\mathbb{Z}}}\,c[{k\bmod K}]\,
             \beta^{n}(x-\delta x-k)
 
-        minimizes the criterion :math:`\int_{0}^{K}\,\left(f(x)-s_{1}(x)-
+        minimizes the criterion :math:`J=\int_{0}^{K}\,\left(f(x)-s_{1}(x)-
         s_{2}(x)\right)^{2}\,{\mathrm{d}}x` in terms of the coefficients
         :math:`c.`
 
@@ -780,7 +1257,8 @@ class PeriodicSpline1D:
         addend : PeriodicSpline1D
             A ``PeriodicSpline1D`` spline.
         degree : int
-            The nonnegative degree of the created polynomial spline.
+            The :ref:`nonnegative<def-negative>` degree of the created
+            polynomial spline.
         delay : float
             The delay of the created spline.
 
@@ -806,12 +1284,19 @@ class PeriodicSpline1D:
         Raises
         ------
         ValueError
-            Raised when ``augend.period != addend.period`` or when ``degree``
-            is negative.
+            Raised when ``augend.period != addend.period``.
+        ValueError
+            Raised when ``degree`` is :ref:`negative<def-negative>`.
+
+
+        ----
+
         """
 
         if augend.period != addend.period:
             raise ValueError("The periods must match")
+        if 0 > degree:
+            raise ValueError("Degree must be nonnegative")
         if (
             (augend.degree == addend.degree) and
                 (augend.delay == addend.delay)
@@ -887,6 +1372,10 @@ class PeriodicSpline1D:
         ------
         ValueError
             Raised when ``s1.period != s2.period``.
+
+
+        ----
+
         """
 
         if s1.period != s2.period:
@@ -983,9 +1472,15 @@ class PeriodicSpline1D:
         Raises
         ------
         ValueError
-            Raised when ``s1.period != s2.period`` or when the variance
-            :math:`{\mathrm{var}}(s_{1})` vanishes or when the variance
-            :math:`{\mathrm{var}}(s_{2})` vanishes.
+            Raised when ``s1.period != s2.period``.
+        ValueError
+            Raised when ``0.0 == s1.variance()``.
+        ValueError
+            Raised when ``0.0 == s2.variance()``.
+
+
+        ----
+
         """
 
         if s1.period != s2.period:
@@ -1072,6 +1567,10 @@ class PeriodicSpline1D:
         See Also
         --------
         at : Evaluation of this spline at ``x``.
+
+
+        ----
+
         """
 
         (_, x_wrapped) = _divmod(x, polynomials.period)
@@ -1094,6 +1593,9 @@ class PeriodicSpline1D:
         # TODO: tests
         r"""
         .. _periodic_spline_1d-eval_piecewise_signs_at:
+
+
+        ----
 
         """
 
@@ -1139,6 +1641,9 @@ class PeriodicSpline1D:
             PeriodicSpline1D([ 1.  9. -7.], degree = 3, delay = 8.4)
             >>> s2
             PeriodicSpline1D([ 1.  9. -7.], degree = 3, delay = 8.4)
+
+        ----
+
         """
 
         return PeriodicSpline1D.from_spline_coeff(
@@ -1171,6 +1676,9 @@ class PeriodicSpline1D:
         # TODO: tests
         r"""
         .. _periodic_spline_1d-plot:
+
+
+        ----
 
         """
 
@@ -1570,6 +2078,720 @@ class PeriodicSpline1D:
         fig.tight_layout()
 
     #---------------
+    def at (
+        self,
+        x: float
+    ) -> float:
+
+        r"""
+        .. _periodic_spline_1d-at:
+
+        The ordinate of this spline at an arbitrary abscissa.
+
+        This function returns the value of this spline :math:`f` of period
+        :math:`K,` degree :math:`n`, and delay :math:`\delta x,` as defined
+        for :math:`x\in{\mathbb{R}}` by
+
+        ..  math::
+
+            \begin{eqnarray*}
+            f(x)&=&\sum_{k\in{\mathbb{Z}}}\,c[{k\bmod K}]\,
+            \beta^{n}(x-\delta x-k)\\
+            &=&{\mathbf{c}}^{{\mathsf{T}}}\,{\mathbf{W}}^{n}\,
+            {\mathbf{v}}^{n}(\chi).
+            \end{eqnarray*}
+
+        There, :math:`c` are the :math:`K` spline coefficients,
+        :math:`{\mathbf{c}}=\left(c[{\left(k-\Xi\right)\bmod
+        K}]\right)_{k=0}^{n}\in{\mathbb{R}}^{n+1}` is a vector of
+        :math:`\left(n+1\right)` spline coefficients, :math:`{\mathbf{W}}^{n}`
+        is the :ref:`B-spline evaluation matrix<w_frac>`, and
+        :math:`{\mathbf{v}}^{n}(\chi)` is the
+        :ref:`Vandermonde vector<def-vandermonde_vector>` of argument
+        :math:`\chi,` with :math:`\xi=\left(\frac{n-1}{2}-x+\delta x\right)
+        \in{\mathbb{R}},` :math:`\Xi=\left\lceil\xi\right\rceil\in
+        {\mathbb{Z}},` and :math:`\chi=\left(\Xi-\xi\right)\in[0,1).`
+
+        As computed above, the fact that the Vandermonde vector has the domain
+        :math:`[0,1)` greatly favors numerical stability since the range of
+        each of its components is :math:`[0,1].`
+
+        Parameters
+        ----------
+        x : float
+            Argument.
+
+        Returns
+        -------
+        float
+            The value of this spline evaluated at ``x``.
+
+        Examples
+        --------
+        Load the libraries.
+            >>> import numpy as np
+            >>> import splinekit as sk
+        Create an undelayed spline and evaluate it at the arbitrary abscissa ``-18.5``.
+            >>> c = np.array([1, 9, -7], dtype = float)
+            >>> s = sk.PeriodicSpline1D.from_spline_coeff(c, degree = 3)
+            >>> s.at(-18.5)
+            -2.5
+
+        ----
+
+        """
+
+        xi = 0.5 * (self._degree - 1.0) - x + self._delay
+        if 0 == self._degree:
+            if 0.0 == xi - round(xi):
+                y = floor(x - self._delay)
+                return 0.5 * (self._spline_coeff[y % self._period] +
+                    self._spline_coeff[(y + 1) % self._period]
+                )
+            return self._spline_coeff[round(x - self._delay) % self._period]
+        xi0 = floor(-xi)
+        xi1 = xi0 + self._degree + 1
+        if 0 <= xi0 and xi1 <= self._period:
+            return float(
+                self._spline_coeff[xi0 : xi1] @ (_w(self._degree) @
+                    np.vander(
+                        [ceil(xi) - xi],
+                        self._degree + 1,
+                        increasing = True
+                    )[0]
+                )
+            )
+        return float(
+            np.fromiter(
+                (
+                    self._spline_coeff[k % self._period]
+                    for k in range(xi0, xi1)
+                ),
+                dtype = float,
+                count = self._degree + 1
+            ) @ (_w(self._degree) @ np.vander(
+                    [ceil(xi) - xi],
+                    self._degree + 1,
+                    increasing = True
+                )[0]
+            )
+        )
+
+    #---------------
+    def get_samples (
+        self,
+        starting_at: float,
+        *,
+        support_length: int,
+        oversampling: int = 1
+    ) -> np.ndarray[tuple[int], np.dtype[np.float64]]:
+
+        r"""
+        .. _periodic_spline_1d-get_samples:
+
+        Evaluation of this spline at an array of arguments spaced by a
+        regular step.
+
+        This function returns a ``numpy`` array of :math:`\left(L\,M\right)`
+        samples of this spline :math:`f` of period :math:`K,` degree :math:`n`,
+        and delay :math:`\delta x,` spaced by the regular step
+        :math:`\frac{1}{M}`. The first sample of the array corresponds to
+        :math:`f(x_{0}).` The returned array is
+
+        ..  math::
+
+            \begin{eqnarray*}
+            \left(f(x_{0}+\frac{q}{M})\right)_{q=0}^{L\,M-1}&=&
+            \left(\sum_{k\in{\mathbb{Z}}}\,c[{k\bmod K}]\,
+            \beta^{n}(x_{0}+\frac{q}{M}-\delta x-k)\right)_{q=0}^{L\,M-1}\\
+            &=&\left({\mathbf{c}}_{q}^{{\mathsf{T}}}\,{\mathbf{W}}^{n}\,
+            {\mathbf{v}}^{n}(\chi_{x_{0}})\right)_{q=0}^{L\,M-1}.
+            \end{eqnarray*}
+
+        There, :math:`L` is ``support_length``, :math:`M` is ``oversampling``,
+        :math:`x_{0}` is ``starting_at``, and :math:`c` are the :math:`K`
+        spline coefficients.
+
+        The terms :math:`{\mathbf{c}},` :math:`{\mathbf{W}}^{n},`
+        :math:`{\mathbf{v}}^{n},` and :math:`\chi` are taken from the function
+        :ref:`splinekit.PeriodicSpline1D.at<periodic_spline_1d-at>`. Because
+        :math:`\left({\mathbf{W}}^{n}\,{\mathbf{v}}^{n}(\chi_{x_{0}})\right)`
+        does not depend on :math:`q,` the computation of ``get_samples`` is
+        faster than repeated calls to the function
+        ``splinekit.PeriodicSpline1D.at``.
+
+        Parameters
+        ----------
+        starting_at : float
+            First argument.
+        support_length : int
+            The :ref:`nonnegative<def-negative>` length of the support of the
+            spline over which the array of samples is taken.
+        oversampling : int
+            The :ref:`positive<def-positive>` number of samples taken per unit
+            length of the spline.
+
+        Returns
+        -------
+        np.ndarray[tuple[int], np.dtype[np.float64]]
+            The array of values of this spline.
+
+        Examples
+        --------
+        Load the libraries.
+            >>> import numpy as np
+            >>> import splinekit as sk
+        Create an undelayed cubic spline.
+            >>> c = np.array([1, 9, -7], dtype = float)
+            >>> s = sk.PeriodicSpline1D.from_spline_coeff(c, degree = 3)
+        Evaluate ``s(x)`` for ``x in [-18.5, -18.25, -18.0, -17.75]``.
+            >>> s.get_samples(-18.5, support_length = 1, oversampling = 4)
+            array([-2.5   , -0.9375,  1.    ,  2.9375])
+
+        Raises
+        ------
+        ValueError
+            Raised when ``support_length`` is :ref:`negative<def-negative>`.
+        ValueError
+            Raised when ``oversampling`` is :ref:`nonpositive<def-positive>`.
+
+
+        ----
+
+        """
+
+        if 0 > support_length:
+            raise ValueError("The support length must be nonnegative")
+        if 0 >= oversampling:
+            raise ValueError("Oversampling must be positive")
+        xi = 0.5 * (self._degree - 1.0) - starting_at + self._delay
+        if 1 == oversampling:
+            if 0 == self._degree:
+                if 0.0 == xi - round(xi):
+                    y = floor(starting_at - self._delay)
+                    return cast(
+                        np.ndarray[tuple[int], np.dtype[np.float64]],
+                        np.fromiter(
+                            (
+                                0.5 * (self._spline_coeff[k % self._period] +
+                                    self._spline_coeff[(k + 1) %
+                                    self._period])
+                                for k in range(y, y + support_length)
+                            ),
+                            dtype = float,
+                            count = support_length
+                        )
+                    )
+                y = round(starting_at - self._delay)
+                return cast(
+                    np.ndarray[tuple[int], np.dtype[np.float64]],
+                    np.fromiter(
+                        (
+                            self._spline_coeff[k % self._period]
+                            for k in range(y, y + support_length)
+                        ),
+                        dtype = float,
+                        count = support_length
+                    )
+                )
+            xi0 = floor(-xi)
+            w = _w(self._degree) @ np.vander(
+                [ceil(xi) - xi],
+                self._degree + 1,
+                increasing = True
+            )[0]
+            return cast(
+                np.ndarray[tuple[int], np.dtype[np.float64]],
+                np.fromiter(
+                    (
+                        (
+                            self._spline_coeff[k : k + self._degree + 1]
+                            if (0 <= k and k + self._degree < self._period)
+                            else np.fromiter(
+                                (
+                                    self._spline_coeff[q % self._period]
+                                    for q in range(k, k + self._degree + 1)
+                                ),
+                                dtype = float,
+                                count = self._degree + 1
+                            )
+                        ) @ w
+                        for k in range(xi0, xi0 + support_length)
+                    ),
+                    dtype = float,
+                    count = support_length
+                )
+            )
+        if 0 == self._degree:
+            def at0 (
+                k
+            ):
+                sigma = xi - k / oversampling
+                y = starting_at + k / oversampling - self._delay
+                if 0 == sigma - round(sigma):
+                    y = floor(y)
+                    return 0.5 * (self._spline_coeff[y % self._period] +
+                        self._spline_coeff[(y + 1) % self._period]
+                    )
+                return self._spline_coeff[round(y) % self._period]
+            return cast(
+                np.ndarray[tuple[int], np.dtype[np.float64]],
+                np.fromiter(
+                    (at0(k) for k in range(support_length * oversampling)),
+                    dtype = float,
+                    count = support_length * oversampling
+                )
+            )
+        def w0 (
+            x
+        ):
+            if 1.0 <= x:
+                x -= 1.0
+                return np.concatenate(
+                    (
+                        [0.0],
+                        _w(self._degree) @ np.vander(
+                            [x],
+                            self._degree + 1,
+                            increasing = True
+                        )[0]
+                    ),
+                    axis = None
+                )
+            return np.concatenate(
+                (
+                    _w(self._degree) @
+                        np.vander([x], self._degree + 1, increasing = True)[0],
+                    [0.0]
+                ),
+                axis = None
+            )
+        x0 = ceil(xi) - xi
+        w = np.array(
+            [w0(x0 + k / oversampling) for k in range(oversampling)],
+            dtype = float
+        )
+        xi = int(floor(-xi))
+        return np.ravel(np.fromiter(
+            (
+                w @ (
+                    self._spline_coeff[k0 : k0 + self._degree + 2]
+                    if (0 <= k0 and k0 + self._degree + 1 < self._period)
+                    else np.fromiter(
+                        (
+                            self._spline_coeff[k % self._period]
+                            for k in range(k0, k0 + self._degree + 2)
+                        ),
+                        dtype = float,
+                        count = self._degree + 2
+                    )
+                )
+                for k0 in range(xi, xi + support_length)
+            ),
+            dtype = np.dtype((float, oversampling)),
+            count = support_length
+        ))
+
+    #---------------
+    def mean (
+        self
+    ) -> float:
+
+        r"""
+        .. _periodic_spline_1d-mean:
+
+        The mean of this ``PeriodicSpline1D`` object.
+
+        This function returns the mean value of this spline :math:`f,` as
+        defined by
+
+        ..  math::
+
+            E\{f\}=\lim_{(x_{0},x_{1})\rightarrow(-\infty,\infty)}
+            \frac{1}{x_{1}-x_{0}}\,\int_{x_{0}}^{x_{1}}\,f(x)\,{\mathrm{d}}x.
+
+        Parameters
+        ----------
+        None
+
+        Returns
+        -------
+        float
+            The mean of this spline.
+    
+        Examples
+        --------
+        Load the libraries.
+            >>> import numpy as np
+            >>> import splinekit as sk
+        Create a spline and compute its mean.
+            >>> c = np.array([1, 9, -7], dtype = float)
+            >>> s = sk.PeriodicSpline1D.from_spline_coeff(c, degree = 3)
+            >>> s.mean()
+            1.0
+
+        ----
+
+        """
+
+        return fsum(self._spline_coeff) / self._period
+
+    #---------------
+    def variance (
+        self
+    ) -> float:
+
+        r"""
+        .. _periodic_spline_1d-variance:
+
+        The variance of this ``PeriodicSpline1D`` object.
+
+        This function returns the variance over one period of this spline
+        :math:`f` of period :math:`K,` as defined by
+
+        ..  math::
+
+            {\mathrm{Var}}\{f\}=\frac{1}{K}\,\int_{0}^{K}\,
+            \left(f(x)-E\{f\}\right)^{2}\,{\mathrm{d}}x,
+
+        where :math:`E\{f\}` is the :ref:`mean<periodic_spline_1d-mean>` of
+        :math:`f.`
+
+        Parameters
+        ----------
+        None
+
+        Returns
+        -------
+        float
+            The variance of this spline.
+    
+        Examples
+        --------
+        Load the libraries.
+            >>> import numpy as np
+            >>> import splinekit as sk
+        Create a spline and compute its variance.
+            >>> c = np.array([1, 9, -7], dtype = float)
+            >>> s = sk.PeriodicSpline1D.from_spline_coeff(c, degree = 3)
+            >>> s.variance()
+            9.371428571428572
+
+        ----
+
+        """
+
+        h = _b(2 * self._degree + 1)
+        v = np.fromiter(
+            (
+                fsum(
+                    hq * self._spline_coeff[(k + self._degree - q) %
+                        self._period]
+                    for (q, hq) in enumerate(h)
+                )
+                for k in range(self._period)
+            ),
+            dtype = float,
+            count = self._period
+        )
+        return (fsum(vk * self._spline_coeff[k] for (k, vk) in enumerate(v)) /
+            self._period - self.mean() ** 2)
+
+    #---------------
+    def lower_bound (
+        self,
+        *,
+        degree: int
+    ) -> PeriodicSpline1D:
+
+        r"""
+        .. _periodic_spline_1d-lower_bound:
+
+        A spline that is never larger than this ``PeriodicSpline1D`` object.
+
+        Assume that this spline :math:`s` is of period :math:`K` and degree
+        :math:`m.` Then, this function returns another spline :math:`f` of
+        same period :math:`K` and arbitrary :ref:`nonnegative<def-negative>`
+        degree :math:`n` such that :math:`f(x)\leq g(x)` for all
+        :math:`x\in{\mathbb{R}}.` The delay of :math:`f` is adjusted so that
+        the knots of :math:`f` coincide with those of :math:`s.`
+
+        Parameters
+        ----------
+        degree : int
+            The :ref:`nonnegative<def-negative>` degree of the spline that
+            lower-bounds this spline.
+
+        Returns
+        -------
+        PeriodicSpline1D
+            The lower-bounding spline.
+
+        Examples
+        --------
+        Load the libraries.
+            >>> import numpy as np
+            >>> import splinekit as sk
+        Create a spline and get a lower-bounding spline of lower degree.
+            >>> c = np.array([1, 9, -7], dtype = float)
+            >>> s = sk.PeriodicSpline1D.from_spline_coeff(c, degree = 3)
+            >>> s.lower_bound(degree = 1)
+            PeriodicSpline1D([  5. -11. -11.], degree = 1, delay = 1.0)
+        Here is a lower-bounding spline of higher degree.
+            >>> s.lower_bound(degree = 4)
+            PeriodicSpline1D([-29.   7.  -5.], degree = 4, delay = -0.5)
+
+        Notes
+        -----
+        The bound relies on two properties. One is that
+        :math:`x^{n}\geq x^{n+1}` for :math:`x\in(0,1)` and
+        :math:`n\in{\mathbb{N}}.` The other is that
+        :ref:`B-splines<def-b_spline>` are nonnegative. The bound is
+        reasonably sharp and fast to compute.
+
+        Raises
+        ------
+        ValueError
+            Raised when ``degree`` is :ref:`negative<def-negative>`.
+
+
+        ----
+
+        """
+
+        if 0 > degree:
+            raise ValueError("Degree must be nonnegative")
+        if degree == self._degree:
+            return self.copy()
+        def low (
+            p: int
+        ) -> float:
+            a0 = (
+                self._spline_coeff[p : p + self._degree + 1]
+                if (0 <= p and p + self._degree < self._period)
+                else np.fromiter(
+                    (
+                        self._spline_coeff[q % self._period]
+                        for q in range(p, p + self._degree + 1)
+                    ),
+                    dtype = float,
+                    count = self._degree + 1
+                )
+            ) @ _w(self._degree)
+            for q in range(1, self._degree + 1):
+                a0[0] += min(0.0, a0[q])
+            return a0[0]
+        if 0 == degree:
+            return PeriodicSpline1D.from_spline_coeff(
+                cast(
+                    np.ndarray[tuple[int], np.dtype[np.float64]],
+                    np.fromiter(
+                        (low(p) for p in range(self._period)),
+                        dtype = float,
+                        count = self._period
+                    )
+                ),
+                degree = 0,
+                delay = self._delay + 0.5 *self._degree
+            )
+        g = cast(
+            np.ndarray[tuple[int], np.dtype[np.float64]],
+            np.full((self._period), np.inf)
+        )
+        if self._degree <= degree:
+            for p in range(self._period):
+                a0 = np.append(
+                    (
+                        self._spline_coeff[p : p + self._degree + 1]
+                        if (0 <= p and p + self._degree < self._period)
+                        else np.fromiter(
+                            (
+                                self._spline_coeff[q % self._period]
+                                for q in range(p, p + self._degree + 1)
+                            ),
+                            dtype = float,
+                            count = self._degree + 1
+                        )
+                    ) @ _w(self._degree),
+                    np.zeros(degree - self._degree, dtype = float)
+                ) @ _inv_w(degree)
+                for (q, a0q) in enumerate(a0):
+                    k = (p + q) % self._period
+                    g[k] = min(g[k], a0q)
+        else:
+            for p in range(self._period):
+                a0 = (
+                    self._spline_coeff[p : p + self._degree + 1]
+                    if (0 <= p and p + self._degree < self._period)
+                    else np.fromiter(
+                        (
+                            self._spline_coeff[q % self._period]
+                            for q in range(p, p + self._degree + 1)
+                        ),
+                        dtype = float,
+                        count = self._degree + 1
+                    )
+                ) @ _w(self._degree)
+                for q in range(degree + 1, self._degree + 1):
+                    a0[degree] += min(0.0, a0[q])
+                a0 = a0[0 : degree + 1] @ _inv_w(degree)
+                for (q, a0q) in enumerate(a0):
+                    k = (p + q) % self._period
+                    g[k] = min(g[k], a0q)
+        return PeriodicSpline1D.from_spline_coeff(
+            g,
+            degree = degree,
+            delay = self._delay + 0.5 * (self._degree - degree)
+        )
+
+    #---------------
+    def upper_bound (
+        self,
+        *,
+        degree: int
+    ) -> PeriodicSpline1D:
+
+        r"""
+        .. _periodic_spline_1d-upper_bound:
+
+        A spline that is never smaller than this ``PeriodicSpline1D`` object.
+
+        Assume that this spline :math:`s` is of period :math:`K` and degree
+        :math:`m.` Then, this function returns another spline :math:`f` of
+        same period :math:`K` and arbitrary :ref:`nonnegative<def-negative>`
+        degree :math:`n` such that :math:`f(x)\geq g(x)` for all
+        :math:`x\in{\mathbb{R}}.` The delay of :math:`f` is adjusted so that
+        the knots of :math:`f` coincide with those of :math:`s.`
+
+        Parameters
+        ----------
+        degree : int
+            The :ref:`nonnegative<def-negative>` degree of the spline that
+            upper-bounds this spline.
+
+        Returns
+        -------
+        PeriodicSpline1D
+            The upper-bounding spline.
+
+        Examples
+        --------
+        Load the libraries.
+            >>> import numpy as np
+            >>> import splinekit as sk
+        Create a spline and get an upper-bounding spline of lower degree.
+            >>> c = np.array([1, 9, -7], dtype = float)
+            >>> s = sk.PeriodicSpline1D.from_spline_coeff(c, degree = 3)
+            >>> s.upper_bound(degree = 1)
+            PeriodicSpline1D([9. 9. 5.], degree = 1, delay = 1.0)
+        Here is an upper-bounding spline of higher degree.
+            >>> s.upper_bound(degree = 4)
+            PeriodicSpline1D([-5. 31.  7.], degree = 4, delay = -0.5)
+
+        Notes
+        -----
+        The bound relies on two properties. One is that
+        :math:`x^{n}\geq x^{n+1}` for :math:`x\in(0,1)` and
+        :math:`n\in{\mathbb{N}}.` The other is that
+        :ref:`B-splines<def-b_spline>` are nonnegative. The bound is
+        reasonably sharp and fast to compute.
+
+        Raises
+        ------
+        ValueError
+            Raised when ``degree`` is :ref:`negative<def-negative>`.
+
+
+        ----
+
+        """
+
+        if 0 > degree:
+            raise ValueError("Degree must be nonnegative")
+        if degree == self._degree:
+            self.copy()
+        def up (
+            p: int
+        ) -> float:
+            a0 = (
+                self._spline_coeff[p : p + self._degree + 1]
+                if (0 <= p and p + self._degree < self._period)
+                else np.fromiter(
+                    (
+                        self._spline_coeff[q % self._period]
+                        for q in range(p, p + self._degree + 1)
+                    ),
+                    dtype = float,
+                    count = self._degree + 1
+                )
+            ) @ _w(self._degree)
+            for q in range(1, self._degree + 1):
+                a0[0] += max(0.0, a0[q])
+            return a0[0]
+        if 0 == degree:
+            return PeriodicSpline1D.from_spline_coeff(
+                cast(
+                    np.ndarray[tuple[int], np.dtype[np.float64]],
+                    np.fromiter(
+                        (up(p) for p in range(self._period)),
+                        dtype = float,
+                        count = self._period
+                    )
+                ),
+                degree = 0,
+                delay = self._delay + 0.5 *self._degree
+            )
+        g = cast(
+            np.ndarray[tuple[int], np.dtype[np.float64]],
+            np.full((self._period), -np.inf)
+        )
+        if self._degree <= degree:
+            for p in range(self._period):
+                a0 = np.append(
+                        (
+                            self._spline_coeff[p : p + self._degree + 1]
+                            if (0 <= p and p + self._degree < self._period)
+                            else np.fromiter(
+                                (
+                                    self._spline_coeff[q % self._period]
+                                    for q in range(p, p + self._degree + 1)
+                                ),
+                                dtype = float,
+                                count = self._degree + 1
+                            )
+                        ) @ _w(self._degree),
+                        np.zeros(degree - self._degree, dtype = float)
+                    ) @ _inv_w(degree)
+                for (q, a0q) in enumerate(a0):
+                    k = (p + q) % self._period
+                    g[k] = max(g[k], a0q)
+        else:
+            for p in range(self._period):
+                a0 = (
+                    self._spline_coeff[p : p + self._degree + 1]
+                    if (0 <= p and p + self._degree < self._period)
+                    else np.fromiter(
+                        (
+                            self._spline_coeff[q % self._period]
+                            for q in range(p, p + self._degree + 1)
+                        ),
+                        dtype = float,
+                        count = self._degree + 1
+                    )
+                ) @ _w(self._degree)
+                for q in range(degree + 1, self._degree + 1):
+                    a0[degree] += max(0.0, a0[q])
+                a0 = a0[0 : degree + 1] @ _inv_w(degree)
+                for (q, a0q) in enumerate(a0):
+                    k = (p + q) % self._period
+                    g[k] = max(g[k], a0q)
+        return PeriodicSpline1D.from_spline_coeff(
+            g,
+            degree = degree,
+            delay = self._delay + 0.5 * (self._degree - degree)
+        )
+
+    #---------------
     def get_knots (
         self,
         domain: Interval = RR()
@@ -1638,6 +2860,9 @@ class PeriodicSpline1D:
         returned array. For instance, a constant-valued spline is infinitely
         differentiable and thus has no knots. Yet, the returned array is still
         populated with the splits between the spline pieces.
+
+        ----
+
         """
 
         (_, x0) = _divmod(0.5 * (self._degree + 1) + self._delay, 1)
@@ -1788,322 +3013,615 @@ class PeriodicSpline1D:
         raise ValueError("Internal error (unexpected interval class)")
 
     #---------------
-    def at (
-        self,
-        x: float
-    ) -> float:
+    def zeros (
+        self
+    ) -> List[Interval]:
 
+        # TODO: docstring
+        # TODO: tests
         r"""
-        .. _periodic_spline_1d-at:
+        .. _periodic_spline_1d-zeros:
 
-        The ordinate of this spline at an arbitrary abscissa.
 
-        This function returns the value of this periodic one-dimensional
-        polynomial spline :math:`f` of period :math:`K,` degree :math:`n`, and
-        delay :math:`\delta x,` as defined for :math:`x\in{\mathbb{R}}` by
+        ----
 
-        ..  math::
-
-            \begin{eqnarray*}
-            f(x)&=&\sum_{k\in{\mathbb{Z}}}\,c[{k\bmod K}]\,
-            \beta^{n}(x-\delta x-k)\\
-            &=&{\mathbf{c}}^{{\mathsf{T}}}\,{\mathbf{W}}^{n}\,
-            {\mathbf{v}}^{n}(\chi).
-            \end{eqnarray*}
-
-        There, :math:`c` are the :math:`K` spline coefficients,
-        :math:`{\mathbf{c}}=\left(c[{\left(k-\Xi\right)\bmod
-        K}]\right)_{k=0}^{n}\in{\mathbb{R}}^{n+1}` is a vector of
-        :math:`\left(n+1\right)` spline coefficients, :math:`{\mathbf{W}}^{n}`
-        is the :ref:`B-spline evaluation matrix<w_frac>`, and
-        :math:`{\mathbf{v}}^{n}(\chi)` is the
-        :ref:`Vandermonde vector<def-vandermonde_vector>` of argument
-        :math:`\chi,` with :math:`\xi=\left(\frac{n-1}{2}-x+\delta x\right)
-        \in{\mathbb{R}},` :math:`\Xi=\left\lceil\xi\right\rceil\in
-        {\mathbb{Z}},` and :math:`\chi=\left(\Xi-\xi\right)\in[0,1).`
-
-        As computed above, the fact that the Vandermonde vector has the domain
-        :math:`[0,1)` greatly favors numerical stability since the range of
-        each of its components is :math:`[0,1].`
-
-        Parameters
-        ----------
-        x : float
-            Argument.
-
-        Returns
-        -------
-        float
-            The value of this spline evaluated at ``x``.
-
-        Examples
-        --------
-        Load the libraries.
-            >>> import numpy as np
-            >>> import splinekit as sk
-        Create an undelayed spline and evaluate it at the arbitrary abscissa ``-18.5``.
-            >>> c = np.array([1, 9, -7], dtype = float)
-            >>> s = sk.PeriodicSpline1D.from_spline_coeff(c, degree = 3)
-            >>> s.at(-18.5)
-            -2.5
         """
 
-        xi = 0.5 * (self._degree - 1.0) - x + self._delay
-        if 0 == self._degree:
-            if 0.0 == xi - round(xi):
-                y = floor(x - self._delay)
-                return 0.5 * (self._spline_coeff[y % self._period] +
-                    self._spline_coeff[(y + 1) % self._period]
-                )
-            return self._spline_coeff[round(x - self._delay) % self._period]
-        xi0 = floor(-xi)
-        xi1 = xi0 + self._degree + 1
-        if 0 <= xi0 and xi1 <= self._period:
-            return float(
-                self._spline_coeff[xi0 : xi1] @ (_w(self._degree) @
-                    np.vander(
-                        [ceil(xi) - xi],
-                        self._degree + 1,
-                        increasing = True
-                    )[0]
-                )
-            )
-        return float(
-            np.fromiter(
-                (
-                    self._spline_coeff[k % self._period]
-                    for k in range(xi0, xi1)
-                ),
-                dtype = float,
-                count = self._degree + 1
-            ) @ (_w(self._degree) @ np.vander(
-                    [ceil(xi) - xi],
-                    self._degree + 1,
-                    increasing = True
-                )[0]
-            )
-        )
+        z = [
+            s.domain
+            for s in self.piecewise_signs().pieces
+            if 0 == s.item
+        ]
+        if len(z) < 2:
+            return z
+        if isinstance(z[-1], ClosedOpen):
+            if isinstance(z[0], Singleton):
+                if self._period == z[-1].supremum and 0.0 == z[0].value:
+                    z[0] = Closed((
+                        z[-1].infimum - self._period,
+                        0.0
+                    ))
+                    del z[-1]
+            if isinstance(z[0], ClosedOpen):
+                if self._period == z[-1].supremum and 0.0 == z[0].infimum:
+                    z[0] = ClosedOpen((
+                        z[-1].infimum - self._period,
+                        z[0].supremum
+                    ))
+                    del z[-1]
+            if isinstance(z[0], Closed):
+                if self._period == z[-1].supremum and 0.0 == z[0].infimum:
+                    z[0] = Closed((
+                        z[-1].infimum - self._period,
+                        z[0].supremum
+                    ))
+                    del z[-1]
+        if isinstance(z[-1], Open):
+            if isinstance(z[0], Singleton):
+                if self._period == z[-1].supremum and 0.0 == z[0].value:
+                    z[0] = OpenClosed((
+                        z[-1].infimum - self._period,
+                        0.0
+                    ))
+                    del z[-1]
+            if isinstance(z[0], ClosedOpen):
+                if self._period == z[-1].supremum and 0.0 == z[0].infimum:
+                    z[0] = Open((
+                        z[-1].infimum - self._period,
+                        z[0].supremum
+                    ))
+                    del z[-1]
+            if isinstance(z[0], Closed):
+                if self._period == z[-1].supremum and 0.0 == z[0].infimum:
+                    z[0] = OpenClosed((
+                        z[-1].infimum - self._period,
+                        z[0].supremum
+                    ))
+                    del z[-1]
+        return z
 
     #---------------
-    def get_samples (
-        self,
-        starting_at: float,
-        *,
-        support_length: int,
-        oversampling: int = 1
-    ) -> np.ndarray[tuple[int], np.dtype[np.float64]]:
+    def zero_crossings (
+        self
+    ) -> List[List[Interval]]:
 
         r"""
-        .. _periodic_spline_1d-get_samples:
+        .. _periodic_spline_1d-zero_crossings:
 
-        Evaluation of this spline at an array of arguments spaced by a
-        regular step.
 
-        This function returns a ``numpy`` array of :math:`\left(L\,M\right)`
-        samples of this periodic one-dimensional polynomial spline :math:`f`
-        of period :math:`K,` degree :math:`n`, and delay :math:`\delta x,`
-        spaced by the regular step :math:`\frac{1}{M}`. The first sample of
-        the array corresponds to :math:`f(x_{0}).` The returned array is
+        Zeros of odd multiplicity of this spline.
 
-        ..  math::
+        This function returns a list of two items.
 
-            \begin{eqnarray*}
-            \left(f(x_{0}+\frac{q}{M})\right)_{q=0}^{L\,M-1}&=&
-            \left(\sum_{k\in{\mathbb{Z}}}\,c[{k\bmod K}]\,
-            \beta^{n}(x_{0}+\frac{q}{M}-\delta x-k)\right)_{q=0}^{L\,M-1}\\
-            &=&\left({\mathbf{c}}_{q}^{{\mathsf{T}}}\,{\mathbf{W}}^{n}\,
-            {\mathbf{v}}^{n}(\chi_{x_{0}})\right)_{q=0}^{L\,M-1}.
-            \end{eqnarray*}
-
-        There, :math:`L` is ``support_length``, :math:`M` is ``oversampling``,
-        :math:`x_{0}` is ``starting_at``, and :math:`c` are the :math:`K`
-        spline coefficients.
-
-        The terms :math:`{\mathbf{c}},` :math:`{\mathbf{W}}^{n},`
-        :math:`{\mathbf{v}}^{n},` and :math:`\chi` are taken from the function
-        :ref:`splinekit.PeriodicSpline1D.at<periodic_spline_1d-at>`. Because
-        :math:`\left({\mathbf{W}}^{n}\,{\mathbf{v}}^{n}(\chi_{x_{0}})\right)`
-        does not depend on :math:`q,` the computation of ``get_samples`` is
-        faster than repeated calls to the function
-        ``splinekit.PeriodicSpline1D.at``.
+        *   The first item is a list of :ref:`intervals<Interval>`. This
+            spline is :ref:`positive<def-positive>` to the left of each
+            interval in this first list, while it is
+            :ref:`negative<def-negative>` to the right. The intervals of this
+            list thus correspond to the descending zero crossings of this
+            spline.
+        *   The second item is another list of :ref:`intervals<Interval>`.
+            This spline is :ref:`negative<def-negative>` to the left of each
+            interval in this second list, while it is
+            :ref:`positive<def-positive>` to the right. The intervals of this
+            list thus correspond to the ascending zero crossings of this
+            spline.
+        *   The class of every interval will be either one of
+            :ref:`splinekit.interval.Singleton<Singleton>` or
+            :ref:`splinekit.interval.Closed<Closed>`.
+        *   The :ref:`diameter<diameter>` of the :ref:`enclosure<enclosure>`
+            of all returned intervals is smaller than the period of this
+            spline.
 
         Parameters
         ----------
-        starting_at : float
-            First argument.
-        support_length : int
-            Nonnegative length of the support of the spline over which the
-            array of samples is taken.
-        oversampling : int
-            Positive number of samples taken per unit length of the spline.
+        None.
 
         Returns
         -------
-        np.ndarray[tuple[int], np.dtype[np.float64]]
-            The array of values of this spline.
+        list of list of Interval
+            The intervals where this spline has zeros of odd multiplicity.
 
         Examples
         --------
         Load the libraries.
             >>> import numpy as np
             >>> import splinekit as sk
-        Create an undelayed cubic spline.
+        Create an arbitrary cubic spline and find its zero-crossings.
             >>> c = np.array([1, 9, -7], dtype = float)
             >>> s = sk.PeriodicSpline1D.from_spline_coeff(c, degree = 3)
-        Evaluate ``s(x)`` for ``x in [-18.5, -18.25, -18.0, -17.75]``.
-            >>> s.get_samples(-18.5, support_length = 1, oversampling = 4)
-            array([-2.5   , -0.9375,  1.    ,  2.9375])
+            >>> s.zero_crossings()
+            [[Singleton(1.6008198378617022)], [Singleton(-0.12600019258625705)]]
+
+        ----
+
         """
 
-        if 0 > support_length:
-            raise ValueError("The support length must be nonnegative")
-        if 0 >= oversampling:
-            raise ValueError("Oversampling must be positive")
-        xi = 0.5 * (self._degree - 1.0) - starting_at + self._delay
-        if 1 == oversampling:
-            if 0 == self._degree:
-                if 0.0 == xi - round(xi):
-                    y = floor(starting_at - self._delay)
-                    return cast(
-                        np.ndarray[tuple[int], np.dtype[np.float64]],
-                        np.fromiter(
-                            (
-                                0.5 * (self._spline_coeff[k % self._period] +
-                                    self._spline_coeff[(k + 1) %
-                                    self._period])
-                                for k in range(y, y + support_length)
-                            ),
-                            dtype = float,
-                            count = support_length
-                        )
+        sgn = [s for s in self.piecewise_signs().pieces if 0.0 != s.item]
+        if len(sgn) < 2:
+            return [[], []]
+        s1 = sgn[-1]
+        k = len(sgn) - 2
+        while 0 <= k:
+            s0 = sgn[k]
+            if 0.0 < s0.item * s1.item:
+                if not isinstance(
+                    s1.domain,
+                    (Open, OpenClosed, Closed, ClosedOpen)
+                ):
+                    raise ValueError(
+                        "Internal error (unexpected interval subclass)"
                     )
-                y = round(starting_at - self._delay)
-                return cast(
-                    np.ndarray[tuple[int], np.dtype[np.float64]],
-                    np.fromiter(
-                        (
-                            self._spline_coeff[k % self._period]
-                            for k in range(y, y + support_length)
-                        ),
-                        dtype = float,
-                        count = support_length
+                if isinstance(s0.domain, Singleton):
+                    s0 = PeriodicNonuniformPiecewise.Piece(
+                        Open((
+                            s0.domain.value,
+                            s1.domain.supremum
+                        )),
+                        s1.item
                     )
-                )
-            xi0 = floor(-xi)
-            w = _w(self._degree) @ np.vander(
-                [ceil(xi) - xi],
-                self._degree + 1,
-                increasing = True
-            )[0]
-            return cast(
-                np.ndarray[tuple[int], np.dtype[np.float64]],
-                np.fromiter(
-                    (
-                        (
-                            self._spline_coeff[k : k + self._degree + 1]
-                            if (0 <= k and k + self._degree < self._period)
-                            else np.fromiter(
-                                (
-                                    self._spline_coeff[q % self._period]
-                                    for q in range(k, k + self._degree + 1)
-                                ),
-                                dtype = float,
-                                count = self._degree + 1
-                            )
-                        ) @ w
-                        for k in range(xi0, xi0 + support_length)
-                    ),
-                    dtype = float,
-                    count = support_length
-                )
-            )
-        if 0 == self._degree:
-            def at0 (
-                k
+                elif isinstance(
+                    s0.domain,
+                    (Open, OpenClosed, Closed, ClosedOpen)
+                ):
+                    s0 = PeriodicNonuniformPiecewise.Piece(
+                        Open((
+                            s0.domain.infimum,
+                            s1.domain.supremum
+                        )),
+                        s1.item
+                    )
+                else:
+                    raise ValueError(
+                        "Internal error (unexpected interval subclass)"
+                    )
+                sgn[k] = s0
+                del sgn[k + 1]
+            s1 = s0
+            k -= 1
+        if len(sgn) < 2:
+            return [[], []]
+        s1 = sgn[0]
+        s0 = sgn[-1]
+        if 0.0 < s0.item * s1.item:
+            if not isinstance(
+                s0.domain,
+                (Open, OpenClosed, Closed, ClosedOpen)
             ):
-                sigma = xi - k / oversampling
-                y = starting_at + k / oversampling - self._delay
-                if 0 == sigma - round(sigma):
-                    y = floor(y)
-                    return 0.5 * (self._spline_coeff[y % self._period] +
-                        self._spline_coeff[(y + 1) % self._period]
+                raise ValueError(
+                    "Internal error (unexpected interval subclass)"
+                )
+            if isinstance(s1.domain, Singleton):
+                s0 = PeriodicNonuniformPiecewise.Piece(
+                    Open((
+                        s0.domain.infimum - self._period,
+                        s1.domain.value
+                    )),
+                    s1.item
+                )
+            elif isinstance(
+                s1.domain,
+                (Open, OpenClosed, Closed, ClosedOpen)
+            ):
+                s0 = PeriodicNonuniformPiecewise.Piece(
+                    Open((
+                        cast(Open, s0.domain).infimum - self._period,
+                        s1.domain.supremum
+                    )),
+                    s1.item
+                )
+            else:
+                raise ValueError(
+                    "Internal error (unexpected interval subclass)"
+                )
+            sgn[0] = s0
+            del sgn[-1]
+        if len(sgn) < 2:
+            return [[], []]
+        s0 = sgn[-1]
+        s1 = sgn[0]
+        zc: List[List[Interval]] = [[], []]
+        if (not isinstance(
+            s0.domain,
+            (Open, OpenClosed, Closed, ClosedOpen)
+        )) or (not isinstance(
+            s1.domain,
+            (Open, OpenClosed, Closed, ClosedOpen)
+        )):
+            raise ValueError(
+                "Internal error (unexpected interval subclass)"
+            )
+        if s0.domain.supremum - self._period == s1.domain.infimum:
+            if s1.item < s0.item:
+                zc[0].append(Singleton(s1.domain.infimum))
+            else:
+                zc[1].append(Singleton(s1.domain.infimum))
+        else:
+            if s1.item < s0.item:
+                zc[0].append(Closed((
+                    s0.domain.supremum - self._period,
+                    s1.domain.infimum
+                )))
+            else:
+                zc[1].append(Closed((
+                    s0.domain.supremum - self._period,
+                    s1.domain.infimum
+                )))
+        for k in range(1, len(sgn)):
+            s0 = s1
+            s1 = sgn[k]
+            if (not isinstance(
+                s0.domain,
+                (Open, OpenClosed, Closed, ClosedOpen)
+            )) or (not isinstance(
+                s1.domain,
+                (Open, OpenClosed, Closed, ClosedOpen)
+            )):
+                raise ValueError(
+                    "Internal error (unexpected interval subclass)"
+                )
+            if s0.domain.supremum == s1.domain.infimum:
+                if s1.item < s0.item:
+                    zc[0].append(Singleton(s1.domain.infimum))
+                else:
+                    zc[1].append(Singleton(s1.domain.infimum))
+            else:
+                if s1.item < s0.item:
+                    zc[0].append(Closed((
+                        s0.domain.supremum,
+                        s1.domain.infimum
+                    )))
+                else:
+                    zc[1].append(Closed((
+                        s0.domain.supremum,
+                        s1.domain.infimum
+                    )))
+        zc[0].sort()
+        zc[1].sort()
+        return zc
+
+    #---------------
+    class Extremum (
+        NamedTuple
+    ):
+
+        """
+        .. _periodic_spline_1d-Extremum:
+
+        Each ``Extremum`` object is a named tuple made of two fields. The
+        first field is named ``domain`` and contains an
+        :ref:`Interval<Interval>` object that describes an arbitrary domain
+        (often, a :ref:`Singleton<Singleton>` object) over which the
+        extremum extends. The second field is named ``value`` and contains the
+        ``float`` value taken by the extremum.
+
+        ====
+
+        """
+
+        domain: Interval
+
+        r"""
+        .. _periodic_spline_1d-Extremum-domain:
+
+        the domain of this extremum.
+
+        ----
+
+        """
+
+        value: float
+
+        r"""
+        .. _periodic_spline_1d-Extremum-value:
+
+        The value of this extremum.
+
+        ----
+
+        """
+
+    #---------------
+    def extrema (
+        self
+    ) -> List[List[Extremum]]:
+
+        # TODO: docstring
+        # TODO: tests
+        r"""
+        .. _periodic_spline_1d-extrema:
+
+
+        ----
+
+        """
+
+        if 0 < self._degree:
+            zc = self.gradient().zero_crossings()
+            return [
+                [
+                    PeriodicSpline1D.Extremum(
+                        domain = ex,
+                        value = self.at(ex.midpoint)
                     )
-                return self._spline_coeff[round(y) % self._period]
-            return cast(
+                    for ex in zc[1]
+                ],
+                [
+                    PeriodicSpline1D.Extremum(
+                        domain = ex,
+                        value = self.at(ex.midpoint)
+                    )
+                    for ex in zc[0]
+                ]
+            ]
+        zc = PeriodicSpline1D.from_spline_coeff(
+            cast(
                 np.ndarray[tuple[int], np.dtype[np.float64]],
                 np.fromiter(
-                    (at0(k) for k in range(support_length * oversampling)),
-                    dtype = float,
-                    count = support_length * oversampling
-                )
-            )
-        def w0 (
-            x
-        ):
-            if 1.0 <= x:
-                x -= 1.0
-                return np.concatenate(
                     (
-                        [0.0],
-                        _w(self._degree) @ np.vander(
-                            [x],
-                            self._degree + 1,
-                            increasing = True
-                        )[0]
+                        ck - self._spline_coeff[k - 1]
+                        for (k, ck) in enumerate(self._spline_coeff)
                     ),
-                    axis = None
+                    dtype = float,
+                    count = self._period
                 )
-            return np.concatenate(
-                (
-                    _w(self._degree) @
-                        np.vander([x], self._degree + 1, increasing = True)[0],
-                    [0.0]
+            ),
+            degree = 0,
+            delay = self._delay - 0.5
+        ).zero_crossings()
+        return [
+            [
+                PeriodicSpline1D.Extremum(
+                    domain = Open((ex.value - 0.5, ex.value + 0.5))
+                        if isinstance(ex, Singleton)
+                        else Open((
+                            cast(Closed, ex).infimum - 0.5,
+                            cast(Closed, ex).supremum + 0.5
+                        )),
+                    value = self.at(ex.midpoint)
+                )
+                for ex in zc[1]
+            ],
+            [
+                PeriodicSpline1D.Extremum(
+                    domain = Open((ex.value - 0.5, ex.value + 0.5))
+                        if isinstance(ex, Singleton)
+                        else Open((
+                            cast(Closed, ex).infimum - 0.5,
+                            cast(Closed, ex).supremum + 0.5
+                        )),
+                    value = self.at(ex.midpoint)
+                )
+                for ex in zc[0]
+            ]
+        ]
+
+    #---------------
+    def plus (
+        self,
+        constant: float
+    ) -> PeriodicSpline1D:
+
+        r"""
+        .. _periodic_spline_1d-plus:
+
+        Add a constant to this spline.
+
+        Letting this spline be
+        :math:`s:{\mathbb{R}}\rightarrow{\mathbb{R}},x\mapsto s(x)` and
+        letting ``constant`` be :math:`s_{0},` return the spline
+        :math:`f:{\mathbb{R}}\rightarrow{\mathbb{R}},x\mapsto s(x)+s_{0}.`
+
+        Parameters
+        ----------
+        constant : float
+            The constant added to this spline.
+
+        Returns
+        -------
+        PeriodicSpline1D
+            This spline with the constant added.
+
+        Examples
+        --------
+        Load the libraries.
+            >>> import numpy as np
+            >>> import splinekit as sk
+        Create a cubic spline add some number.
+            >>> c = np.array([1, 9, -7], dtype = float)
+            >>> s = sk.PeriodicSpline1D.from_spline_coeff(c, degree = 3)
+            >>> s.plus(5.0)
+            PeriodicSpline1D([ 6. 14. -2.], degree = 3, delay = 0.0)
+
+        ----
+
+        """
+
+        return PeriodicSpline1D.from_spline_coeff(
+            cast(
+                np.ndarray[tuple[int], np.dtype[np.float64]],
+                np.add(constant, self._spline_coeff)
+            ),
+            degree = self._degree,
+            delay = self._delay
+        )
+
+    #---------------
+    def times (
+        self,
+        constant: float
+    ) -> PeriodicSpline1D:
+
+        r"""
+        .. _periodic_spline_1d-times:
+
+        Multiply this spline by a constant.
+
+        Letting this spline be
+        :math:`s:{\mathbb{R}}\rightarrow{\mathbb{R}},x\mapsto s(x)` and
+        letting ``constant`` be :math:`\lambda_{0},` return the spline
+        :math:`f:{\mathbb{R}}\rightarrow{\mathbb{R}},x\mapsto\lambda_{0}\,s(x).`
+
+        Parameters
+        ----------
+        constant : float
+            The constant that multiplies this spline.
+
+        Returns
+        -------
+        PeriodicSpline1D
+            This spline multiplied by the constant.
+
+        Examples
+        --------
+        Load the libraries.
+            >>> import numpy as np
+            >>> import splinekit as sk
+        Create a cubic spline and multiply it by some number.
+            >>> c = np.array([1, 9, -7], dtype = float)
+            >>> s = sk.PeriodicSpline1D.from_spline_coeff(c, degree = 3)
+            >>> s.times(5.0)
+            PeriodicSpline1D([  5.  45. -35.], degree = 3, delay = 0.0)
+
+        ----
+
+        """
+
+        return PeriodicSpline1D.from_spline_coeff(
+            cast(
+                np.ndarray[tuple[int], np.dtype[np.float64]],
+                np.multiply(constant, self._spline_coeff)
+            ),
+            degree = self._degree,
+            delay = self._delay
+        )
+
+    #---------------
+    def negated (
+        self
+    ) -> PeriodicSpline1D:
+
+        r"""
+        .. _periodic_spline_1d-negated:
+
+        Multiply this spline by the constant ``-1.0``.
+
+        Letting this spline be
+        :math:`s:{\mathbb{R}}\rightarrow{\mathbb{R}},x\mapsto s(x),` return
+        the spline
+        :math:`f:{\mathbb{R}}\rightarrow{\mathbb{R}},x\mapsto -s(x).`
+
+        Parameters
+        ----------
+        None
+
+        Returns
+        -------
+        PeriodicSpline1D
+            This spline multiplied by ``-1.0``.
+
+        Examples
+        --------
+        Load the libraries.
+            >>> import numpy as np
+            >>> import splinekit as sk
+        Create a cubic spline and flip its sign.
+            >>> c = np.array([1, 9, -7], dtype = float)
+            >>> s = sk.PeriodicSpline1D.from_spline_coeff(c, degree = 3)
+            >>> s.negated()
+            PeriodicSpline1D([-1. -9.  7.], degree = 3, delay = 0.0)
+
+        ----
+
+        """
+
+        return PeriodicSpline1D.from_spline_coeff(
+            cast(
+                np.ndarray[tuple[int], np.dtype[np.float64]],
+                np.negative(self._spline_coeff)
+            ),
+            degree = self._degree,
+            delay = self._delay
+        )
+
+    #---------------
+    def mirrored (
+        self
+    ) -> PeriodicSpline1D:
+
+        r"""
+        .. _periodic_spline_1d-mirrored:
+
+        Reverse this spline around the origin.
+
+        Letting this spline be
+        :math:`s:{\mathbb{R}}\rightarrow{\mathbb{R}},x\mapsto s(x),` return
+        the spline
+        :math:`f:{\mathbb{R}}\rightarrow{\mathbb{R}},x\mapsto s(-x).`
+
+        Parameters
+        ----------
+        None
+
+        Returns
+        -------
+        PeriodicSpline1D
+            This spline after mirroring around the origin.
+
+        Examples
+        --------
+        Load the libraries.
+            >>> import numpy as np
+            >>> import splinekit as sk
+        Create a cubic spline and mirror it.
+            >>> c = np.array([1, 9, -7], dtype = float)
+            >>> s = sk.PeriodicSpline1D.from_spline_coeff(c, degree = 3, delay = 0.71)
+            >>> s.mirrored()
+            PeriodicSpline1D([ 1. -7.  9.], degree = 3, delay = -0.71)
+
+        ----
+
+        """
+
+        if 1 == self._period:
+            return PeriodicSpline1D.from_spline_coeff(
+                cast(
+                    np.ndarray[tuple[int], np.dtype[np.float64]],
+                    self._spline_coeff,
                 ),
-                axis = None
+                degree = self._degree,
+                delay = -self._delay
             )
-        x0 = ceil(xi) - xi
-        w = np.array(
-            [w0(x0 + k / oversampling) for k in range(oversampling)],
-            dtype = float
-        )
-        xi = int(floor(-xi))
-        return np.ravel(np.fromiter(
-            (
-                w @ (
-                    self._spline_coeff[k0 : k0 + self._degree + 2]
-                    if (0 <= k0 and k0 + self._degree + 1 < self._period)
-                    else np.fromiter(
-                        (
-                            self._spline_coeff[k % self._period]
-                            for k in range(k0, k0 + self._degree + 2)
-                        ),
-                        dtype = float,
-                        count = self._degree + 2
-                    )
-                )
-                for k0 in range(xi, xi + support_length)
+        return PeriodicSpline1D.from_spline_coeff(
+            cast(
+                np.ndarray[tuple[int], np.dtype[np.float64]],
+                np.concatenate((
+                    [self._spline_coeff[0]],
+                    np.flip(self._spline_coeff[1 : ])
+                ))
             ),
-            dtype = np.dtype((float, oversampling)),
-            count = support_length
-        ))
+            degree = self._degree,
+            delay = -self._delay
+        )
 
     #---------------
-    def mean (
+    def fractionalized_delay (
         self
-    ) -> float:
+    ) -> PeriodicSpline1D:
 
         r"""
-        .. _periodic_spline_1d-mean:
+        .. _periodic_spline_1d-fractionalized_delay:
 
-        The mean of this ``PeriodicSpline1D`` object.
+        Reformat this spline to have a fractional delay.
 
-        This function returns the mean value of this polynomial spline
-        :math:`f,` as defined by
-
-        ..  math::
-
-            E\{f\}=\lim_{(x_{0},x_{1})\rightarrow(-\infty,\infty)}
-            \frac{1}{x_{1}-x_{0}}\,\int_{x_{0}}^{x_{1}}\,f(x)\,{\mathrm{d}}x.
+        Let this spline be
+        :math:`s:{\mathbb{R}}\rightarrow{\mathbb{R}},x\mapsto s(x),` as
+        characterized by its period :math:`K,` its degree :math:`n,` its delay
+        :math:`\delta x,` and its spline coefficients :math:`c.` The returned
+        spline :math:`f` will be functionally indistinguishable from :math:`s,`
+        with :math:`f:{\mathbb{R}}\rightarrow{\mathbb{R}},x\mapsto s(x).`
+        However, the spline coefficients of :math:`f` will be modified so that
+        the delay of :math:`f` will be :ref:`nonnegative<def-negative>` and
+        smaller than :math:`1.`
 
         Parameters
         ----------
@@ -2111,43 +3629,183 @@ class PeriodicSpline1D:
 
         Returns
         -------
-        float
-            The mean of this spline.
-    
+        PeriodicSpline1D
+            This spline with a delay in :math:`[0,1).`
+
         Examples
         --------
         Load the libraries.
             >>> import numpy as np
             >>> import splinekit as sk
-        Create a spline and compute its mean.
+        Create a cubic spline and fractionalize its delay.
             >>> c = np.array([1, 9, -7], dtype = float)
-            >>> s = sk.PeriodicSpline1D.from_spline_coeff(c, degree = 3)
-            >>> s.mean()
-            1.0
+            >>> s = sk.PeriodicSpline1D.from_spline_coeff(c, degree = 3, delay = -3.71)
+            >>> s.fractionalized_delay()
+            PeriodicSpline1D([ 9. -7.  1.], degree = 3, delay = 0.29000000000000004)
+
+        ----
+
         """
 
-        return fsum(self._spline_coeff) / self._period
+        (k, d) = _divmod(self._delay, 1)
+        k = (-k) % self._period
+        return PeriodicSpline1D.from_spline_coeff(
+            cast(
+                np.ndarray[tuple[int], np.dtype[np.float64]],
+                np.roll(self._spline_coeff, -k)
+            ),
+            degree = self._degree,
+            delay = d
+        )
 
     #---------------
-    def variance (
-        self
-    ) -> float:
+    def delayed_by (
+        self,
+        dx: float
+    ) -> PeriodicSpline1D:
 
         r"""
-        .. _periodic_spline_1d-variance:
+        .. _periodic_spline_1d-delayed_by:
 
-        The variance of this ``PeriodicSpline1D`` object.
+        Delay this spline.
 
-        This function returns the variance over one period of this periodic
-        polynomial spline :math:`f` of period :math:`K,` as defined by
+        Letting this spline be
+        :math:`s:{\mathbb{R}}\rightarrow{\mathbb{R}},x\mapsto s(x),` return
+        the spline
+        :math:`f:{\mathbb{R}}\rightarrow{\mathbb{R}},x\mapsto s(x-\Delta x),`
+        where the delay :math:`\Delta x` is ``dx``.
+
+        Parameters
+        ----------
+        dx : float
+            The additional delay applied to this spline.
+
+        Returns
+        -------
+        PeriodicSpline1D
+            This delayed spline.
+
+        Examples
+        --------
+        Load the libraries.
+            >>> import numpy as np
+            >>> import splinekit as sk
+        Create a cubic spline with an arbitrary delay, and delay it further.
+            >>> c = np.array([1, 9, -7], dtype = float)
+            >>> s = sk.PeriodicSpline1D.from_spline_coeff(c, degree = 3, delay = 0.71)
+            >>> s.delayed_by(5.2)
+            PeriodicSpline1D([ 1.  9. -7.], degree = 3, delay = 5.91)
+
+        ----
+
+        """
+
+        return PeriodicSpline1D.from_spline_coeff(
+            cast(
+                np.ndarray[tuple[int], np.dtype[np.float64]],
+                self._spline_coeff,
+            ),
+            degree = self._degree,
+            delay = self._delay + dx
+        )
+
+    #---------------
+    def differentiated (
+        self,
+        order: int
+    ) -> PeriodicSpline1D:
+
+        r"""
+        .. _periodic_spline_1d-differentiated:
+
+        This spline differentiated order times.
+
+        Letting this spline be :math:`s` and letting :math:`m` be the
+        ``order`` of differentiation, return the spline :math:`f` such that
 
         ..  math::
 
-            {\mathrm{Var}}\{f\}=\frac{1}{K}\,\int_{0}^{K}\,
-            \left(f(x)-E\{f\}\right)^{2}\,{\mathrm{d}}x,
+            f(x)=\frac{{\mathrm{d}}^{m}s(x)}{{\mathrm{d}}x^{m}}.
 
-        where :math:`E\{f\}` is the :ref:`mean<periodic_spline_1d-mean>` of
-        :math:`f.`
+        Parameters
+        ----------
+        order : int
+            The :ref:`nonnegative<def-negative>` order of differentiation.
+
+        Returns
+        -------
+        PeriodicSpline1D
+            The order-th derivative of this spline.
+
+        Examples
+        --------
+        Load the libraries.
+            >>> import numpy as np
+            >>> import splinekit as sk
+        Create a cubic spline and compute its third-order derivative.
+            >>> c = np.array([1, 9, -7], dtype = float)
+            >>> s = sk.PeriodicSpline1D.from_spline_coeff(c, degree = 3)
+            >>> s.differentiated(3)
+            PeriodicSpline1D([ 48. -24. -24.], degree = 0, delay = -1.5)
+
+        Raises
+        ------
+        ValueError
+            Raised when ``order`` is :ref:`negative<def-negative>`.
+        ValueError
+            Raised when ``order`` exceeds the degree of this spline.
+
+
+        ----
+
+        """
+
+        if 0 > order:
+            raise ValueError("Order must be nonnegative")
+        if self._degree < order:
+            raise ValueError(
+                "The differentiation order must not exceed the spline degree"
+            )
+        if 0 == order:
+            return self.copy()
+        h = np.copy(mscale_filter(degree = order - 1, scale = 2))
+        for (q, hq) in enumerate(h):
+            h[q] = ((-1.0) ** q) * hq
+        return PeriodicSpline1D.from_spline_coeff(
+            cast(
+                np.ndarray[tuple[int], np.dtype[np.float64]],
+                np.fromiter(
+                    (
+                        fsum(
+                            hq * self._spline_coeff[(k - q) % self._period]
+                            for (q, hq) in enumerate(h)
+                        )
+                        for k in range(self._period)
+                    ),
+                    dtype = float,
+                    count = self._period
+                )
+            ),
+            degree = self._degree - order,
+            delay = self._delay - 0.5 * order
+        )
+
+    #---------------
+    def gradient (
+        self
+    ) -> PeriodicSpline1D:
+
+        r"""
+        .. _periodic_spline_1d-gradient:
+
+        The gradient of this spline.
+
+        Letting this spline be :math:`s,` return the spline :math:`f` such
+        that
+
+        ..  math::
+
+            f(x)=\frac{{\mathrm{d}}s(x)}{{\mathrm{d}}x}.
 
         Parameters
         ----------
@@ -2155,36 +3813,101 @@ class PeriodicSpline1D:
 
         Returns
         -------
-        float
-            The variance of this spline.
-    
+        PeriodicSpline1D
+            The gradient of this spline.
+
         Examples
         --------
         Load the libraries.
             >>> import numpy as np
             >>> import splinekit as sk
-        Create a spline and compute its variance.
+        Create an undelayed cubic spline and compute its gradient.
             >>> c = np.array([1, 9, -7], dtype = float)
             >>> s = sk.PeriodicSpline1D.from_spline_coeff(c, degree = 3)
-            >>> s.variance()
-            9.371428571428572
+            >>> s.gradient()
+            PeriodicSpline1D([  8.   8. -16.], degree = 2, delay = -0.5)
+
+        Raises
+        ------
+        ValueError
+            Raised when the degree of this spline is
+            :ref:`nonpositive<def-positive>`.
+
+
+        ----
+
         """
 
-        h = _b(2 * self._degree + 1)
-        v = np.fromiter(
-            (
-                fsum(
-                    hq * self._spline_coeff[(k + self._degree - q) %
-                        self._period]
-                    for (q, hq) in enumerate(h)
+        if 1 > self._degree:
+            raise ValueError("Degree must be positive")
+        return PeriodicSpline1D.from_spline_coeff(
+            cast(
+                np.ndarray[tuple[int], np.dtype[np.float64]],
+                np.fromiter(
+                    (
+                        ck - self._spline_coeff[k - 1]
+                        for (k, ck) in enumerate(self._spline_coeff)
+                    ),
+                    dtype = float,
+                    count = self._period
                 )
-                for k in range(self._period)
             ),
-            dtype = float,
-            count = self._period
+            degree = self._degree - 1,
+            delay = self._delay - 0.5
         )
-        return (fsum(vk * self._spline_coeff[k] for (k, vk) in enumerate(v)) /
-            self._period - self.mean() ** 2)
+
+    #---------------
+    def anti_grad (
+        self
+    ) -> PeriodicSpline1D:
+
+        r"""
+        .. _periodic_spline_1d-anti_grad:
+
+        The spline whose gradient is this spline, up to a constant.
+
+        Letting this spline be :math:`s,` return the spline :math:`f` such
+        that
+
+        ..  math::
+
+            \frac{{\mathrm{d}}f(x)}{{\mathrm{d}}x}=s(x)-E\{s\},
+
+        where :math:`E\{s\}` is the :ref:`mean<periodic_spline_1d-mean>` of
+        :math:`s.`
+
+        Parameters
+        ----------
+        None
+
+        Returns
+        -------
+        PeriodicSpline1D
+            The anti-gradient of this spline.
+
+        Examples
+        --------
+        Load the libraries.
+            >>> import numpy as np
+            >>> import splinekit as sk
+        Create an undelayed cubic spline and compute its anti-gradient.
+            >>> c = np.array([1, 9, -7], dtype = float)
+            >>> s = sk.PeriodicSpline1D.from_spline_coeff(c, degree = 3)
+            >>> s.anti_grad()
+            PeriodicSpline1D([0. 8. 0.], degree = 4, delay = 0.5)
+
+        ----
+
+        """
+
+        return PeriodicSpline1D.from_spline_coeff(
+            cast(
+                np.ndarray[tuple[int], np.dtype[np.float64]],
+                np.cumsum(self.plus(-self.mean()).spline_coeff)
+            ),
+            degree = self._degree + 1,
+            delay = self._delay + 0.5
+        )
 
     #---------------
     def integrate (
@@ -2199,8 +3922,8 @@ class PeriodicSpline1D:
         The integration of this ``PeriodicSpline1D`` object between two bounds.
 
         This function returns the value :math:`F(x_{0},x_{1})` of the integral
-        of this periodic polynomial spline :math:`f` between a lower bound
-        :math:`x_{0}` and an upper bound :math:`x_{1},` as defined by
+        of this spline :math:`f` between a lower bound :math:`x_{0}` and an
+        upper bound :math:`x_{1},` as defined by
 
         ..  math::
 
@@ -2228,6 +3951,9 @@ class PeriodicSpline1D:
             >>> s = sk.PeriodicSpline1D.from_spline_coeff(c, degree = 3)
             >>> s.integrate(lower_bound = -18.5, upper_bound = 7.3)
             28.7907
+
+        ----
+
         """
 
         p0 = ceil(upper_bound - self._delay - 0.5 * (self._degree + 1))
@@ -2260,6 +3986,75 @@ class PeriodicSpline1D:
         )
 
     #---------------
+    def fourier_coeff (
+        self,
+        nu: int
+    ) -> complex:
+
+        r"""
+        .. _periodic_spline_1d-fourier_coeff:
+
+        The Fourier coefficient of index ``nu``.
+
+        Letting this spline of period :math:`K` be
+        :math:`f:{\mathbb{R}}\rightarrow{\mathbb{R}},x\mapsto f(x),` return
+        the Fourier coefficient
+
+        ..  math::
+
+            F[\nu]=\frac{1}{K}\,\int_{0}^{K}\,f(x)\,{\mathrm{e}}^
+            {-{\mathrm{j}\,\nu\,\frac{2\,\pi}{K}\,x}}\,{\mathrm{d}}x,
+
+        with :math:`\nu\in{\mathbb{Z}}.` The infinite-length series of
+        coefficients :math:`F` is such that
+
+        ..  math::
+
+            f(x)=\sum_{\nu\in{\mathbb{Z}}}\,F[\nu]\,{\mathrm{e}}^
+            {{\mathrm{j}\,\nu\,\frac{2\,\pi}{K}\,x}}.
+
+        Parameters
+        ----------
+        nu : int
+            The frequency index.
+
+        Returns
+        -------
+        complex
+            The Fourier coefficient of index ``nu``.
+
+        Examples
+        --------
+        Load the libraries.
+            >>> import numpy as np
+            >>> import splinekit as sk
+        Create a cubic spline and compute its Fourier coefficient at some arbitrary index.
+            >>> c = np.array([1, 9, -7], dtype = float)
+            >>> s = sk.PeriodicSpline1D.from_spline_coeff(c, degree = 3, delay = 0.71)
+            >>> s.fourier_coeff(-5)
+            (0.003157821372112742-0.0014059526579449596j)
+
+        ----
+
+        """
+
+        return complex(
+            np.dot(
+                self._spline_coeff,
+                np.fromiter(
+                    (
+                        cmath.exp(-nu * 2j * np.pi * (k + self._delay) /
+                            self._period)
+                        for k in range(self._period)
+                    ),
+                    dtype = complex,
+                    count = self._period
+                )
+            ) * (np.sinc(nu / self._period) ** (self._degree + 1)) /
+                self._period
+        )
+
+    #---------------
     def piecewise_polynomials (
         self,
         *,
@@ -2272,10 +4067,8 @@ class PeriodicSpline1D:
         The list of all polynomial pieces over one period of this
         ``PeriodicSpline1D`` object.
 
-        Assume that this ``PeriodicSpline1D`` object is a periodic
-        one-dimensional polynomial :ref:`spline<def-spline>` :math:`f` of
-        period :math:`K,` degree :math:`n`, and delay :math:`\delta x.` Then,
-        this function returns a
+        Assume that this spline :math:`f` is of period :math:`K,` degree
+        :math:`n`, and delay :math:`\delta x.` Then, this function returns a
         :ref:`PeriodicNonuniformPiecewise<PeriodicNonuniformPiecewise>`
         object whose :ref:`Piece<Piece>` items contain a ``numpy``
         :ref:`polynomial<def-polynomial>` over each piece domain. For
@@ -2358,6 +4151,9 @@ class PeriodicSpline1D:
         expression of :math:`\xi,` but :math:`\xi` appears itself with a
         negative sign in the expression of :math:`\chi.` The two signs
         compensate each other so that :math:`\chi` grows like :math:`x.`
+
+        ----
+
         """
 
         if 1 == self._period:
@@ -2520,285 +4316,6 @@ class PeriodicSpline1D:
         return PeriodicNonuniformPiecewise(pp, period = self._period)
 
     #---------------
-    def lower_bound (
-        self,
-        *,
-        degree: int
-    ) -> PeriodicSpline1D:
-
-        r"""
-        .. _periodic_spline_1d-lower_bound:
-
-
-        A spline that is never larger than this ``PeriodicSpline1D`` object.
-
-        Assume that this ``PeriodicSpline1D`` object is a periodic
-        one-dimensional polynomial :ref:`spline<def-spline>` :math:`g` of
-        period :math:`K` and degree :math:`m.` Then, this function returns
-        another spline :math:`f` of same period :math:`K` and arbitrary
-        :ref:`nonnegative<def-negative>` degree :math:`n` such that
-        :math:`f(x)\leq g(x)` for all :math:`x\in{\mathbb{R}}.` The delay of
-        :math:`f` is adjusted so that the knots of :math:`f` coincide with
-        those of :math:`g.`
-
-        Parameters
-        ----------
-        degree : int
-            The nonnegative degree of the spline that lower-bounds this spline.
-
-        Returns
-        -------
-        PeriodicSpline1D
-            The lower-bounding spline.
-
-        Examples
-        --------
-        Load the libraries.
-            >>> import numpy as np
-            >>> import splinekit as sk
-        Create a spline and get a lower-bounding spline of lower degree.
-            >>> c = np.array([1, 9, -7], dtype = float)
-            >>> s = sk.PeriodicSpline1D.from_spline_coeff(c, degree = 3)
-            >>> s.lower_bound(degree = 1)
-            PeriodicSpline1D([  5. -11. -11.], degree = 1, delay = 1.0)
-        Here is a lower-bounding spline of higher degree.
-            >>> s.lower_bound(degree = 4)
-            PeriodicSpline1D([-29.   7.  -5.], degree = 4, delay = -0.5)
-
-        Notes
-        -----
-        The bound relies on two properties. One is that
-        :math:`x^{n}\geq x^{n+1}` for :math:`x\in(0,1)` and
-        :math:`n\in{\mathbb{N}}.` The other is that
-        :ref:`B-splines<def-b_spline>` are nonnegative. The bound is
-        reasonably sharp and fast to compute.
-        """
-
-        if 0 > degree:
-            raise ValueError("Degree must be nonnegative")
-        if degree == self._degree:
-            return self.copy()
-        def low (
-            p: int
-        ) -> float:
-            a0 = (
-                self._spline_coeff[p : p + self._degree + 1]
-                if (0 <= p and p + self._degree < self._period)
-                else np.fromiter(
-                    (
-                        self._spline_coeff[q % self._period]
-                        for q in range(p, p + self._degree + 1)
-                    ),
-                    dtype = float,
-                    count = self._degree + 1
-                )
-            ) @ _w(self._degree)
-            for q in range(1, self._degree + 1):
-                a0[0] += min(0.0, a0[q])
-            return a0[0]
-        if 0 == degree:
-            return PeriodicSpline1D.from_spline_coeff(
-                cast(
-                    np.ndarray[tuple[int], np.dtype[np.float64]],
-                    np.fromiter(
-                        (low(p) for p in range(self._period)),
-                        dtype = float,
-                        count = self._period
-                    )
-                ),
-                degree = 0,
-                delay = self._delay + 0.5 *self._degree
-            )
-        g = cast(
-            np.ndarray[tuple[int], np.dtype[np.float64]],
-            np.full((self._period), np.inf)
-        )
-        if self._degree <= degree:
-            for p in range(self._period):
-                a0 = np.append(
-                    (
-                        self._spline_coeff[p : p + self._degree + 1]
-                        if (0 <= p and p + self._degree < self._period)
-                        else np.fromiter(
-                            (
-                                self._spline_coeff[q % self._period]
-                                for q in range(p, p + self._degree + 1)
-                            ),
-                            dtype = float,
-                            count = self._degree + 1
-                        )
-                    ) @ _w(self._degree),
-                    np.zeros(degree - self._degree, dtype = float)
-                ) @ _inv_w(degree)
-                for (q, a0q) in enumerate(a0):
-                    k = (p + q) % self._period
-                    g[k] = min(g[k], a0q)
-        else:
-            for p in range(self._period):
-                a0 = (
-                    self._spline_coeff[p : p + self._degree + 1]
-                    if (0 <= p and p + self._degree < self._period)
-                    else np.fromiter(
-                        (
-                            self._spline_coeff[q % self._period]
-                            for q in range(p, p + self._degree + 1)
-                        ),
-                        dtype = float,
-                        count = self._degree + 1
-                    )
-                ) @ _w(self._degree)
-                for q in range(degree + 1, self._degree + 1):
-                    a0[degree] += min(0.0, a0[q])
-                a0 = a0[0 : degree + 1] @ _inv_w(degree)
-                for (q, a0q) in enumerate(a0):
-                    k = (p + q) % self._period
-                    g[k] = min(g[k], a0q)
-        return PeriodicSpline1D.from_spline_coeff(
-            g,
-            degree = degree,
-            delay = self._delay + 0.5 * (self._degree - degree)
-        )
-
-    #---------------
-    def upper_bound (
-        self,
-        *,
-        degree: int
-    ) -> PeriodicSpline1D:
-
-        r"""
-        .. _periodic_spline_1d-upper_bound:
-
-        A spline that is never smaller than this ``PeriodicSpline1D`` object.
-
-        Assume that this ``PeriodicSpline1D`` object is a periodic
-        one-dimensional polynomial :ref:`spline<def-spline>` :math:`g` of
-        period :math:`K` and degree :math:`m.` Then, this function returns
-        another spline :math:`f` of same period :math:`K` and arbitrary
-        :ref:`nonnegative<def-negative>` degree :math:`n` such that
-        :math:`f(x)\geq g(x)` for all :math:`x\in{\mathbb{R}}.` The delay of
-        :math:`f` is adjusted so that the knots of :math:`f` coincide with
-        those of :math:`g.`
-
-        Parameters
-        ----------
-        degree : int
-            The nonnegative degree of the spline that upper-bounds this spline.
-
-        Returns
-        -------
-        PeriodicSpline1D
-            The upper-bounding spline.
-
-        Examples
-        --------
-        Load the libraries.
-            >>> import numpy as np
-            >>> import splinekit as sk
-        Create a spline and get an upper-bounding spline of lower degree.
-            >>> c = np.array([1, 9, -7], dtype = float)
-            >>> s = sk.PeriodicSpline1D.from_spline_coeff(c, degree = 3)
-            >>> s.upper_bound(degree = 1)
-            PeriodicSpline1D([9. 9. 5.], degree = 1, delay = 1.0)
-        Here is an upper-bounding spline of higher degree.
-            >>> s.upper_bound(degree = 4)
-            PeriodicSpline1D([-5. 31.  7.], degree = 4, delay = -0.5)
-
-        Notes
-        -----
-        The bound relies on two properties. One is that
-        :math:`x^{n}\geq x^{n+1}` for :math:`x\in(0,1)` and
-        :math:`n\in{\mathbb{N}}.` The other is that
-        :ref:`B-splines<def-b_spline>` are nonnegative. The bound is
-        reasonably sharp and fast to compute.
-        """
-
-        if 0 > degree:
-            raise ValueError("Degree must be nonnegative")
-        if degree == self._degree:
-            self.copy()
-        def up (
-            p: int
-        ) -> float:
-            a0 = (
-                self._spline_coeff[p : p + self._degree + 1]
-                if (0 <= p and p + self._degree < self._period)
-                else np.fromiter(
-                    (
-                        self._spline_coeff[q % self._period]
-                        for q in range(p, p + self._degree + 1)
-                    ),
-                    dtype = float,
-                    count = self._degree + 1
-                )
-            ) @ _w(self._degree)
-            for q in range(1, self._degree + 1):
-                a0[0] += max(0.0, a0[q])
-            return a0[0]
-        if 0 == degree:
-            return PeriodicSpline1D.from_spline_coeff(
-                cast(
-                    np.ndarray[tuple[int], np.dtype[np.float64]],
-                    np.fromiter(
-                        (up(p) for p in range(self._period)),
-                        dtype = float,
-                        count = self._period
-                    )
-                ),
-                degree = 0,
-                delay = self._delay + 0.5 *self._degree
-            )
-        g = cast(
-            np.ndarray[tuple[int], np.dtype[np.float64]],
-            np.full((self._period), -np.inf)
-        )
-        if self._degree <= degree:
-            for p in range(self._period):
-                a0 = np.append(
-                        (
-                            self._spline_coeff[p : p + self._degree + 1]
-                            if (0 <= p and p + self._degree < self._period)
-                            else np.fromiter(
-                                (
-                                    self._spline_coeff[q % self._period]
-                                    for q in range(p, p + self._degree + 1)
-                                ),
-                                dtype = float,
-                                count = self._degree + 1
-                            )
-                        ) @ _w(self._degree),
-                        np.zeros(degree - self._degree, dtype = float)
-                    ) @ _inv_w(degree)
-                for (q, a0q) in enumerate(a0):
-                    k = (p + q) % self._period
-                    g[k] = max(g[k], a0q)
-        else:
-            for p in range(self._period):
-                a0 = (
-                    self._spline_coeff[p : p + self._degree + 1]
-                    if (0 <= p and p + self._degree < self._period)
-                    else np.fromiter(
-                        (
-                            self._spline_coeff[q % self._period]
-                            for q in range(p, p + self._degree + 1)
-                        ),
-                        dtype = float,
-                        count = self._degree + 1
-                    )
-                ) @ _w(self._degree)
-                for q in range(degree + 1, self._degree + 1):
-                    a0[degree] += max(0.0, a0[q])
-                a0 = a0[0 : degree + 1] @ _inv_w(degree)
-                for (q, a0q) in enumerate(a0):
-                    k = (p + q) % self._period
-                    g[k] = max(g[k], a0q)
-        return PeriodicSpline1D.from_spline_coeff(
-            g,
-            degree = degree,
-            delay = self._delay + 0.5 * (self._degree - degree)
-        )
-
-    #---------------
     def piecewise_signs (
         self,
     ) -> PeriodicNonuniformPiecewise:
@@ -2807,6 +4324,9 @@ class PeriodicSpline1D:
         # TODO: tests
         r"""
         .. _periodic_spline_1d-piecewise_signs:
+
+
+        ----
 
         """
 
@@ -3453,586 +4973,6 @@ class PeriodicSpline1D:
         return PeriodicNonuniformPiecewise(ps, period = self._period)
 
     #---------------
-    def zeros (
-        self
-    ) -> List[Interval]:
-
-        # TODO: docstring
-        # TODO: tests
-        r"""
-        .. _periodic_spline_1d-zeros:
-
-        """
-
-        z = [
-            s.domain
-            for s in self.piecewise_signs().pieces
-            if 0 == s.item
-        ]
-        if len(z) < 2:
-            return z
-        if isinstance(z[-1], ClosedOpen):
-            if isinstance(z[0], Singleton):
-                if self._period == z[-1].supremum and 0.0 == z[0].value:
-                    z[0] = Closed((
-                        z[-1].infimum - self._period,
-                        0.0
-                    ))
-                    del z[-1]
-            if isinstance(z[0], ClosedOpen):
-                if self._period == z[-1].supremum and 0.0 == z[0].infimum:
-                    z[0] = ClosedOpen((
-                        z[-1].infimum - self._period,
-                        z[0].supremum
-                    ))
-                    del z[-1]
-            if isinstance(z[0], Closed):
-                if self._period == z[-1].supremum and 0.0 == z[0].infimum:
-                    z[0] = Closed((
-                        z[-1].infimum - self._period,
-                        z[0].supremum
-                    ))
-                    del z[-1]
-        if isinstance(z[-1], Open):
-            if isinstance(z[0], Singleton):
-                if self._period == z[-1].supremum and 0.0 == z[0].value:
-                    z[0] = OpenClosed((
-                        z[-1].infimum - self._period,
-                        0.0
-                    ))
-                    del z[-1]
-            if isinstance(z[0], ClosedOpen):
-                if self._period == z[-1].supremum and 0.0 == z[0].infimum:
-                    z[0] = Open((
-                        z[-1].infimum - self._period,
-                        z[0].supremum
-                    ))
-                    del z[-1]
-            if isinstance(z[0], Closed):
-                if self._period == z[-1].supremum and 0.0 == z[0].infimum:
-                    z[0] = OpenClosed((
-                        z[-1].infimum - self._period,
-                        z[0].supremum
-                    ))
-                    del z[-1]
-        return z
-
-    #---------------
-    def zero_crossings (
-        self
-    ) -> List[List[Interval]]:
-
-        # TODO: docstring
-        # TODO: tests
-        r"""
-        .. _periodic_spline_1d-zero_crossings:
-
-        """
-
-        sgn = [s for s in self.piecewise_signs().pieces if 0.0 != s.item]
-        if len(sgn) < 2:
-            return [[], []]
-        s1 = sgn[-1]
-        k = len(sgn) - 2
-        while 0 <= k:
-            s0 = sgn[k]
-            if 0.0 < s0.item * s1.item:
-                if not isinstance(
-                    s1.domain,
-                    (Open, OpenClosed, Closed, ClosedOpen)
-                ):
-                    raise ValueError(
-                        "Internal error (unexpected interval subclass)"
-                    )
-                if isinstance(s0.domain, Singleton):
-                    s0 = PeriodicNonuniformPiecewise.Piece(
-                        Open((
-                            s0.domain.value,
-                            s1.domain.supremum
-                        )),
-                        s1.item
-                    )
-                elif isinstance(
-                    s0.domain,
-                    (Open, OpenClosed, Closed, ClosedOpen)
-                ):
-                    s0 = PeriodicNonuniformPiecewise.Piece(
-                        Open((
-                            s0.domain.infimum,
-                            s1.domain.supremum
-                        )),
-                        s1.item
-                    )
-                else:
-                    raise ValueError(
-                        "Internal error (unexpected interval subclass)"
-                    )
-                sgn[k] = s0
-                del sgn[k + 1]
-            s1 = s0
-            k -= 1
-        if len(sgn) < 2:
-            return [[], []]
-        s1 = sgn[0]
-        s0 = sgn[-1]
-        if 0.0 < s0.item * s1.item:
-            if not isinstance(
-                s0.domain,
-                (Open, OpenClosed, Closed, ClosedOpen)
-            ):
-                raise ValueError(
-                    "Internal error (unexpected interval subclass)"
-                )
-            if isinstance(s1.domain, Singleton):
-                s0 = PeriodicNonuniformPiecewise.Piece(
-                    Open((
-                        s0.domain.infimum - self._period,
-                        s1.domain.value
-                    )),
-                    s1.item
-                )
-            elif isinstance(
-                s1.domain,
-                (Open, OpenClosed, Closed, ClosedOpen)
-            ):
-                s0 = PeriodicNonuniformPiecewise.Piece(
-                    Open((
-                        cast(Open, s0.domain).infimum - self._period,
-                        s1.domain.supremum
-                    )),
-                    s1.item
-                )
-            else:
-                raise ValueError(
-                    "Internal error (unexpected interval subclass)"
-                )
-            sgn[0] = s0
-            del sgn[-1]
-        if len(sgn) < 2:
-            return [[], []]
-        s0 = sgn[-1]
-        s1 = sgn[0]
-        zc: List[List[Interval]] = [[], []]
-        if (not isinstance(
-            s0.domain,
-            (Open, OpenClosed, Closed, ClosedOpen)
-        )) or (not isinstance(
-            s1.domain,
-            (Open, OpenClosed, Closed, ClosedOpen)
-        )):
-            raise ValueError(
-                "Internal error (unexpected interval subclass)"
-            )
-        if s0.domain.supremum - self._period == s1.domain.infimum:
-            if s1.item < s0.item:
-                zc[0].append(Singleton(s1.domain.infimum))
-            else:
-                zc[1].append(Singleton(s1.domain.infimum))
-        else:
-            if s1.item < s0.item:
-                zc[0].append(Closed((
-                    s0.domain.supremum - self._period,
-                    s1.domain.infimum
-                )))
-            else:
-                zc[1].append(Closed((
-                    s0.domain.supremum - self._period,
-                    s1.domain.infimum
-                )))
-        for k in range(1, len(sgn)):
-            s0 = s1
-            s1 = sgn[k]
-            if (not isinstance(
-                s0.domain,
-                (Open, OpenClosed, Closed, ClosedOpen)
-            )) or (not isinstance(
-                s1.domain,
-                (Open, OpenClosed, Closed, ClosedOpen)
-            )):
-                raise ValueError(
-                    "Internal error (unexpected interval subclass)"
-                )
-            if s0.domain.supremum == s1.domain.infimum:
-                if s1.item < s0.item:
-                    zc[0].append(Singleton(s1.domain.infimum))
-                else:
-                    zc[1].append(Singleton(s1.domain.infimum))
-            else:
-                if s1.item < s0.item:
-                    zc[0].append(Closed((
-                        s0.domain.supremum,
-                        s1.domain.infimum
-                    )))
-                else:
-                    zc[1].append(Closed((
-                        s0.domain.supremum,
-                        s1.domain.infimum
-                    )))
-        return zc
-
-    #---------------
-    class Extremum (
-        NamedTuple
-    ):
-        domain: Interval
-
-        # TODO: docstring
-        # TODO: tests
-        r"""
-        .. _periodic_spline_1d-Extremum-domain:
-
-        Extremum domain
-        """
-
-        value: float
-
-        # TODO: docstring
-        # TODO: tests
-        r"""
-        .. _periodic_spline_1d-Extremum-value:
-
-        Extremum value
-        """
-
-    #---------------
-    def extrema (
-        self
-    ) -> List[List[Extremum]]:
-
-        # TODO: docstring
-        # TODO: tests
-        r"""
-        .. _periodic_spline_1d-extrema:
-
-        """
-
-        if 0 < self._degree:
-            zc = self.gradient().zero_crossings()
-            return [
-                [
-                    PeriodicSpline1D.Extremum(
-                        domain = ex,
-                        value = self.at(ex.midpoint)
-                    )
-                    for ex in zc[1]
-                ],
-                [
-                    PeriodicSpline1D.Extremum(
-                        domain = ex,
-                        value = self.at(ex.midpoint)
-                    )
-                    for ex in zc[0]
-                ]
-            ]
-        zc = PeriodicSpline1D.from_spline_coeff(
-            cast(
-                np.ndarray[tuple[int], np.dtype[np.float64]],
-                np.fromiter(
-                    (
-                        ck - self._spline_coeff[k - 1]
-                        for (k, ck) in enumerate(self._spline_coeff)
-                    ),
-                    dtype = float,
-                    count = self._period
-                )
-            ),
-            degree = 0,
-            delay = self._delay - 0.5
-        ).zero_crossings()
-        return [
-            [
-                PeriodicSpline1D.Extremum(
-                    domain = Open((ex.value - 0.5, ex.value + 0.5))
-                        if isinstance(ex, Singleton)
-                        else Open((
-                            cast(Closed, ex).infimum - 0.5,
-                            cast(Closed, ex).supremum + 0.5
-                        )),
-                    value = self.at(ex.midpoint)
-                )
-                for ex in zc[1]
-            ],
-            [
-                PeriodicSpline1D.Extremum(
-                    domain = Open((ex.value - 0.5, ex.value + 0.5))
-                        if isinstance(ex, Singleton)
-                        else Open((
-                            cast(Closed, ex).infimum - 0.5,
-                            cast(Closed, ex).supremum + 0.5
-                        )),
-                    value = self.at(ex.midpoint)
-                )
-                for ex in zc[0]
-            ]
-        ]
-
-    #---------------
-    def fourier_coeff (
-        self,
-        n: int
-    ) -> complex:
-
-        # TODO: docstring
-        # TODO: tests
-        r"""
-        .. _periodic_spline_1d-fourier_coeff:
-
-        """
-
-        return complex(
-            np.dot(
-                self._spline_coeff,
-                np.fromiter(
-                    (
-                        cmath.exp(-n * 2j * np.pi * (k + self._delay) /
-                            self._period)
-                        for k in range(self._period)
-                    ),
-                    dtype = complex,
-                    count = self._period
-                )
-            ) * (np.sinc(n / self._period) ** (self._degree + 1)) /
-                self._period
-        )
-
-    #---------------
-    def fractionalized_delay (
-        self
-    ) -> PeriodicSpline1D:
-
-        # TODO: docstring
-        # TODO: tests
-        r"""
-        .. _periodic_spline_1d-fractionalized_delay:
-
-        """
-
-        (k, d) = _divmod(self._delay, 1)
-        k = (-k) % self._period
-        return PeriodicSpline1D.from_spline_coeff(
-            cast(
-                np.ndarray[tuple[int], np.dtype[np.float64]],
-                np.roll(self._spline_coeff, -k)
-            ),
-            degree = self._degree,
-            delay = d
-        )
-
-    #---------------
-    def delayed_by (
-        self,
-        dx: float
-    ) -> PeriodicSpline1D:
-
-        # TODO: docstring
-        # TODO: tests
-        r"""
-        .. _periodic_spline_1d-delayed_by:
-
-        """
-
-        return PeriodicSpline1D.from_spline_coeff(
-            cast(
-                np.ndarray[tuple[int], np.dtype[np.float64]],
-                self._spline_coeff,
-            ),
-            degree = self._degree,
-            delay = self._delay + dx
-        )
-
-    #---------------
-    def mirrored (
-        self
-    ) -> PeriodicSpline1D:
-
-        # TODO: docstring
-        # TODO: tests
-        r"""
-        .. _periodic_spline_1d-mirrored:
-
-        """
-
-        if 1 == self._period:
-            return PeriodicSpline1D.from_spline_coeff(
-                cast(
-                    np.ndarray[tuple[int], np.dtype[np.float64]],
-                    self._spline_coeff,
-                ),
-                degree = self._degree,
-                delay = -self._delay
-            )
-        return PeriodicSpline1D.from_spline_coeff(
-            cast(
-                np.ndarray[tuple[int], np.dtype[np.float64]],
-                np.concatenate((
-                    [self._spline_coeff[0]],
-                    np.flip(self._spline_coeff[1 : ])
-                ))
-            ),
-            degree = self._degree,
-            delay = -self._delay
-        )
-
-    #---------------
-    def plus (
-        self,
-        constant: float
-    ) -> PeriodicSpline1D:
-
-        # TODO: docstring
-        # TODO: tests
-        r"""
-        .. _periodic_spline_1d-plus:
-
-        """
-
-        return PeriodicSpline1D.from_spline_coeff(
-            cast(
-                np.ndarray[tuple[int], np.dtype[np.float64]],
-                np.add(constant, self._spline_coeff)
-            ),
-            degree = self._degree,
-            delay = self._delay
-        )
-
-    #---------------
-    def negated (
-        self
-    ) -> PeriodicSpline1D:
-
-        # TODO: docstring
-        # TODO: tests
-        r"""
-        .. _periodic_spline_1d-negated:
-
-        """
-
-        return PeriodicSpline1D.from_spline_coeff(
-            cast(
-                np.ndarray[tuple[int], np.dtype[np.float64]],
-                np.negative(self._spline_coeff)
-            ),
-            degree = self._degree,
-            delay = self._delay
-        )
-
-    #---------------
-    def times (
-        self,
-        constant: float
-    ) -> PeriodicSpline1D:
-
-        # TODO: docstring
-        # TODO: tests
-        r"""
-        .. _periodic_spline_1d-times:
-
-        """
-
-        return PeriodicSpline1D.from_spline_coeff(
-            cast(
-                np.ndarray[tuple[int], np.dtype[np.float64]],
-                np.multiply(constant, self._spline_coeff)
-            ),
-            degree = self._degree,
-            delay = self._delay
-        )
-
-    #---------------
-    def gradient (
-        self
-    ) -> PeriodicSpline1D:
-
-        # TODO: docstring
-        # TODO: tests
-        r"""
-        .. _periodic_spline_1d-gradient:
-
-        """
-
-        if 1 > self._degree:
-            raise ValueError("Degree must be positive")
-        return PeriodicSpline1D.from_spline_coeff(
-            cast(
-                np.ndarray[tuple[int], np.dtype[np.float64]],
-                np.fromiter(
-                    (
-                        ck - self._spline_coeff[k - 1]
-                        for (k, ck) in enumerate(self._spline_coeff)
-                    ),
-                    dtype = float,
-                    count = self._period
-                )
-            ),
-            degree = self._degree - 1,
-            delay = self._delay - 0.5
-        )
-
-    #---------------
-    def anti_grad (
-        self
-    ) -> PeriodicSpline1D:
-
-        # TODO: docstring
-        # TODO: tests
-        r"""
-        .. _periodic_spline_1d-anti_grad:
-
-        """
-
-        return PeriodicSpline1D.from_spline_coeff(
-            cast(
-                np.ndarray[tuple[int], np.dtype[np.float64]],
-                np.cumsum(self.plus(-self.mean()).spline_coeff)
-            ),
-            degree = self._degree + 1,
-            delay = self._delay + 0.5
-        )
-
-    #---------------
-    def differentiated (
-        self,
-        order: int
-    ) -> PeriodicSpline1D:
-
-        # TODO: docstring
-        # TODO: tests
-        r"""
-        .. _periodic_spline_1d-differentiated:
-
-        """
-
-        if 0 > order:
-            raise ValueError("Order must be nonnegative")
-        if self._degree < order:
-            raise ValueError(
-                "The differentiation order must not exceed the spline degree"
-            )
-        if 0 == order:
-            return self.copy()
-        h = np.copy(mscale_filter(degree = order - 1, scale = 2))
-        for (q, hq) in enumerate(h):
-            h[q] = ((-1.0) ** q) * hq
-        return PeriodicSpline1D.from_spline_coeff(
-            cast(
-                np.ndarray[tuple[int], np.dtype[np.float64]],
-                np.fromiter(
-                    (
-                        fsum(
-                            hq * self._spline_coeff[(k - q) % self._period]
-                            for (q, hq) in enumerate(h)
-                        )
-                        for k in range(self._period)
-                    ),
-                    dtype = float,
-                    count = self._period
-                )
-            ),
-            degree = self._degree - order,
-            delay = self._delay - 0.5 * order
-        )
-
-    #---------------
     def projected (
         self,
         *,
@@ -4040,10 +4980,51 @@ class PeriodicSpline1D:
         delay: float = 0.0
     ) -> PeriodicSpline1D:
 
-        # TODO: docstring
-        # TODO: tests
         r"""
         .. _periodic_spline_1d-projected:
+
+        The spline of arbitrary degree and delay that best approximates this
+        spline.
+
+        Letting this spline be :math:`s,` return the spline :math:`f` of
+        arbitrary degree ``degree`` and delay ``delay`` that minimizes the
+        continuous least-squares criterion
+
+        ..  math::
+
+            J=\int_{0}^{K}\,\left(f(x)-s(x)\right)^{2}\,{\mathrm{d}}x.
+
+        Parameters
+        ----------
+        degree : int
+            The :ref:`nonnegative<def-negative>` degree of the approximating
+            polynomial spline.
+        delay : float
+            The delay of the approximating spline.
+
+        Returns
+        -------
+        PeriodicSpline1D
+            The approximating spline.
+
+        Examples
+        --------
+        Load the libraries.
+            >>> import numpy as np
+            >>> import splinekit as sk
+        Create an undelayed linear spline and approximate it as a delayed cubic spline.
+            >>> c = np.array([1, 5, -3], dtype = float)
+            >>> s = sk.PeriodicSpline1D.from_spline_coeff(c, degree = 1)
+            >>> s.projected(degree = 3, delay = 0.25)
+            PeriodicSpline1D([ 4.27369157  4.45287093 -5.7265625 ], degree = 3, delay = 0.25)
+
+        Raises
+        ------
+        ValueError
+            Raised when ``degree`` is :ref:`negative<def-negative>`.
+
+
+        ----
 
         """
 
@@ -4094,10 +5075,47 @@ class PeriodicSpline1D:
         magnification: int
     ) -> PeriodicSpline1D:
 
-        # TODO: docstring
-        # TODO: tests
         r"""
         .. _periodic_spline_1d-upscaled:
+
+        The spline that is an upscaled version of this spline.
+
+        Letting this spline be
+        :math:`s:{\mathbb{R}}\rightarrow{\mathbb{R}},x\mapsto s(x),` return
+        the spline
+        :math:`f:{\mathbb{R}}\rightarrow{\mathbb{R}},x\mapsto s(\frac{x}{a}),`
+        where :math:`a` is the ``magnification`` factor. The period of
+        :math:`f` is :math:`\left(a\,K\right),` where :math:`K` is the period
+        of :math:`s.`
+
+        Parameters
+        ----------
+        magnification : int
+            The :ref:`positive<def-positive>` upscaling factor.
+
+        Returns
+        -------
+        PeriodicSpline1D
+            The upscaled spline.
+
+        Examples
+        --------
+        Load the libraries.
+            >>> import numpy as np
+            >>> import splinekit as sk
+        Create a linear spline and upscale it by a factor three.
+            >>> c = np.array([3, 15, -9], dtype = float)
+            >>> s = sk.PeriodicSpline1D.from_spline_coeff(c, degree = 1, delay = -0.6)
+            >>> s.upscaled(magnification = 3)
+            PeriodicSpline1D([-5. -1.  3.  7. 11. 15.  7. -1. -9.], degree = 1, delay = -3.8)
+
+        Raises
+        ------
+        ValueError
+            Raised when ``magnification`` is :ref:`nonpositive<def-positive>`.
+
+
+        ----
 
         """
 
@@ -4141,10 +5159,59 @@ class PeriodicSpline1D:
         delay: float = 0.0
     ) -> PeriodicSpline1D:
 
-        # TODO: docstring
-        # TODO: tests
         r"""
         .. _periodic_spline_1d-upscaled_projected:
+
+        The spline that best approximates an upscaled version of this spline.
+
+        Letting this spline be :math:`s,` return the spline :math:`f` of
+        arbitrary degree ``degree`` and delay ``delay`` that minimizes the
+        continuous least-squares criterion
+
+        ..  math::
+
+            J=\int_{0}^{a\,K}\,\left(f(x)-s(\frac{x}{a})\right)^{2}\,
+            {\mathrm{d}}x,
+
+        where :math:`a` is the ``magnification`` factor. The period of
+        :math:`f` is :math:`\left(a\,K\right),` where :math:`K` is the period
+        of :math:`s.`
+
+        Parameters
+        ----------
+        magnification : int
+            The :ref:`positive<def-positive>` upscaling factor.
+        degree : int
+            The :ref:`nonnegative<def-negative>` degree of the approximating
+            polynomial spline.
+        delay : float
+            The delay of the approximating spline.
+
+        Returns
+        -------
+        PeriodicSpline1D
+            The approximating upscaled spline.
+
+        Examples
+        --------
+        Load the libraries.
+            >>> import numpy as np
+            >>> import splinekit as sk
+        Upscale a linear spline by two and approximate it by a quadratic spline of coinciding knots.
+            >>> c = np.array([1, 5, -3], dtype = float)
+            >>> s = sk.PeriodicSpline1D.from_spline_coeff(c, degree = 1)
+            >>> s.upscaled_projected(magnification = 2, degree = 2, delay = 0.5)
+            PeriodicSpline1D([ 1.65934066  4.62637363  3.96703297 -1.96703297 -2.62637363  0.34065934], degree = 2, delay = 0.5)
+
+        Raises
+        ------
+        ValueError
+            Raised when ``magnification`` is :ref:`nonpositive<def-positive>`.
+        ValueError
+            Raised when ``degree`` is :ref:`negative<def-negative>`.
+
+
+        ----
 
         """
 
@@ -4213,10 +5280,58 @@ class PeriodicSpline1D:
         delay: float = 0.0
     ) -> PeriodicSpline1D:
 
-        # TODO: docstring
-        # TODO: tests
         r"""
         .. _periodic_spline_1d-downscaled_projected:
+
+        The spline that best approximates a downscaled version of this spline.
+
+        Letting this spline be :math:`s,` return the spline :math:`f` of
+        arbitrary degree ``degree`` and delay ``delay`` that minimizes the
+        continuous least-squares criterion
+
+        ..  math::
+
+            J=\int_{0}^{K/\gcd(a,K)}\,\left(f(x)-s(a\,x)\right)^{2}\,
+            {\mathrm{d}}x,
+
+        where :math:`a` is the ``minification`` factor. The period of
+        :math:`f` is :math:`K/\gcd(a,K),` where :math:`K` is the period of
+        :math:`s.` The period will shrink only when :math:`1\neq\gcd(a,K).`
+
+        Parameters
+        ----------
+        minification : int
+            The :ref:`positive<def-positive>` downscaling factor.
+        degree : int
+            The :ref:`nonnegative<def-negative>` degree of the approximating
+            polynomial spline.
+        delay : float
+            The delay of the approximating spline.
+
+        Returns
+        -------
+        PeriodicSpline1D
+            The approximating downscaled spline.
+
+        Examples
+        --------
+        Load the libraries.
+            >>> import numpy as np
+            >>> import splinekit as sk
+        Downscale by two a periodized linear B-spline of odd period. The downscaled spline is made of two bumps, one centered at the origin, the other centered at half the (odd) period.
+            >>> s = sk.PeriodicSpline1D.periodized_b_spline(degree = 1, period = 7)
+            >>> s.downscaled_projected(minification = 2, degree = 1)
+            PeriodicSpline1D([ 0.67073171 -0.09146341 -0.05487805  0.31097561  0.31097561 -0.05487805 -0.09146341], degree = 1, delay = 0.0)
+
+        Raises
+        ------
+        ValueError
+            Raised when ``minification`` is :ref:`nonpositive<def-positive>`.
+        ValueError
+            Raised when ``degree`` is :ref:`negative<def-negative>`.
+
+
+        ----
 
         """
 
@@ -4289,15 +5404,59 @@ class PeriodicSpline1D:
         delay: float = 0.0
     ) -> PeriodicSpline1D:
 
-        # TODO: docstring
-        # TODO: tests
         r"""
         .. _periodic_spline_1d-rescaled_projected:
 
+
+        The spline that best approximates a rescaled version of this spline.
+
+        Letting this spline of period :math:`P` be :math:`s,` return the spline
+        :math:`f` of arbitrary ``period`` :math:`K,` degree ``degree``, and
+        delay ``delay`` that minimizes the continuous least-squares criterion
+
+        ..  math::
+
+            J=\int_{0}^{K}\,\left(f(x)-s(\frac{P}{K}\,x)\right)^{2}\,
+            {\mathrm{d}}x.
+
+        Parameters
+        ----------
+        period : int
+            The :ref:`positive<def-positive>` period of the approximating
+            spline.
+        degree : int
+            The :ref:`nonnegative<def-negative>` degree of the approximating
+            polynomial spline.
+        delay : float
+            The delay of the approximating spline.
+
+        Returns
+        -------
+        PeriodicSpline1D
+            The approximating rescaled spline.
+
+        Examples
+        --------
+        Load the libraries.
+            >>> import numpy as np
+            >>> import splinekit as sk
+        Rescale a periodized linear B-spline of period ``7`` to period ``4``.
+            >>> s = sk.PeriodicSpline1D.periodized_b_spline(degree = 1, period = 7)
+            >>> s.rescaled_projected(period = 4, degree = 1)
+            PeriodicSpline1D([ 0.75510204 -0.12244898  0.06122449 -0.12244898], degree = 1, delay = 0.0)
+
+        Raises
+        ------
+        ValueError
+            Raised when ``period`` is :ref:`nonpositive<def-positive>`.
+        ValueError
+            Raised when ``degree`` is :ref:`negative<def-negative>`.
         """
 
         if 1 > period:
             raise ValueError("Period must be positive")
+        if 0 > degree:
+            raise ValueError("Degree must be nonnegative")
         if period == self._period:
             return self.projected(degree = degree, delay = delay)
         return self.upscaled(
