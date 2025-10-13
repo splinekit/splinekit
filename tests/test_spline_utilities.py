@@ -10,7 +10,7 @@ from math import sqrt
 from math import ulp
 
 #---------------
-import sympy
+# import sympy
 
 #---------------
 from splinekit.spline_utilities import _sgn_frac

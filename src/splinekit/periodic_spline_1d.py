@@ -2021,10 +2021,13 @@ class PeriodicSpline1D:
             maxrange_provided = True
         else:
             raise ValueError("Internal error (unexpected interval class)")
+        fig = subplot[0]
+        ax = subplot[1]
+        ax.spines.right.set_visible(False)
+        ax.spines.top.set_visible(False)
         if isinstance(plotdomain, Singleton):
-            fig = subplot[0]
-            stems = subplot[1].twinx()
-            stems.sharey(subplot[1])
+            stems = ax.twinx()
+            stems.sharey(ax)
             stems.spines.right.set_visible(False)
             stems.spines.top.set_visible(False)
             x = start if start == stop else 0.5 * (start + stop)
@@ -2071,7 +2074,7 @@ class PeriodicSpline1D:
                 markerline.set_markeredgecolor(c + "ff")
                 stemlines.set_linewidth(0.25)
             data = stems.twinx()
-            data.sharey(subplot[1])
+            data.sharey(ax)
             data.axis("off")
             for (k, k0) in enumerate(self.get_knots(plotdomain)):
                 data.plot(
@@ -2085,9 +2088,8 @@ class PeriodicSpline1D:
                 )
             plt.pyplot.ylim(minrange, maxrange)
         elif 0 == self._degree:
-            fig = subplot[0]
-            data = subplot[1].twinx()
-            data.sharey(subplot[1])
+            data = ax.twinx()
+            data.sharey(ax)
             data.spines.right.set_visible(False)
             data.spines.top.set_visible(False)
             domain = cast(Interval, Empty())
@@ -2113,7 +2115,7 @@ class PeriodicSpline1D:
                     (_, maxrange) = plt.pyplot.ylim()
                 plt.pyplot.ylim(minrange, maxrange)
                 stems = data.twinx()
-                stems.sharey(subplot[1])
+                stems.sharey(ax)
                 stems.axis("off")
                 intdomain = (
                     ceil(start)
@@ -2150,10 +2152,7 @@ class PeriodicSpline1D:
                         stemlines.set_linewidth(0.25)
                     plt.pyplot.ylim(minrange, maxrange)
             else:
-                f_left = self.at(knots[0] - 0.5
-                    if start == knots[0]
-                    else self.at(0.5 * (start + knots[0]))
-                )
+                f_left = self.at(knots[0] - 0.5)
                 xx = np.array([start, knots[0]], dtype = float)
                 fxx = np.array([f_left, f_left], dtype = float)
                 data.plot(xx, fxx, line_fmt)
@@ -2186,7 +2185,7 @@ class PeriodicSpline1D:
                     (_, maxrange) = plt.pyplot.ylim()
                 plt.pyplot.ylim(minrange, maxrange)
                 stems = data.twinx()
-                stems.sharey(subplot[1])
+                stems.sharey(ax)
                 stems.axis("off")
                 intdomain = (
                     ceil(start)
@@ -2238,9 +2237,8 @@ class PeriodicSpline1D:
                         baseline.set_alpha(0.0)
                     plt.pyplot.ylim(minrange, maxrange)
         else:
-            fig = subplot[0]
-            data = subplot[1].twinx()
-            data.sharey(subplot[1])
+            data = ax.twinx()
+            data.sharey(ax)
             data.spines.right.set_visible(False)
             data.spines.top.set_visible(False)
             domain = cast(Interval, Empty())
@@ -2279,7 +2277,7 @@ class PeriodicSpline1D:
                 (_, maxrange) = plt.pyplot.ylim()
             plt.pyplot.ylim(minrange, maxrange)
             stems = data.twinx()
-            stems.sharey(subplot[1])
+            stems.sharey(ax)
             stems.axis("off")
             intdomain = (
                 ceil(start)

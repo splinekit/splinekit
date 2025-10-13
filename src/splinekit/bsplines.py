@@ -144,7 +144,7 @@ def b_spline (
 
     As computed above, the fact that the Vandermonde vector has the domain
     :math:`[0,1)` greatly favors numerical stability since the range of each
-    of its components is :math:`[0,1].`
+    of its components is also :math:`[0,1).`
 
     Parameters
     ----------
@@ -382,7 +382,7 @@ def integrated_b_spline (
 
     As computed above, the fact that the Vandermonde vector has the domain
     :math:`[0,1)` greatly favors numerical stability since the range of each
-    of its components is :math:`[0,1].`
+    of its components is also :math:`[0,1).`
 
     Parameters
     ----------
@@ -463,7 +463,7 @@ def grad_b_spline (
 
     As computed above, the fact that the Vandermonde vector has the domain
     :math:`[0,1)` greatly favors numerical stability since the range of each
-    of its components is :math:`[0,1].`
+    of its components is also :math:`[0,1).`
 
     Parameters
     ----------

@@ -1346,10 +1346,10 @@ class TestPeriodicSpline1D:
             known_eval_piecewise_signs_ats = test[4]
             c = np.array(data, dtype = "float")
             ps = PeriodicSpline1D.from_spline_coeff(c, degree = degree, delay = delay)
-            pp = ps.piecewise_signs()
+            pp = ps.piecewise_sgn()
             for (k, x) in enumerate(arguments):
                 known_eval_piecewise_signs_at = known_eval_piecewise_signs_ats[k]
-                assert known_eval_piecewise_signs_at == PeriodicSpline1D.eval_piecewise_signs_at(x, pp)
+                assert known_eval_piecewise_signs_at == PeriodicSpline1D.eval_piecewise_sgn_at(x, pp)
 
     #---------------
     def test_copy (
@@ -6911,7 +6911,7 @@ class TestPeriodicSpline1D:
             known_opens = [s for s in known_sgns if isinstance(s[0], list)]
             c = np.array(data, dtype = "float")
             known_ps = PeriodicSpline1D.from_spline_coeff(c, degree = 0, delay = delay)
-            sgns = known_ps.piecewise_signs()
+            sgns = known_ps.piecewise_sgn()
             assert(known_ps.period == sgns.period)
             for p in sgns.pieces:
                 if isinstance(p.domain, Singleton):
@@ -7066,7 +7066,7 @@ class TestPeriodicSpline1D:
             known_opens = [s for s in known_sgns if isinstance(s[0], list)]
             c = np.array(data, dtype = "float")
             known_ps = PeriodicSpline1D.from_spline_coeff(c, degree = degree, delay = delay)
-            sgns = known_ps.piecewise_signs()
+            sgns = known_ps.piecewise_sgn()
             assert(known_ps.period == sgns.period)
             for p in sgns.pieces:
                 if isinstance(p.domain, Singleton):
