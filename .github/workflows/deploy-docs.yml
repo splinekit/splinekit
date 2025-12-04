@@ -4,10 +4,10 @@ name: Deploy Sphinx Documentation to GitHub Pages
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main ]  # run on pushes to main
 
 permissions:
-  contents: write
+  contents: read  # we only need to read this repo's contents
 
 concurrency:
   group: pages
@@ -35,9 +35,10 @@ jobs:
       - name: Build Sphinx documentation
         run: sphinx-build docs/ docs/_build/
 
-      - name: Deploy to GitHub Pages
+      - name: Deploy to splinekit.github.io
         uses: peaceiris/actions-gh-pages@v4
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_branch: gh-pages
+          deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
+          external_repository: splinekit/splinekit.github.io
+          publish_branch: main
           publish_dir: docs/_build
