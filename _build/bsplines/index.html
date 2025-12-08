@@ -1,0 +1,161 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>B-Splines [toc] &mdash; splinekit  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=2f8eb179" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+      <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="B-Splines [module]" href="01_bsplines.html" />
+    <link rel="prev" title="Periodic Spline 1D [module]" href="../periodic_spline_1d/01_periodic_spline_1d.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            splinekit
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../installation/index.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/index.html">Tutorial [toc]</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../glossary/index.html">Glossary [toc]</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../periodic_spline_1d/index.html">Periodic Spline 1D [toc]</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">B-Splines [toc]</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="01_bsplines.html">B-Splines [module]</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../spline_padding/index.html">Spline Padding [toc]</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bases/index.html">Bases [toc]</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../periodic_nonuniform_piecewise/index.html">Periodic Nonuniform Piecewise [toc]</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../interval/index.html">Interval [package]</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spline_utilities/index.html">Spline Utilities [toc]</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">splinekit</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">B-Splines [toc]</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/Philippe-Thevenaz/splinekit/blob/main/docs/bsplines/index.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="b-splines-toc">
+<h1>B-Splines [toc]<a class="headerlink" href="#b-splines-toc" title="Link to this heading"></a></h1>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 25.0%" />
+<col style="width: 75.0%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><strong>B-Splines</strong></p></td>
+<td><p><strong>bsplines</strong> is a module of <code class="docutils literal notranslate"><span class="pre">splinekit</span></code>. It contains functions that are members of the family of polynomial B-splines.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="01_bsplines.html">B-Splines [module]</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="01_bsplines.html#splinekit.bsplines.polynomial_simple_element"><code class="docutils literal notranslate"><span class="pre">polynomial_simple_element()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="01_bsplines.html#splinekit.bsplines.b_spline"><code class="docutils literal notranslate"><span class="pre">b_spline()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="01_bsplines.html#splinekit.bsplines.b_spline_support"><code class="docutils literal notranslate"><span class="pre">b_spline_support()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="01_bsplines.html#splinekit.bsplines.b_spline_variance"><code class="docutils literal notranslate"><span class="pre">b_spline_variance()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="01_bsplines.html#splinekit.bsplines.pole"><code class="docutils literal notranslate"><span class="pre">pole()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="01_bsplines.html#splinekit.bsplines.integrated_b_spline"><code class="docutils literal notranslate"><span class="pre">integrated_b_spline()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="01_bsplines.html#splinekit.bsplines.grad_b_spline"><code class="docutils literal notranslate"><span class="pre">grad_b_spline()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="01_bsplines.html#splinekit.bsplines.diff_b_spline"><code class="docutils literal notranslate"><span class="pre">diff_b_spline()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="01_bsplines.html#splinekit.bsplines.mscale_filter"><code class="docutils literal notranslate"><span class="pre">mscale_filter()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="01_bsplines.html#splinekit.bsplines.annihil_1"><code class="docutils literal notranslate"><span class="pre">annihil_1()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="01_bsplines.html#splinekit.bsplines.annihil_2"><code class="docutils literal notranslate"><span class="pre">annihil_2()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="01_bsplines.html#splinekit.bsplines.ib_coeff"><code class="docutils literal notranslate"><span class="pre">ib_coeff()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="01_bsplines.html#splinekit.bsplines.cardinal_b_spline"><code class="docutils literal notranslate"><span class="pre">cardinal_b_spline()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="01_bsplines.html#splinekit.bsplines.dual_b_spline"><code class="docutils literal notranslate"><span class="pre">dual_b_spline()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="01_bsplines.html#splinekit.bsplines.spline_polynomial"><code class="docutils literal notranslate"><span class="pre">spline_polynomial()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="01_bsplines.html#splinekit.bsplines.partition_of_monomial"><code class="docutils literal notranslate"><span class="pre">partition_of_monomial()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="01_bsplines.html#splinekit.bsplines.convolve_b_spline_monomial"><code class="docutils literal notranslate"><span class="pre">convolve_b_spline_monomial()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../periodic_spline_1d/01_periodic_spline_1d.html" class="btn btn-neutral float-left" title="Periodic Spline 1D [module]" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="01_bsplines.html" class="btn btn-neutral float-right" title="B-Splines [module]" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright .</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

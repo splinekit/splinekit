@@ -107,14 +107,3 @@ sphinx-build docs/ docs/_build/
 
 Then, go to `_build/` and open `index.html` to navigate the
 documentation locally.
-
-### Troubleshooting
-
-If you want to make a "clean" build, go to `docs` and manually delete the
-folders `_build`, `auto_examples`, `gen_modules`, and the file `sg_execution_times.rst`.
-Why isn't this done automatically? Because Sphinx optimizes speed and removes
-redundant tasks, by not re-creating the examples notebooks if they have already
-been created. If you, for example, modify the name of the examples files, you
-will have to delete at least the folder `auto_examples`. Otherwise, the old
-examples files will not have disappeared automatically and Sphinx will raise
-an internal warning referring to a toctree.

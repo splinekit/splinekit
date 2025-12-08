@@ -1,0 +1,216 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Installation &mdash; splinekit  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=2f8eb179" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Tutorial [toc]" href="../tutorial/index.html" />
+    <link rel="prev" title="SplineKit" href="../index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            splinekit
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#splinekit-spline-operations">splinekit: Spline Operations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#installation">Installation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#formatting-type-checking-and-testing">Formatting, Type Checking, and Testing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#packaging">Packaging</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#development-environment">Development Environment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#building-of-the-documentation">Building of the Documentation</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/index.html">Tutorial [toc]</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../glossary/index.html">Glossary [toc]</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../periodic_spline_1d/index.html">Periodic Spline 1D [toc]</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bsplines/index.html">B-Splines [toc]</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spline_padding/index.html">Spline Padding [toc]</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bases/index.html">Bases [toc]</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../periodic_nonuniform_piecewise/index.html">Periodic Nonuniform Piecewise [toc]</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../interval/index.html">Interval [package]</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spline_utilities/index.html">Spline Utilities [toc]</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">splinekit</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Installation</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/Philippe-Thevenaz/splinekit/blob/main/docs/installation/index.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="installation">
+<h1>Installation<a class="headerlink" href="#installation" title="Link to this heading"></a></h1>
+<!-- splinekit/README.md -->
+<section id="splinekit-spline-operations">
+<h2>splinekit: Spline Operations<a class="headerlink" href="#splinekit-spline-operations" title="Link to this heading"></a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">splinekit</span></code> is a Python-based open-source software library aimed at the manipulation of one-dimensional periodic splines.</p>
+<section id="installation">
+<h3>Installation<a class="headerlink" href="#installation" title="Link to this heading"></a></h3>
+<p>You need at least <code class="docutils literal notranslate"><span class="pre">Python</span> <span class="pre">3.10</span></code> to install <code class="docutils literal notranslate"><span class="pre">splinekit</span></code> (ideally <code class="docutils literal notranslate"><span class="pre">Python</span> <span class="pre">3.12</span></code>). <code class="docutils literal notranslate"><span class="pre">Python</span> <span class="pre">3.11</span></code> is also compatible.</p>
+<p>Create and activate your Python virtual environment (on Unix or MacOS)</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>-m<span class="w"> </span>venv<span class="w"> </span>splinekit-env
+<span class="nb">source</span><span class="w"> </span>splinekit-env/bin/activate
+</pre></div>
+</div>
+<p>On Windows,</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>-m<span class="w"> </span>venv<span class="w"> </span>splinekit-env
+./splinekit-env/Scripts/Activate
+</pre></div>
+</div>
+<p>To deactivate the environment use</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>deactivate
+</pre></div>
+</div>
+<p>Minimal requirement:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>numpy<span class="w"> </span>scipy<span class="w"> </span>sympy<span class="w"> </span>matplotlib
+</pre></div>
+</div>
+<p>Simply install <code class="docutils literal notranslate"><span class="pre">splinekit</span></code> using <code class="docutils literal notranslate"><span class="pre">pip</span></code></p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>splinekit
+</pre></div>
+</div>
+</section>
+<section id="formatting-type-checking-and-testing">
+<h3>Formatting, Type Checking, and Testing<a class="headerlink" href="#formatting-type-checking-and-testing" title="Link to this heading"></a></h3>
+<p>Formatting and type checking is performed as</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>tox<span class="w"> </span>-e<span class="w"> </span>format
+tox<span class="w"> </span>-e<span class="w"> </span><span class="nb">type</span>
+</pre></div>
+</div>
+<p>The testing requires a valid environment with a supported Python version and <code class="docutils literal notranslate"><span class="pre">tox</span></code>
+installed. The tests are run with the following command (automatic pick of the
+Python version)</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>tox
+</pre></div>
+</div>
+<p>The tests can also be launched for a specific Python version (must match the one
+installed in the active environment)</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>tox<span class="w"> </span>-e<span class="w"> </span>py310
+tox<span class="w"> </span>-e<span class="w"> </span>py311
+tox<span class="w"> </span>-e<span class="w"> </span>py312
+</pre></div>
+</div>
+<p><em>IMPORTANT:</em> Since CI is not implemented, make sure to run, pass, and/or fix
+<code class="docutils literal notranslate"><span class="pre">tox</span> <span class="pre">-e</span> <span class="pre">format</span></code>, <code class="docutils literal notranslate"><span class="pre">tox</span> <span class="pre">-e</span> <span class="pre">type</span></code>, and <code class="docutils literal notranslate"><span class="pre">tox</span></code>.</p>
+</section>
+<section id="packaging">
+<h3>Packaging<a class="headerlink" href="#packaging" title="Link to this heading"></a></h3>
+<p>Using <code class="docutils literal notranslate"><span class="pre">tox</span></code> (preferred)</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>tox<span class="w"> </span>-e<span class="w"> </span>build
+</pre></div>
+</div>
+<p>Using <code class="docutils literal notranslate"><span class="pre">hatch</span></code></p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>hatch<span class="w"> </span>build<span class="w"> </span>-t<span class="w"> </span>wheel
+</pre></div>
+</div>
+</section>
+<section id="development-environment">
+<h3>Development Environment<a class="headerlink" href="#development-environment" title="Link to this heading"></a></h3>
+<p>Install <code class="docutils literal notranslate"><span class="pre">splinekit</span></code> development environment in editable mode</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>.<span class="o">[</span>dev<span class="o">]</span>
+</pre></div>
+</div>
+</section>
+<section id="building-of-the-documentation">
+<h3>Building of the Documentation<a class="headerlink" href="#building-of-the-documentation" title="Link to this heading"></a></h3>
+<p>To build the Sphinx documentation, install <code class="docutils literal notranslate"><span class="pre">splinekit</span></code> doc dependencies</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>.<span class="o">[</span>docs<span class="o">]</span>
+</pre></div>
+</div>
+<p>Run the command from the splinekit root folder</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>sphinx-build<span class="w"> </span>docs/<span class="w"> </span>docs/_build/
+</pre></div>
+</div>
+<p>Then, go to <code class="docutils literal notranslate"><span class="pre">_build/</span></code> and open <code class="docutils literal notranslate"><span class="pre">index.html</span></code> to navigate the
+documentation locally.</p>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../index.html" class="btn btn-neutral float-left" title="SplineKit" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../tutorial/index.html" class="btn btn-neutral float-right" title="Tutorial [toc]" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright .</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,12 @@
+.. _api-rr:
+
+RR [class]
+==========
+
+The class :class:`splinekit.interval.RR` is the concrete class that handles the interval that contains all real numbers.
+
+.. automodule:: splinekit.interval.rr
+   :members:
+   :show-inheritance:
+   :special-members: __new__, __contains__
+   :member-order: bysource

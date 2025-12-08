@@ -1,0 +1,682 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Spline Utilities [private methods] &mdash; splinekit  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=2f8eb179" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+      <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="Spline Utilities [toc]" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            splinekit
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../installation/index.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/index.html">Tutorial [toc]</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../glossary/index.html">Glossary [toc]</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../periodic_spline_1d/index.html">Periodic Spline 1D [toc]</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bsplines/index.html">B-Splines [toc]</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spline_padding/index.html">Spline Padding [toc]</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bases/index.html">Bases [toc]</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../periodic_nonuniform_piecewise/index.html">Periodic Nonuniform Piecewise [toc]</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../interval/index.html">Interval [package]</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Spline Utilities [toc]</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Spline Utilities [private methods]</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#splinekit.spline_utilities._sgn_frac"><code class="docutils literal notranslate"><span class="pre">_sgn_frac()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#splinekit.spline_utilities._sgn"><code class="docutils literal notranslate"><span class="pre">_sgn()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#splinekit.spline_utilities._pse_frac"><code class="docutils literal notranslate"><span class="pre">_pse_frac()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#splinekit.spline_utilities._pse"><code class="docutils literal notranslate"><span class="pre">_pse()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#splinekit.spline_utilities._db_frac"><code class="docutils literal notranslate"><span class="pre">_db_frac()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#splinekit.spline_utilities._db"><code class="docutils literal notranslate"><span class="pre">_db()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#splinekit.spline_utilities._b"><code class="docutils literal notranslate"><span class="pre">_b()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#splinekit.spline_utilities._pole"><code class="docutils literal notranslate"><span class="pre">_pole()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#splinekit.spline_utilities._knots"><code class="docutils literal notranslate"><span class="pre">_knots()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#splinekit.spline_utilities._w_frac"><code class="docutils literal notranslate"><span class="pre">_w_frac()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#splinekit.spline_utilities._w"><code class="docutils literal notranslate"><span class="pre">_w()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#splinekit.spline_utilities._inv_w"><code class="docutils literal notranslate"><span class="pre">_inv_w()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#splinekit.spline_utilities._wint"><code class="docutils literal notranslate"><span class="pre">_wint()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#splinekit.spline_utilities._wd"><code class="docutils literal notranslate"><span class="pre">_wd()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#splinekit.spline_utilities._iota"><code class="docutils literal notranslate"><span class="pre">_iota()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#splinekit.spline_utilities._v_frac"><code class="docutils literal notranslate"><span class="pre">_v_frac()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#splinekit.spline_utilities._alpha_frac"><code class="docutils literal notranslate"><span class="pre">_alpha_frac()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#splinekit.spline_utilities._divmod"><code class="docutils literal notranslate"><span class="pre">_divmod()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">splinekit</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Spline Utilities [toc]</a></li>
+      <li class="breadcrumb-item active">Spline Utilities [private methods]</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/Philippe-Thevenaz/splinekit/blob/main/docs/spline_utilities/01_spline_utilities.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="spline-utilities-private-methods">
+<span id="api-private-spline-utilities"></span><h1>Spline Utilities [private methods]<a class="headerlink" href="#spline-utilities-private-methods" title="Link to this heading"></a></h1>
+<p>Here are the functions of the module <a class="reference internal" href="#module-splinekit.spline_utilities" title="splinekit.spline_utilities"><code class="xref py py-class docutils literal notranslate"><span class="pre">splinekit.spline_utilities</span></code></a>. The description of these low-level building blocks is provided for completeness only. These functions are not meant to be called directly.</p>
+<p id="module-splinekit.spline_utilities">The <a class="reference internal" href="#module-splinekit.spline_utilities" title="splinekit.spline_utilities"><code class="xref py py-class docutils literal notranslate"><span class="pre">splinekit.spline_utilities</span></code></a> module provides the building blocks
+and low-level methods associated to the efficient and stable computation of
+polynomial B-splines of arbitrary degree.</p>
+<hr class="docutils" />
+<dl class="py function">
+<dt class="sig sig-object py" id="splinekit.spline_utilities._sgn_frac">
+<span class="sig-prename descclassname"><span class="pre">splinekit.spline_utilities.</span></span><span class="sig-name descname"><span class="pre">_sgn_frac</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Fraction</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#splinekit.spline_utilities._sgn_frac" title="Link to this definition"></a></dt>
+<dd><p id="sgn-frac">Signum function <span class="math notranslate nohighlight">\({\mathrm{sgn}}.\)</span></p>
+<p>Returns as an integer the <a class="reference internal" href="../glossary/glossary-numbers.html#def-sgn"><span class="std std-ref">signum</span></a> of the rational argument
+<span class="math notranslate nohighlight">\(x.\)</span></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>x</strong> (<em>Fraction</em>) – Rational argument.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The signum of <span class="math notranslate nohighlight">\(x.\)</span></p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="py function">
+<dt class="sig sig-object py" id="splinekit.spline_utilities._sgn">
+<span class="sig-prename descclassname"><span class="pre">splinekit.spline_utilities.</span></span><span class="sig-name descname"><span class="pre">_sgn</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#splinekit.spline_utilities._sgn" title="Link to this definition"></a></dt>
+<dd><p id="sgn">Signum function <span class="math notranslate nohighlight">\({\mathrm{sgn}}.\)</span></p>
+<p>Returns the <a class="reference internal" href="../glossary/glossary-numbers.html#def-sgn"><span class="std std-ref">signum</span></a> of the argument <span class="math notranslate nohighlight">\(x.\)</span></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>x</strong> (<em>float</em>) – Argument.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The signum of <span class="math notranslate nohighlight">\(x.\)</span></p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="py function">
+<dt class="sig sig-object py" id="splinekit.spline_utilities._pse_frac">
+<span class="sig-prename descclassname"><span class="pre">splinekit.spline_utilities.</span></span><span class="sig-name descname"><span class="pre">_pse_frac</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Fraction</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Fraction</span></span></span><a class="headerlink" href="#splinekit.spline_utilities._pse_frac" title="Link to this definition"></a></dt>
+<dd><p id="pse-frac">Polynomial simple element <span class="math notranslate nohighlight">\(\varsigma^{n}.\)</span></p>
+<p>Returns the rational value of a
+<a class="reference internal" href="../bsplines/01_bsplines.html#polynomial-simple-element"><span class="std std-ref">polynomial simple element</span></a> of integer
+degree <span class="math notranslate nohighlight">\(n\)</span> evaluated at the rational argument <span class="math notranslate nohighlight">\(x.\)</span></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>Fraction</em>) – Rational argument.</p></li>
+<li><p><strong>n</strong> (<em>int</em>) – Degree of the polynomial simple element.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The rational value of the polynomial simple element at <span class="math notranslate nohighlight">\(x.\)</span></p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Fraction</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="py function">
+<dt class="sig sig-object py" id="splinekit.spline_utilities._pse">
+<span class="sig-prename descclassname"><span class="pre">splinekit.spline_utilities.</span></span><span class="sig-name descname"><span class="pre">_pse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#splinekit.spline_utilities._pse" title="Link to this definition"></a></dt>
+<dd><p id="pse">Polynomial simple element <span class="math notranslate nohighlight">\(\varsigma^{n}.\)</span></p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<dl class="simple">
+<dt><a class="reference internal" href="../bsplines/01_bsplines.html#splinekit.bsplines.polynomial_simple_element" title="splinekit.bsplines.polynomial_simple_element"><code class="xref py py-obj docutils literal notranslate"><span class="pre">splinekit.bsplines.polynomial_simple_element</span></code></a></dt><dd><p>Polynomial simple element.</p>
+</dd>
+</dl>
+</div>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="py function">
+<dt class="sig sig-object py" id="splinekit.spline_utilities._db_frac">
+<span class="sig-prename descclassname"><span class="pre">splinekit.spline_utilities.</span></span><span class="sig-name descname"><span class="pre">_db_frac</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Fraction</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">d</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Fraction</span></span></span><a class="headerlink" href="#splinekit.spline_utilities._db_frac" title="Link to this definition"></a></dt>
+<dd><p id="db-frac">Differentiated B-spline <span class="math notranslate nohighlight">\({\mathrm{D}}^{d}\beta^{n}.\)</span></p>
+<p>Returns the rational value of the <span class="math notranslate nohighlight">\(d\)</span>-th derivative of a
+<a class="reference internal" href="../glossary/glossary-splines.html#def-b-spline"><span class="std std-ref">polynomial B-spline</span></a> <span class="math notranslate nohighlight">\(\beta^{n}\)</span> of
+<a class="reference internal" href="../glossary/glossary-numbers.html#def-negative"><span class="std std-ref">nonnegative</span></a> degree <span class="math notranslate nohighlight">\(n\)</span> evaluated at the
+rational argument <span class="math notranslate nohighlight">\(x,\)</span> with <span class="math notranslate nohighlight">\(d\)</span> nonnegative. This function is
+computed as</p>
+<div class="math notranslate nohighlight">
+\[\frac{{\mathrm{d}}^{d}\beta^{n}(x)}{{\mathrm{d}}x^{d}}=
+\sum_{k=0}^{n+1}\,\left(-1\right)^{k}\,{n+1\choose k}\,\varsigma^{n-d}
+(x+\frac{n+1}{2}-k),\]</div>
+<p>with <span class="math notranslate nohighlight">\(\varsigma\)</span> a
+<a class="reference internal" href="../bsplines/01_bsplines.html#polynomial-simple-element"><span class="std std-ref">polynomial simple element</span></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>Fraction</em>) – Rational argument.</p></li>
+<li><p><strong>n</strong> (<em>int</em>) – Nonnegative degree of the polynomial B-spline.</p></li>
+<li><p><strong>d</strong> (<em>int</em>) – Nonnegative order of differentiation.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The rational value of the <span class="math notranslate nohighlight">\(d\)</span>-th derivative of a B-spline at
+rational <span class="math notranslate nohighlight">\(x.\)</span></p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Fraction</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="py function">
+<dt class="sig sig-object py" id="splinekit.spline_utilities._db">
+<span class="sig-prename descclassname"><span class="pre">splinekit.spline_utilities.</span></span><span class="sig-name descname"><span class="pre">_db</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">d</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#splinekit.spline_utilities._db" title="Link to this definition"></a></dt>
+<dd><p id="db">Differentiated B-spline <span class="math notranslate nohighlight">\({\mathrm{D}}^{d}\beta^{n}.\)</span></p>
+<p>Returns the value of the <span class="math notranslate nohighlight">\(d\)</span>-th derivative of a
+<a class="reference internal" href="#db-frac"><span class="std std-ref">polynomial B-spline</span></a> of <a class="reference internal" href="../glossary/glossary-numbers.html#def-negative"><span class="std std-ref">nonnegative</span></a>
+degree <span class="math notranslate nohighlight">\(n\)</span> evaluated at <span class="math notranslate nohighlight">\(x,\)</span> with <span class="math notranslate nohighlight">\(d\)</span> nonnegative.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>float</em>) – Argument.</p></li>
+<li><p><strong>n</strong> (<em>int</em>) – Nonnegative degree of the polynomial B-spline.</p></li>
+<li><p><strong>d</strong> (<em>int</em>) – Nonnegative order of differentiation.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The value of the <span class="math notranslate nohighlight">\(d\)</span>-th derivative of a B-spline at <span class="math notranslate nohighlight">\(x.\)</span></p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="py function">
+<dt class="sig sig-object py" id="splinekit.spline_utilities._b">
+<span class="sig-prename descclassname"><span class="pre">splinekit.spline_utilities.</span></span><span class="sig-name descname"><span class="pre">_b</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">float64</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#splinekit.spline_utilities._b" title="Link to this definition"></a></dt>
+<dd><p id="b">B-spline discrete sequence <span class="math notranslate nohighlight">\({\mathrm{b}}^{n}.\)</span></p>
+<p>Returns a <code class="docutils literal notranslate"><span class="pre">numpy</span></code> one-dimensional array of the nonvanishing values
+<span class="math notranslate nohighlight">\(\beta^{n}(k)\)</span> of a <a class="reference internal" href="#db-frac"><span class="std std-ref">polynomial B-spline</span></a>
+<span class="math notranslate nohighlight">\(\beta^{n}\)</span> of <a class="reference internal" href="../glossary/glossary-numbers.html#def-negative"><span class="std std-ref">nonnegative</span></a> degree <span class="math notranslate nohighlight">\(n\)</span>
+sampled at the integers <span class="math notranslate nohighlight">\(k\in[-\left\lfloor n/2\right\rfloor\ldots
+\left\lfloor n/2\right\rfloor].\)</span></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>n</strong> (<em>int</em>) – Nonnegative degree of the polynomial B-spline.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The samples of the B-spline.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray[tuple[int], np.dtype[np.float64]]</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>The results of this method are cached. If the returned results are
+mutated, the cache gets modified and the next call will return corrupted
+values.</p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="py function">
+<dt class="sig sig-object py" id="splinekit.spline_utilities._pole">
+<span class="sig-prename descclassname"><span class="pre">splinekit.spline_utilities.</span></span><span class="sig-name descname"><span class="pre">_pole</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">float64</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#splinekit.spline_utilities._pole" title="Link to this definition"></a></dt>
+<dd><p>Poles of the reciprocal of the z-transform of a B-spline <span class="math notranslate nohighlight">\(\beta^{n}.\)</span></p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<dl class="simple">
+<dt><a class="reference internal" href="../bsplines/01_bsplines.html#splinekit.bsplines.pole" title="splinekit.bsplines.pole"><code class="xref py py-obj docutils literal notranslate"><span class="pre">splinekit.bsplines.pole</span></code></a></dt><dd><p>Poles of polynomial B-splines.</p>
+</dd>
+</dl>
+</div>
+<p class="rubric">Notes</p>
+<p>The results of this method are cached. If the returned results are
+mutated, the cache gets modified and the next call will return corrupted
+values.</p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="py function">
+<dt class="sig sig-object py" id="splinekit.spline_utilities._knots">
+<span class="sig-prename descclassname"><span class="pre">splinekit.spline_utilities.</span></span><span class="sig-name descname"><span class="pre">_knots</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">float64</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#splinekit.spline_utilities._knots" title="Link to this definition"></a></dt>
+<dd><p id="knots">Knots of the B-spline <span class="math notranslate nohighlight">\(\beta^{n}.\)</span></p>
+<p>Returns a <code class="docutils literal notranslate"><span class="pre">numpy</span></code> one-dimensional array of the <a class="reference internal" href="../glossary/glossary-splines.html#def-knots"><span class="std std-ref">knots</span></a>
+of a <a class="reference internal" href="#db-frac"><span class="std std-ref">polynomial B-spline</span></a> of
+<a class="reference internal" href="../glossary/glossary-numbers.html#def-negative"><span class="std std-ref">nonnegative</span></a> degree <span class="math notranslate nohighlight">\(n.\)</span></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>n</strong> (<em>int</em>) – Nonnegative degree of the polynomial B-spline.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The knots of the B-spline.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray[tuple[int], np.dtype[np.float64]]</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>The results of this method are cached. If the returned results are
+mutated, the cache gets modified and the next call will return corrupted
+values.</p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="py function">
+<dt class="sig sig-object py" id="splinekit.spline_utilities._w_frac">
+<span class="sig-prename descclassname"><span class="pre">splinekit.spline_utilities.</span></span><span class="sig-name descname"><span class="pre">_w_frac</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Fraction</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#splinekit.spline_utilities._w_frac" title="Link to this definition"></a></dt>
+<dd><p id="w-frac">Spline evaluation matrix <span class="math notranslate nohighlight">\({\mathbf{W}}^{n}.\)</span></p>
+<p>Returns the B-spline rational evaluation matrix
+<span class="math notranslate nohighlight">\({\mathbf{W}}^{n}\in{\mathbb{Q}}^{\left(n+1\right)\times
+\left(n+1\right)}\)</span> of a <a class="reference internal" href="#db-frac"><span class="std std-ref">polynomial B-spline</span></a>
+<span class="math notranslate nohighlight">\(\beta^{n}\)</span> of <a class="reference internal" href="../glossary/glossary-numbers.html#def-positive"><span class="std std-ref">positive</span></a> degree <span class="math notranslate nohighlight">\(n,\)</span> as
+defined by the rational component at its <span class="math notranslate nohighlight">\((r+1)\)</span>-th row and
+<span class="math notranslate nohighlight">\((c+1)\)</span>-th column</p>
+<div class="math notranslate nohighlight">
+\[w_{r+1,c+1}^{n}=w^{n}[r][c]=\frac{1}{c!}\,
+\left(\left.\frac{{\mathrm{d}}^{c}\beta^{n}(x)}{{\mathrm{d}}x^{c}}
+\right|_{x=\frac{n-1}{2}-r}+\frac{1}{2}\,
+{\mathbf{[\![}}c=n\,{\mathbf{]\!]}}\,\left(-1\right)^{n-r}\,
+{n+1\choose r+1}\right),\]</div>
+<p>where the notation <span class="math notranslate nohighlight">\({\mathbf{[\![}}\cdot\,{\mathbf{]\!]}}\)</span> is that
+of the <a class="reference internal" href="../glossary/glossary-terminology.html#def-iverson"><span class="std std-ref">Iverson bracket</span></a>. The B-spline derivatives are
+computed as in <a class="reference internal" href="#db-frac"><span class="std std-ref">_db_frac</span></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>n</strong> (<em>int</em>) – Positive degree of the polynomial B-spline.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The B-spline rational evaluation matrix.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list of list of Fraction</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>The results of this method are cached. If the returned results are
+mutated, the cache gets modified and the next call will return corrupted
+values.</p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="py function">
+<dt class="sig sig-object py" id="splinekit.spline_utilities._w">
+<span class="sig-prename descclassname"><span class="pre">splinekit.spline_utilities.</span></span><span class="sig-name descname"><span class="pre">_w</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">float64</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#splinekit.spline_utilities._w" title="Link to this definition"></a></dt>
+<dd><p id="w">Spline evaluation matrix <span class="math notranslate nohighlight">\({\mathbf{W}}^{n}.\)</span></p>
+<p>Returns the <a class="reference internal" href="#w-frac"><span class="std std-ref">B-spline evaluation matrix</span></a>
+<span class="math notranslate nohighlight">\({\mathbf{W}}^{n}\in{\mathbb{R}}^{\left(n+1\right)\times
+\left(n+1\right)}\)</span>
+of a <a class="reference internal" href="#db-frac"><span class="std std-ref">polynomial B-spline</span></a> of <a class="reference internal" href="../glossary/glossary-numbers.html#def-positive"><span class="std std-ref">positive</span></a>
+degree <span class="math notranslate nohighlight">\(n.\)</span></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>n</strong> (<em>int</em>) – Positive degree of the polynomial B-spline.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The B-spline evaluation matrix.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray[tuple[int, int], np.dtype[np.float64]]</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>The results of this method are cached. If the returned results are
+mutated, the cache gets modified and the next call will return corrupted
+values.</p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="py function">
+<dt class="sig sig-object py" id="splinekit.spline_utilities._inv_w">
+<span class="sig-prename descclassname"><span class="pre">splinekit.spline_utilities.</span></span><span class="sig-name descname"><span class="pre">_inv_w</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">float64</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#splinekit.spline_utilities._inv_w" title="Link to this definition"></a></dt>
+<dd><p id="inv-w">Spline evaluation matrix inverse
+<span class="math notranslate nohighlight">\(\left({\mathbf{W}}^{n}\right)^{-1}.\)</span></p>
+<p>Returns the inverse
+<span class="math notranslate nohighlight">\(\left({\mathbf{W}}^{n}\right)^{-1}
+\in{\mathbb{R}}^{\left(n+1\right)\times\left(n+1\right)}\)</span>
+of the <a class="reference internal" href="#w-frac"><span class="std std-ref">B-spline evaluation matrix</span></a> of
+<a class="reference internal" href="../glossary/glossary-numbers.html#def-positive"><span class="std std-ref">positive</span></a> degree <span class="math notranslate nohighlight">\(n.\)</span></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>n</strong> (<em>int</em>) – Positive degree of the polynomial B-spline.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The inverse of the B-spline evaluation matrix.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray[tuple[int, int], np.dtype[np.float64]]</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>The results of this method are cached. If the returned results are
+mutated, the cache gets modified and the next call will return corrupted
+values.</p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="py function">
+<dt class="sig sig-object py" id="splinekit.spline_utilities._wint">
+<span class="sig-prename descclassname"><span class="pre">splinekit.spline_utilities.</span></span><span class="sig-name descname"><span class="pre">_wint</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">float64</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#splinekit.spline_utilities._wint" title="Link to this definition"></a></dt>
+<dd><p id="wint">Integrated-B-spline evaluation matrix
+<span class="math notranslate nohighlight">\({\mathbf{W}}_{{\mathrm{int}}}^{n}.\)</span></p>
+<p>Returns the integrated-B-spline evaluation matrix
+<span class="math notranslate nohighlight">\({\mathbf{W}}_{{\mathrm{int}}}^{n}
+\in{\mathbb{R}}^{\left(n+1\right)\times\left(n+2\right)}\)</span>
+of an integrated <a class="reference internal" href="#db-frac"><span class="std std-ref">polynomial B-spline</span></a> of
+<a class="reference internal" href="../glossary/glossary-numbers.html#def-negative"><span class="std std-ref">nonnegative</span></a> degree <span class="math notranslate nohighlight">\(n,\)</span> as defined by the
+component at its <span class="math notranslate nohighlight">\((r+1)\)</span>-th row and <span class="math notranslate nohighlight">\((c+1)\)</span>-th column</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\left[{\mathbf{W}}^{n}_{{\mathrm{int}}}\right]_{r+1,c+1}=
+w_{{\mathrm{int}}}^{n}[r][c]=\left\{\begin{array}{ll}\sum_{q=0}^{n}\,
+\frac{1}{q+1}\sum_{p=r+1}^{n}\,w^{n}[p][q],&amp;c=0\\
+\frac{1}{c}\,w^{n}[r][c-1],&amp;c\in[1\ldots n+1],\end{array}\right.\end{split}\]</div>
+<p>where <span class="math notranslate nohighlight">\(w^{n}\)</span> is a component of the
+<a class="reference internal" href="#w-frac"><span class="std std-ref">B-spline evaluation matrix</span></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>n</strong> (<em>int</em>) – Nonnegative degree of the polynomial B-spline.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The integrated-B-spline evaluation matrix.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray[tuple[int, int], np.dtype[np.float64]]</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>The results of this method are cached. If the returned results are
+mutated, the cache gets modified and the next call will return corrupted
+values.</p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="py function">
+<dt class="sig sig-object py" id="splinekit.spline_utilities._wd">
+<span class="sig-prename descclassname"><span class="pre">splinekit.spline_utilities.</span></span><span class="sig-name descname"><span class="pre">_wd</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">float64</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#splinekit.spline_utilities._wd" title="Link to this definition"></a></dt>
+<dd><p id="wd">Differentiated-B-spline evaluation matrix
+<span class="math notranslate nohighlight">\({\mathbf{W}}_{{\mathrm{d}}}^{n}.\)</span></p>
+<p>Returns the differentiated-B-spline evaluation matrix
+<span class="math notranslate nohighlight">\({\mathbf{W}}_{{\mathrm{d}}}^{n}
+\in{\mathbb{R}}^{\left(n+1\right)\times n}\)</span>
+of a differentiated <a class="reference internal" href="#db-frac"><span class="std std-ref">polynomial B-spline</span></a> of degree
+<span class="math notranslate nohighlight">\(n&gt;1,\)</span> as defined by the component at its <span class="math notranslate nohighlight">\((r+1)\)</span>-th row and
+<span class="math notranslate nohighlight">\((c+1)\)</span>-th column</p>
+<div class="math notranslate nohighlight">
+\[\left[{\mathbf{W}}^{n}_{{\mathrm{d}}}\right]_{r+1,c+1}=
+w_{{\mathrm{d}}}^{n}[r][c]=\left(c+1\right)\,w^{n}[r][c+1],\]</div>
+<p>where <span class="math notranslate nohighlight">\(w^{n}\)</span> is a component of the
+<a class="reference internal" href="#w-frac"><span class="std std-ref">B-spline evaluation matrix</span></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>n</strong> (<em>int</em>) – Positive degree of the polynomial B-spline.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The differentiated-B-pline evaluation matrix.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray[tuple[int, int], np.dtype[np.float64]]</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>The results of this method are cached. If the returned results are
+mutated, the cache gets modified and the next call will return corrupted
+values.</p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="py function">
+<dt class="sig sig-object py" id="splinekit.spline_utilities._iota">
+<span class="sig-prename descclassname"><span class="pre">splinekit.spline_utilities.</span></span><span class="sig-name descname"><span class="pre">_iota</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">float64</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#splinekit.spline_utilities._iota" title="Link to this definition"></a></dt>
+<dd><p id="iota">Returns the vector <span class="math notranslate nohighlight">\({\mathbf{i}}^{n}\)</span> of the pole coefficients used
+in the computation of <a class="reference internal" href="../bsplines/01_bsplines.html#ib-coeff"><span class="std std-ref">inverse B-spline sequences</span></a>. For a
+<a class="reference internal" href="#db-frac"><span class="std std-ref">polynomial B-spline</span></a> of degree <span class="math notranslate nohighlight">\(n&gt;1,\)</span> this vector is
+given by</p>
+<div class="math notranslate nohighlight">
+\[{\mathbf{i}}^{n}=\left(\frac{1}
+{\beta^{n}(\left\lfloor\frac{n}{2}\right\rfloor)\,
+\left(\left[{\mathbf{z}}^{n}\right]_{c+1}-
+\frac{1}{\left[{\mathbf{z}}^{n}\right]_{c+1}}\right)\,
+\prod_{p\in[0\ldots\left\lfloor\frac{n}{2}\right\rfloor-1]\setminus
+\{c\}}\,\left(\left[{\mathbf{z}}^{n}\right]_{c+1}-
+\left[{\mathbf{z}}^{n}\right]_{p+1}+
+\frac{1}{\left[{\mathbf{z}}^{n}\right]_{c+1}}-
+\frac{1}{\left[{\mathbf{z}}^{n}\right]_{p+1}}\right)}\right)
+_{c=0}^{\left\lfloor\frac{n}{2}\right\rfloor-1},\]</div>
+<p>where <span class="math notranslate nohighlight">\({\mathbf{z}}^{n}\)</span> is the vector of <a class="reference internal" href="../bsplines/01_bsplines.html#pole"><span class="std std-ref">poles</span></a>.
+Equivalently, it is also given by the first column of the inverse of the
+matrix <span class="math notranslate nohighlight">\({\mathbf{Z}}^{n},\)</span> as in</p>
+<div class="math notranslate nohighlight">
+\[{\mathbf{i}}^{n}=\left[\left({\mathbf{Z}}^{n}\right)^{-1}\right]
+_{\cdot,1}.\]</div>
+<p>There, the component at the <span class="math notranslate nohighlight">\((r+1)\)</span>-th row and <span class="math notranslate nohighlight">\((c+1)\)</span>-th
+column of <span class="math notranslate nohighlight">\({\mathbf{Z}}^{n}\in{\mathbf{R}}^
+{\left\lfloor n/2\right\rfloor\times\left\lfloor n/2\right\rfloor}\)</span> is
+given by</p>
+<div class="math notranslate nohighlight">
+\[z_{r+1,c+1}^{n}=z^{n}[r][c]=\sum_{q=-\left\lfloor n/2\right\rfloor}^
+{\left\lfloor n/2\right\rfloor}\,
+\left(\left[{\mathbf{z}}^{n}\right]_{c+1}\right)^{\left|r-q\right|}\,
+\beta^{n}(q).\]</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>n</strong> (<em>int</em>) – Degree of the polynomial B-spline, with <span class="math notranslate nohighlight">\(n &gt; 1\)</span>.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The vector <span class="math notranslate nohighlight">\({\mathbf{i}}^{n}.\)</span></p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray[tuple[int], np.dtype[np.float64]]</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>The results of this method are cached. If the returned results are
+mutated, the cache gets modified and the next call will return corrupted
+values.</p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="py function">
+<dt class="sig sig-object py" id="splinekit.spline_utilities._v_frac">
+<span class="sig-prename descclassname"><span class="pre">splinekit.spline_utilities.</span></span><span class="sig-name descname"><span class="pre">_v_frac</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Fraction</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#splinekit.spline_utilities._v_frac" title="Link to this definition"></a></dt>
+<dd><p id="v-frac">Returns the rational lookup table <span class="math notranslate nohighlight">\({\mathbf{V}}^{n}
+\in{\mathbb{Q}}^{n\times\left(\left\lfloor n/2\right\rfloor+1\right)}\)</span>
+that contains the polynomial coefficients of a B-spline-weighted sum of
+discrete monomials. For B-splines <span class="math notranslate nohighlight">\(\beta^{n}\)</span> of
+<a class="reference internal" href="../glossary/glossary-numbers.html#def-positive"><span class="std std-ref">positive</span></a> degree <span class="math notranslate nohighlight">\(n,\)</span> it is given by the
+component at its <span class="math notranslate nohighlight">\((r+1)\)</span>-th row and <span class="math notranslate nohighlight">\((c+1)\)</span>-th column</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\left[{\mathbf{V}}^{n}\right]_{r+1,c+1}=
+v^{n}[r][c]=\left\{\begin{array}{ll}1,&amp;c=0\\{r+1\choose 2\,c}\,
+\sum_{k=0}^{n-1}\,\left(\frac{n-1}{2}-k\right)^{2\,c}\,
+\beta^{n}(\frac{n-1}{2}-k),&amp;c&gt;0.\end{array}\right.\end{split}\]</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>n</strong> (<em>int</em>) – Positive degree of the polynomial B-spline.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The lookup table <span class="math notranslate nohighlight">\({\mathbf{V}}^{n}.\)</span></p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list of list of Fraction</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>The results of this method are cached. If the returned results are
+mutated, the cache gets modified and the next call will return corrupted
+values.</p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="py function">
+<dt class="sig sig-object py" id="splinekit.spline_utilities._alpha_frac">
+<span class="sig-prename descclassname"><span class="pre">splinekit.spline_utilities.</span></span><span class="sig-name descname"><span class="pre">_alpha_frac</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">m</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Fraction</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#splinekit.spline_utilities._alpha_frac" title="Link to this definition"></a></dt>
+<dd><p id="alpha-frac">Returns the lookup table <span class="math notranslate nohighlight">\({\mathbf{A}}^{n}\)</span> that contains the spline
+coefficients of a monomial-reproducing spline. For a B-spline
+<span class="math notranslate nohighlight">\(\beta^{n}\)</span> of <a class="reference internal" href="../glossary/glossary-numbers.html#def-negative"><span class="std std-ref">nonnegative</span></a> degree <span class="math notranslate nohighlight">\(n\)</span>
+and a monomial of nonnegative degree <span class="math notranslate nohighlight">\(m\)</span> not greater than <span class="math notranslate nohighlight">\(n,\)</span>
+its component at <span class="math notranslate nohighlight">\(p\in[0\ldots m]\)</span> is defined by the recursion</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\alpha^{n}[m][p]=\left\{\begin{array}{ll}
+-\sum_{q=1}^{\left\lfloor\left(m-p\right)/2\right\rfloor}
+\,v^{n}[m-1][q]\,\alpha^{n}[m-2\,q][p],&amp;0\leq p&lt;m-1\\0,&amp;p=m-1\\1,&amp;p=m,
+\end{array}\right.\end{split}\]</div>
+<p>with <span class="math notranslate nohighlight">\(v^{n}[m-1][q]\)</span> the component at row <span class="math notranslate nohighlight">\(m\)</span> and column
+<span class="math notranslate nohighlight">\((q+1)\)</span> of the the lookup table <span class="math notranslate nohighlight">\({\mathbf{V}}^{n}\)</span> in
+<a class="reference internal" href="#v-frac"><span class="std std-ref">_v_frac</span></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>n</strong> (<em>int</em>) – Nonnegative degree of the polynomial B-spline.</p></li>
+<li><p><strong>m</strong> (<em>int</em>) – Nonnegative degree of the monomial.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The lookup table <span class="math notranslate nohighlight">\({\mathbf{A}}^{n}.\)</span></p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list of list of Fraction</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>The results of this method are cached. If the returned results are
+mutated, the cache gets modified and the next call will return corrupted
+values.</p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="py function">
+<dt class="sig sig-object py" id="splinekit.spline_utilities._divmod">
+<span class="sig-prename descclassname"><span class="pre">splinekit.spline_utilities.</span></span><span class="sig-name descname"><span class="pre">_divmod</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">m</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#splinekit.spline_utilities._divmod" title="Link to this definition"></a></dt>
+<dd><p id="divmod">Quotient and remainder from dividend and divisor.</p>
+<p>A function similar to the built-in <code class="docutils literal notranslate"><span class="pre">divmod</span></code> function, with the added
+guarantee that the remainder part of result lies in the closed-open
+interval <span class="math notranslate nohighlight">\([0,m),\)</span> while the built-in version only guarantees the
+closed interval <span class="math notranslate nohighlight">\([0,m].\)</span> The tipping point where <span class="math notranslate nohighlight">\(m\)</span> is
+included or not mimicks the <code class="docutils literal notranslate"><span class="pre">Mod</span></code> function of the <em>Wolfram</em> framework.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>float</em>) – Dividend whose quotient and remainder are sought.</p></li>
+<li><p><strong>m</strong> (<em>int</em>) – Nonzero divisor.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A tuple <code class="docutils literal notranslate"><span class="pre">(q,</span> <span class="pre">r)</span></code> such that <code class="docutils literal notranslate"><span class="pre">x</span> <span class="pre">==</span> <span class="pre">m</span> <span class="pre">*</span> <span class="pre">q</span> <span class="pre">+</span> <span class="pre">r</span></code> up to numerical
+inaccuracies, with the guarantee that <code class="docutils literal notranslate"><span class="pre">r</span> <span class="pre">&lt;</span> <span class="pre">m</span></code>.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple (int, float)</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<dl>
+<dt>Load the libraries.</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">splinekit.spline_utilities</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sku</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
+</pre></div>
+</div>
+</dd>
+<dt>Here is an argument at which this function agrees with the built-in one.</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sku</span><span class="o">.</span><span class="n">_divmod</span><span class="p">(</span><span class="o">-</span><span class="n">math</span><span class="o">.</span><span class="n">ulp</span><span class="p">(</span><span class="mf">1.0</span><span class="p">),</span> <span class="mi">1</span><span class="p">)</span> <span class="o">==</span> <span class="nb">divmod</span><span class="p">(</span><span class="o">-</span><span class="n">math</span><span class="o">.</span><span class="n">ulp</span><span class="p">(</span><span class="mf">1.0</span><span class="p">),</span> <span class="mi">1</span><span class="p">)</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</dd>
+<dt>Here is an argument at which this function disagrees with the built-in one.</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sku</span><span class="o">.</span><span class="n">_divmod</span><span class="p">(</span><span class="o">-</span><span class="n">math</span><span class="o">.</span><span class="n">ulp</span><span class="p">(</span><span class="mf">0.1</span><span class="p">),</span> <span class="mi">1</span><span class="p">)</span> <span class="o">==</span> <span class="nb">divmod</span><span class="p">(</span><span class="o">-</span><span class="n">math</span><span class="o">.</span><span class="n">ulp</span><span class="p">(</span><span class="mf">0.1</span><span class="p">),</span> <span class="mi">1</span><span class="p">)</span>
+<span class="go">False</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="Spline Utilities [toc]" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright .</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

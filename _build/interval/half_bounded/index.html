@@ -1,0 +1,265 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HalfBounded [toc] &mdash; splinekit  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../_static/plot_directive.css" />
+      <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=2f8eb179" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+      <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="HalfBounded [abstract class]" href="01_half_bounded.html" />
+    <link rel="prev" title="Singleton [class]" href="../degenerate/02_singleton.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            splinekit
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../installation/index.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial/index.html">Tutorial [toc]</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../glossary/index.html">Glossary [toc]</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../periodic_spline_1d/index.html">Periodic Spline 1D [toc]</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../bsplines/index.html">B-Splines [toc]</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../spline_padding/index.html">Spline Padding [toc]</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../bases/index.html">Bases [toc]</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../periodic_nonuniform_piecewise/index.html">Periodic Nonuniform Piecewise [toc]</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Interval [package]</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../interval/index.html">Interval [toc]</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../universal/index.html">Universal [toc]</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../degenerate/index.html">Degenerate [toc]</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">HalfBounded [toc]</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="01_half_bounded.html">HalfBounded [abstract class]</a></li>
+<li class="toctree-l3"><a class="reference internal" href="02_above.html">Above [class]</a></li>
+<li class="toctree-l3"><a class="reference internal" href="03_not_below.html">NotBelow [class]</a></li>
+<li class="toctree-l3"><a class="reference internal" href="04_not_above.html">NotAbove [class]</a></li>
+<li class="toctree-l3"><a class="reference internal" href="05_below.html">Below [class]</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../bounded/index.html">Bounded [toc]</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../spline_utilities/index.html">Spline Utilities [toc]</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">splinekit</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Interval [package]</a></li>
+      <li class="breadcrumb-item active">HalfBounded [toc]</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/Philippe-Thevenaz/splinekit/blob/main/docs/interval/half_bounded/index.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="halfbounded-toc">
+<h1>HalfBounded [toc]<a class="headerlink" href="#halfbounded-toc" title="Link to this heading"></a></h1>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 25.0%" />
+<col style="width: 75.0%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><strong>HalfBounded</strong></p></td>
+<td><p><strong>HalfBounded</strong> is a module of <code class="docutils literal notranslate"><span class="pre">splinekit.interval</span></code>. It is aimed at the manipulation of half-bounded intervals of real numbers.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="01_half_bounded.html">HalfBounded [abstract class]</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="01_half_bounded.html#splinekit.interval.half_bounded.HalfBounded"><code class="docutils literal notranslate"><span class="pre">HalfBounded</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="01_half_bounded.html#splinekit.interval.half_bounded.HalfBounded.threshold"><code class="docutils literal notranslate"><span class="pre">HalfBounded.threshold</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="01_half_bounded.html#splinekit.interval.half_bounded.HalfBounded.__new__"><code class="docutils literal notranslate"><span class="pre">HalfBounded.__new__()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="02_above.html">Above [class]</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="02_above.html#splinekit.interval.above.Above"><code class="docutils literal notranslate"><span class="pre">Above</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="02_above.html#splinekit.interval.above.Above.infimum"><code class="docutils literal notranslate"><span class="pre">Above.infimum</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="02_above.html#splinekit.interval.above.Above.supremum"><code class="docutils literal notranslate"><span class="pre">Above.supremum</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="02_above.html#splinekit.interval.above.Above.isleftopen"><code class="docutils literal notranslate"><span class="pre">Above.isleftopen</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="02_above.html#splinekit.interval.above.Above.isrightopen"><code class="docutils literal notranslate"><span class="pre">Above.isrightopen</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="02_above.html#splinekit.interval.above.Above.isopen"><code class="docutils literal notranslate"><span class="pre">Above.isopen</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="02_above.html#splinekit.interval.above.Above.ishalfopen"><code class="docutils literal notranslate"><span class="pre">Above.ishalfopen</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="02_above.html#splinekit.interval.above.Above.isclosed"><code class="docutils literal notranslate"><span class="pre">Above.isclosed</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="02_above.html#splinekit.interval.above.Above.isleftbounded"><code class="docutils literal notranslate"><span class="pre">Above.isleftbounded</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="02_above.html#splinekit.interval.above.Above.isrightbounded"><code class="docutils literal notranslate"><span class="pre">Above.isrightbounded</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="02_above.html#splinekit.interval.above.Above.ishalfbounded"><code class="docutils literal notranslate"><span class="pre">Above.ishalfbounded</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="02_above.html#splinekit.interval.above.Above.isbounded"><code class="docutils literal notranslate"><span class="pre">Above.isbounded</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="02_above.html#splinekit.interval.above.Above.isdegenerate"><code class="docutils literal notranslate"><span class="pre">Above.isdegenerate</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="02_above.html#splinekit.interval.above.Above.isproper"><code class="docutils literal notranslate"><span class="pre">Above.isproper</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="02_above.html#splinekit.interval.above.Above.interior"><code class="docutils literal notranslate"><span class="pre">Above.interior</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="02_above.html#splinekit.interval.above.Above.closure"><code class="docutils literal notranslate"><span class="pre">Above.closure</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="02_above.html#splinekit.interval.above.Above.diameter"><code class="docutils literal notranslate"><span class="pre">Above.diameter</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="02_above.html#splinekit.interval.above.Above.midpoint"><code class="docutils literal notranslate"><span class="pre">Above.midpoint</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="02_above.html#splinekit.interval.above.Above.sortorder"><code class="docutils literal notranslate"><span class="pre">Above.sortorder()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="02_above.html#splinekit.interval.above.Above.__contains__"><code class="docutils literal notranslate"><span class="pre">Above.__contains__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="02_above.html#splinekit.interval.above.Above.__new__"><code class="docutils literal notranslate"><span class="pre">Above.__new__()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="03_not_below.html">NotBelow [class]</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="03_not_below.html#splinekit.interval.not_below.NotBelow"><code class="docutils literal notranslate"><span class="pre">NotBelow</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="03_not_below.html#splinekit.interval.not_below.NotBelow.infimum"><code class="docutils literal notranslate"><span class="pre">NotBelow.infimum</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="03_not_below.html#splinekit.interval.not_below.NotBelow.supremum"><code class="docutils literal notranslate"><span class="pre">NotBelow.supremum</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="03_not_below.html#splinekit.interval.not_below.NotBelow.isleftopen"><code class="docutils literal notranslate"><span class="pre">NotBelow.isleftopen</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="03_not_below.html#splinekit.interval.not_below.NotBelow.isrightopen"><code class="docutils literal notranslate"><span class="pre">NotBelow.isrightopen</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="03_not_below.html#splinekit.interval.not_below.NotBelow.isopen"><code class="docutils literal notranslate"><span class="pre">NotBelow.isopen</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="03_not_below.html#splinekit.interval.not_below.NotBelow.ishalfopen"><code class="docutils literal notranslate"><span class="pre">NotBelow.ishalfopen</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="03_not_below.html#splinekit.interval.not_below.NotBelow.isclosed"><code class="docutils literal notranslate"><span class="pre">NotBelow.isclosed</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="03_not_below.html#splinekit.interval.not_below.NotBelow.isleftbounded"><code class="docutils literal notranslate"><span class="pre">NotBelow.isleftbounded</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="03_not_below.html#splinekit.interval.not_below.NotBelow.isrightbounded"><code class="docutils literal notranslate"><span class="pre">NotBelow.isrightbounded</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="03_not_below.html#splinekit.interval.not_below.NotBelow.ishalfbounded"><code class="docutils literal notranslate"><span class="pre">NotBelow.ishalfbounded</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="03_not_below.html#splinekit.interval.not_below.NotBelow.isbounded"><code class="docutils literal notranslate"><span class="pre">NotBelow.isbounded</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="03_not_below.html#splinekit.interval.not_below.NotBelow.isdegenerate"><code class="docutils literal notranslate"><span class="pre">NotBelow.isdegenerate</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="03_not_below.html#splinekit.interval.not_below.NotBelow.isproper"><code class="docutils literal notranslate"><span class="pre">NotBelow.isproper</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="03_not_below.html#splinekit.interval.not_below.NotBelow.interior"><code class="docutils literal notranslate"><span class="pre">NotBelow.interior</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="03_not_below.html#splinekit.interval.not_below.NotBelow.closure"><code class="docutils literal notranslate"><span class="pre">NotBelow.closure</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="03_not_below.html#splinekit.interval.not_below.NotBelow.diameter"><code class="docutils literal notranslate"><span class="pre">NotBelow.diameter</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="03_not_below.html#splinekit.interval.not_below.NotBelow.midpoint"><code class="docutils literal notranslate"><span class="pre">NotBelow.midpoint</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="03_not_below.html#splinekit.interval.not_below.NotBelow.sortorder"><code class="docutils literal notranslate"><span class="pre">NotBelow.sortorder()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="03_not_below.html#splinekit.interval.not_below.NotBelow.__contains__"><code class="docutils literal notranslate"><span class="pre">NotBelow.__contains__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="03_not_below.html#splinekit.interval.not_below.NotBelow.__new__"><code class="docutils literal notranslate"><span class="pre">NotBelow.__new__()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="04_not_above.html">NotAbove [class]</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="04_not_above.html#splinekit.interval.not_above.NotAbove"><code class="docutils literal notranslate"><span class="pre">NotAbove</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="04_not_above.html#splinekit.interval.not_above.NotAbove.infimum"><code class="docutils literal notranslate"><span class="pre">NotAbove.infimum</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="04_not_above.html#splinekit.interval.not_above.NotAbove.supremum"><code class="docutils literal notranslate"><span class="pre">NotAbove.supremum</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="04_not_above.html#splinekit.interval.not_above.NotAbove.isleftopen"><code class="docutils literal notranslate"><span class="pre">NotAbove.isleftopen</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="04_not_above.html#splinekit.interval.not_above.NotAbove.isrightopen"><code class="docutils literal notranslate"><span class="pre">NotAbove.isrightopen</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="04_not_above.html#splinekit.interval.not_above.NotAbove.isopen"><code class="docutils literal notranslate"><span class="pre">NotAbove.isopen</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="04_not_above.html#splinekit.interval.not_above.NotAbove.ishalfopen"><code class="docutils literal notranslate"><span class="pre">NotAbove.ishalfopen</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="04_not_above.html#splinekit.interval.not_above.NotAbove.isclosed"><code class="docutils literal notranslate"><span class="pre">NotAbove.isclosed</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="04_not_above.html#splinekit.interval.not_above.NotAbove.isleftbounded"><code class="docutils literal notranslate"><span class="pre">NotAbove.isleftbounded</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="04_not_above.html#splinekit.interval.not_above.NotAbove.isrightbounded"><code class="docutils literal notranslate"><span class="pre">NotAbove.isrightbounded</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="04_not_above.html#splinekit.interval.not_above.NotAbove.ishalfbounded"><code class="docutils literal notranslate"><span class="pre">NotAbove.ishalfbounded</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="04_not_above.html#splinekit.interval.not_above.NotAbove.isbounded"><code class="docutils literal notranslate"><span class="pre">NotAbove.isbounded</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="04_not_above.html#splinekit.interval.not_above.NotAbove.isdegenerate"><code class="docutils literal notranslate"><span class="pre">NotAbove.isdegenerate</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="04_not_above.html#splinekit.interval.not_above.NotAbove.isproper"><code class="docutils literal notranslate"><span class="pre">NotAbove.isproper</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="04_not_above.html#splinekit.interval.not_above.NotAbove.interior"><code class="docutils literal notranslate"><span class="pre">NotAbove.interior</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="04_not_above.html#splinekit.interval.not_above.NotAbove.closure"><code class="docutils literal notranslate"><span class="pre">NotAbove.closure</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="04_not_above.html#splinekit.interval.not_above.NotAbove.diameter"><code class="docutils literal notranslate"><span class="pre">NotAbove.diameter</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="04_not_above.html#splinekit.interval.not_above.NotAbove.midpoint"><code class="docutils literal notranslate"><span class="pre">NotAbove.midpoint</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="04_not_above.html#splinekit.interval.not_above.NotAbove.sortorder"><code class="docutils literal notranslate"><span class="pre">NotAbove.sortorder()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="04_not_above.html#splinekit.interval.not_above.NotAbove.__contains__"><code class="docutils literal notranslate"><span class="pre">NotAbove.__contains__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="04_not_above.html#splinekit.interval.not_above.NotAbove.__new__"><code class="docutils literal notranslate"><span class="pre">NotAbove.__new__()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="05_below.html">Below [class]</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="05_below.html#splinekit.interval.below.Below"><code class="docutils literal notranslate"><span class="pre">Below</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="05_below.html#splinekit.interval.below.Below.infimum"><code class="docutils literal notranslate"><span class="pre">Below.infimum</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="05_below.html#splinekit.interval.below.Below.supremum"><code class="docutils literal notranslate"><span class="pre">Below.supremum</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="05_below.html#splinekit.interval.below.Below.isleftopen"><code class="docutils literal notranslate"><span class="pre">Below.isleftopen</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="05_below.html#splinekit.interval.below.Below.isrightopen"><code class="docutils literal notranslate"><span class="pre">Below.isrightopen</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="05_below.html#splinekit.interval.below.Below.isopen"><code class="docutils literal notranslate"><span class="pre">Below.isopen</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="05_below.html#splinekit.interval.below.Below.ishalfopen"><code class="docutils literal notranslate"><span class="pre">Below.ishalfopen</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="05_below.html#splinekit.interval.below.Below.isclosed"><code class="docutils literal notranslate"><span class="pre">Below.isclosed</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="05_below.html#splinekit.interval.below.Below.isleftbounded"><code class="docutils literal notranslate"><span class="pre">Below.isleftbounded</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="05_below.html#splinekit.interval.below.Below.isrightbounded"><code class="docutils literal notranslate"><span class="pre">Below.isrightbounded</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="05_below.html#splinekit.interval.below.Below.ishalfbounded"><code class="docutils literal notranslate"><span class="pre">Below.ishalfbounded</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="05_below.html#splinekit.interval.below.Below.isbounded"><code class="docutils literal notranslate"><span class="pre">Below.isbounded</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="05_below.html#splinekit.interval.below.Below.isdegenerate"><code class="docutils literal notranslate"><span class="pre">Below.isdegenerate</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="05_below.html#splinekit.interval.below.Below.isproper"><code class="docutils literal notranslate"><span class="pre">Below.isproper</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="05_below.html#splinekit.interval.below.Below.interior"><code class="docutils literal notranslate"><span class="pre">Below.interior</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="05_below.html#splinekit.interval.below.Below.closure"><code class="docutils literal notranslate"><span class="pre">Below.closure</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="05_below.html#splinekit.interval.below.Below.diameter"><code class="docutils literal notranslate"><span class="pre">Below.diameter</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="05_below.html#splinekit.interval.below.Below.midpoint"><code class="docutils literal notranslate"><span class="pre">Below.midpoint</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="05_below.html#splinekit.interval.below.Below.sortorder"><code class="docutils literal notranslate"><span class="pre">Below.sortorder()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="05_below.html#splinekit.interval.below.Below.__contains__"><code class="docutils literal notranslate"><span class="pre">Below.__contains__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="05_below.html#splinekit.interval.below.Below.__new__"><code class="docutils literal notranslate"><span class="pre">Below.__new__()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../degenerate/02_singleton.html" class="btn btn-neutral float-left" title="Singleton [class]" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="01_half_bounded.html" class="btn btn-neutral float-right" title="HalfBounded [abstract class]" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright .</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,2083 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Interval [abstract class] &mdash; splinekit  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../_static/plot_directive.css" />
+      <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=2f8eb179" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+      <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Universal [toc]" href="../universal/index.html" />
+    <link rel="prev" title="Interval [toc]" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            splinekit
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../installation/index.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial/index.html">Tutorial [toc]</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../glossary/index.html">Glossary [toc]</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../periodic_spline_1d/index.html">Periodic Spline 1D [toc]</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../bsplines/index.html">B-Splines [toc]</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../spline_padding/index.html">Spline Padding [toc]</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../bases/index.html">Bases [toc]</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../periodic_nonuniform_piecewise/index.html">Periodic Nonuniform Piecewise [toc]</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Interval [package]</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Interval [toc]</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Interval [abstract class]</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#abstract-properties">Abstract Properties</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#abstract-methods">Abstract Methods</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#class-methods">Class Methods</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#instance-methods">Instance Methods</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#abstract-operators">Abstract Operators</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#operators">Operators</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#concrete-classes">Concrete Classes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#splinekit.interval.interval.Interval"><code class="docutils literal notranslate"><span class="pre">Interval</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../universal/index.html">Universal [toc]</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../degenerate/index.html">Degenerate [toc]</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../half_bounded/index.html">HalfBounded [toc]</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../bounded/index.html">Bounded [toc]</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../spline_utilities/index.html">Spline Utilities [toc]</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">splinekit</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Interval [package]</a></li>
+          <li class="breadcrumb-item"><a href="index.html">Interval [toc]</a></li>
+      <li class="breadcrumb-item active">Interval [abstract class]</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/Philippe-Thevenaz/splinekit/blob/main/docs/interval/interval/01_interval.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="interval-abstract-class">
+<span id="api-interval"></span><h1>Interval [abstract class]<a class="headerlink" href="#interval-abstract-class" title="Link to this heading"></a></h1>
+<p>The <code class="xref py py-class docutils literal notranslate"><span class="pre">splinekit.interval.Interval</span></code> module provides the abstract base class from which concrete Interval classes are derived.</p>
+<p id="module-splinekit.interval.interval">This abstract class handles intervals of real numbers.</p>
+<section id="abstract-properties">
+<h2>Abstract Properties<a class="headerlink" href="#abstract-properties" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="#infimum"><span class="std std-ref">infimum</span></a></p></li>
+<li><p><a class="reference internal" href="#supremum"><span class="std std-ref">supremum</span></a></p></li>
+<li><p><a class="reference internal" href="#isleftopen"><span class="std std-ref">isleftopen</span></a></p></li>
+<li><p><a class="reference internal" href="#isrightopen"><span class="std std-ref">isrightopen</span></a></p></li>
+<li><p><a class="reference internal" href="#isopen"><span class="std std-ref">isopen</span></a></p></li>
+<li><p><a class="reference internal" href="#ishalfopen"><span class="std std-ref">ishalfopen</span></a></p></li>
+<li><p><a class="reference internal" href="#isclosed"><span class="std std-ref">isclosed</span></a></p></li>
+<li><p><a class="reference internal" href="#isleftbounded"><span class="std std-ref">isleftbounded</span></a></p></li>
+<li><p><a class="reference internal" href="#isrightbounded"><span class="std std-ref">isrightbounded</span></a></p></li>
+<li><p><a class="reference internal" href="#ishalfbounded"><span class="std std-ref">ishalfbounded</span></a></p></li>
+<li><p><a class="reference internal" href="#isbounded"><span class="std std-ref">isbounded</span></a></p></li>
+<li><p><a class="reference internal" href="#isdegenerate"><span class="std std-ref">isdegenerate</span></a></p></li>
+<li><p><a class="reference internal" href="#isproper"><span class="std std-ref">isproper</span></a></p></li>
+<li><p><a class="reference internal" href="#interior"><span class="std std-ref">interior</span></a></p></li>
+<li><p><a class="reference internal" href="#closure"><span class="std std-ref">closure</span></a></p></li>
+<li><p><a class="reference internal" href="#diameter"><span class="std std-ref">diameter</span></a></p></li>
+<li><p><a class="reference internal" href="#midpoint"><span class="std std-ref">midpoint</span></a></p></li>
+</ul>
+</section>
+<section id="abstract-methods">
+<h2>Abstract Methods<a class="headerlink" href="#abstract-methods" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="#sortorder"><span class="std std-ref">sortorder</span></a></p></li>
+</ul>
+</section>
+<section id="class-methods">
+<h2>Class Methods<a class="headerlink" href="#class-methods" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="#ismember"><span class="std std-ref">ismember</span></a></p></li>
+<li><p><a class="reference internal" href="#enclosure"><span class="std std-ref">enclosure</span></a></p></li>
+<li><p><a class="reference internal" href="#complement"><span class="std std-ref">complement</span></a></p></li>
+<li><p><a class="reference internal" href="#intersection"><span class="std std-ref">intersection</span></a></p></li>
+<li><p><a class="reference internal" href="#union"><span class="std std-ref">union</span></a></p></li>
+<li><p><a class="reference internal" href="#gravitycenter"><span class="std std-ref">gravitycenter</span></a></p></li>
+</ul>
+</section>
+<section id="instance-methods">
+<h2>Instance Methods<a class="headerlink" href="#instance-methods" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="#iskissing"><span class="std std-ref">iskissing</span></a></p></li>
+<li><p><a class="reference internal" href="#isoverlapping"><span class="std std-ref">isoverlapping</span></a></p></li>
+<li><p><a class="reference internal" href="#partition"><span class="std std-ref">partition</span></a></p></li>
+<li><p><a class="reference internal" href="#copy"><span class="std std-ref">copy</span></a></p></li>
+</ul>
+</section>
+<section id="abstract-operators">
+<h2>Abstract Operators<a class="headerlink" href="#abstract-operators" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="#contains"><span class="std std-ref">__contains__</span></a> <code class="docutils literal notranslate"><span class="pre">in</span></code> Interval membership: <span class="math notranslate nohighlight">\(\in\)</span></p></li>
+</ul>
+</section>
+<section id="operators">
+<h2>Operators<a class="headerlink" href="#operators" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="#eq"><span class="std std-ref">__eq__</span></a> <code class="docutils literal notranslate"><span class="pre">==</span></code> Equality of intervals: <span class="math notranslate nohighlight">\(=\)</span></p></li>
+<li><p><a class="reference internal" href="#ne"><span class="std std-ref">__ne__</span></a> <code class="docutils literal notranslate"><span class="pre">!=</span></code> Inequality of intervals: <span class="math notranslate nohighlight">\(\neq\)</span></p></li>
+<li><p><a class="reference internal" href="#lt"><span class="std std-ref">__lt__</span></a> <code class="docutils literal notranslate"><span class="pre">&lt;</span></code> Proper subset: <span class="math notranslate nohighlight">\(\subset\)</span></p></li>
+<li><p><a class="reference internal" href="#le"><span class="std std-ref">__le__</span></a> <code class="docutils literal notranslate"><span class="pre">&lt;=</span></code> Subset: <span class="math notranslate nohighlight">\(\subseteq\)</span></p></li>
+<li><p><a class="reference internal" href="#neg"><span class="std std-ref">__neg__</span></a> <code class="docutils literal notranslate"><span class="pre">-</span></code> Unary complement in <code class="docutils literal notranslate"><span class="pre">RR()</span></code>:
+<span class="math notranslate nohighlight">\((\cdot)^{{\mathrm{c}}}\)</span></p></li>
+<li><p><a class="reference internal" href="#sub"><span class="std std-ref">__sub__</span></a> <code class="docutils literal notranslate"><span class="pre">-</span></code> Pairwise difference: <span class="math notranslate nohighlight">\(\setminus\)</span></p></li>
+<li><p><a class="reference internal" href="#and"><span class="std std-ref">__and__</span></a> <code class="docutils literal notranslate"><span class="pre">&amp;</span></code> Intersection: <span class="math notranslate nohighlight">\(\cap\)</span></p></li>
+<li><p><a class="reference internal" href="#or"><span class="std std-ref">__or__</span></a> <code class="docutils literal notranslate"><span class="pre">|</span></code> Union: <span class="math notranslate nohighlight">\(\cup\)</span></p></li>
+<li><p><a class="reference internal" href="#xor"><span class="std std-ref">__xor__</span></a> <code class="docutils literal notranslate"><span class="pre">^</span></code> Symmetric difference: <span class="math notranslate nohighlight">\(\Delta\)</span></p></li>
+</ul>
+</section>
+<section id="concrete-classes">
+<h2>Concrete Classes<a class="headerlink" href="#concrete-classes" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="../universal/03_rr.html#rr"><span class="std std-ref">RR</span></a></p></li>
+<li><p><a class="reference internal" href="../universal/02_empty.html#empty"><span class="std std-ref">Empty</span></a></p></li>
+<li><p><a class="reference internal" href="../degenerate/02_singleton.html#singleton"><span class="std std-ref">Singleton</span></a></p></li>
+<li><p><a class="reference internal" href="../half_bounded/02_above.html#above"><span class="std std-ref">Above</span></a></p></li>
+<li><p><a class="reference internal" href="../half_bounded/03_not_below.html#notbelow"><span class="std std-ref">NotBelow</span></a></p></li>
+<li><p><a class="reference internal" href="../half_bounded/04_not_above.html#notabove"><span class="std std-ref">NotAbove</span></a></p></li>
+<li><p><a class="reference internal" href="../half_bounded/05_below.html#below"><span class="std std-ref">Below</span></a></p></li>
+<li><p><a class="reference internal" href="../bounded/02_open.html#open"><span class="std std-ref">Open</span></a></p></li>
+<li><p><a class="reference internal" href="../bounded/03_open_closed.html#openclosed"><span class="std std-ref">OpenClosed</span></a></p></li>
+<li><p><a class="reference internal" href="../bounded/04_closed.html#closed"><span class="std std-ref">Closed</span></a></p></li>
+<li><p><a class="reference internal" href="../bounded/05_closed_open.html#closedopen"><span class="std std-ref">ClosedOpen</span></a></p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<dl class="py class">
+<dt class="sig sig-object py" id="splinekit.interval.interval.Interval">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">splinekit.interval.interval.</span></span><span class="sig-name descname"><span class="pre">Interval</span></span><a class="headerlink" href="#splinekit.interval.interval.Interval" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code></p>
+<blockquote>
+<div></div></blockquote>
+<p id="interval">The abstract class that concrete intervals of real numbers must implement.</p>
+<dl class="simple">
+<dt>The known concrete classes that implement this abstract class are</dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">RR</span></code> All finite real numbers <span class="math notranslate nohighlight">\({\mathbb{R}}=(-\infty,\infty)\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Empty</span></code> The empty interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x\neq x\}=\emptyset\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Singleton</span></code> The degenerate interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x=x_{0}\}=[x_{0},x_{0}]\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Above</span></code> The right-unbounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x&gt;x_{0}\}=(x_{0},\infty)\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">NotBelow</span></code> The right-unbounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x\geq x_{0}\}=[x_{0},\infty)\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">NotAbove</span></code> The left-unbounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x\leq x_{0}\}=(—\infty,x_{0}]\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Below</span></code> The left-unbounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x&lt;x_{0}\}=(—\infty,x_{0})\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Open</span></code> The bounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x_{0}&lt;x&lt;x_{1}\}=(x_{0},x_{1})\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">OpenClosed</span></code> The bounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x_{0}&lt;x\leq x_{1}\}=(x_{0},x_{1}]\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Closed</span></code> The bounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x_{0}\leq x\leq x_{1}\}=[x_{0},x_{1}]\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ClosedOpen</span></code> The bounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x_{0}\leq x&lt;x_{1}\}=[x_{0},x_{1})\)</span></p></li>
+</ul>
+</dd>
+</dl>
+<hr class="docutils" />
+<dl class="py property">
+<dt class="sig sig-object py" id="splinekit.interval.interval.Interval.infimum">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">infimum</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#splinekit.interval.interval.Interval.infimum" title="Link to this definition"></a></dt>
+<dd><p id="infimum">The value of the left endpoint of this interval.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Left endpoint.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>float</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<dl class="simple">
+<dt><cite>infimum = float(“nan”)</cite> for the following class.</dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Empty</span></code> The empty interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x\neq x\}=\emptyset\)</span></p></li>
+</ul>
+</dd>
+<dt><cite>infimum = float(“-inf”)</cite> for the following classes.</dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">RR</span></code> All finite real numbers
+<span class="math notranslate nohighlight">\({\mathbb{R}}=(-\infty,\infty)\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">NotAbove</span></code> The left-unbounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x\leq x_{0}\}=(—\infty,x_{0}]\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Below</span></code> The left-unbounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x&lt;x_{0}\}=(—\infty,x_{0})\)</span></p></li>
+</ul>
+</dd>
+<dt><cite>math.isfinite(infimum) = True</cite> for the following classes.</dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Singleton</span></code> The degenerate interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x=x_{0}\}=[x_{0},x_{0}]\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Above</span></code> The right-unbounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x&gt;x_{0}\}=(x_{0},\infty)\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">NotBelow</span></code> The right-unbounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x\geq x_{0}\}=[x_{0},\infty)\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Open</span></code> The bounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x_{0}&lt;x&lt;x_{1}\}=(x_{0},x_{1})\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">OpenClosed</span></code> The bounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x_{0}&lt;x\leq x_{1}\}=(x_{0},x_{1}]\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Closed</span></code> The bounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x_{0}\leq x\leq x_{1}\}=[x_{0},x_{1}]\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ClosedOpen</span></code> The bounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x_{0}\leq x&lt;x_{1}\}=[x_{0},x_{1})\)</span></p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="py property">
+<dt class="sig sig-object py" id="splinekit.interval.interval.Interval.supremum">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">supremum</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#splinekit.interval.interval.Interval.supremum" title="Link to this definition"></a></dt>
+<dd><p id="supremum">The value of the right endpoint of this interval.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Right endpoint.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>float</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<dl class="simple">
+<dt><cite>supremum = float(“nan”)</cite> for the following class.</dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Empty</span></code> The empty interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x\neq x\}=\emptyset\)</span></p></li>
+</ul>
+</dd>
+<dt><cite>supremum = float(“inf”)</cite> for the following classes.</dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">RR</span></code> All finite real numbers
+<span class="math notranslate nohighlight">\({\mathbb{R}}=(-\infty,\infty)\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Above</span></code> The right-unbounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x&gt;x_{0}\}=(x_{0},\infty)\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">NotBelow</span></code> The right-unbounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x\geq x_{0}\}=[x_{0},\infty)\)</span></p></li>
+</ul>
+</dd>
+<dt><cite>math.isfinite(supremum) = True</cite> for the following classes.</dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Singleton</span></code> The degenerate interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x=x_{0}\}=[x_{0},x_{0}]\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">NotAbove</span></code> The left-unbounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x\leq x_{0}\}=(—\infty,x_{0}]\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Below</span></code> The left-unbounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x&lt;x_{0}\}=(—\infty,x_{0})\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Open</span></code> The bounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x_{0}&lt;x&lt;x_{1}\}=(x_{0},x_{1})\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">OpenClosed</span></code> The bounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x_{0}&lt;x\leq x_{1}\}=(x_{0},x_{1}]\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Closed</span></code> The bounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x_{0}\leq x\leq x_{1}\}=[x_{0},x_{1}]\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ClosedOpen</span></code> The bounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x_{0}\leq x&lt;x_{1}\}=[x_{0},x_{1})\)</span></p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="py property">
+<dt class="sig sig-object py" id="splinekit.interval.interval.Interval.isleftopen">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">isleftopen</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#splinekit.interval.interval.Interval.isleftopen" title="Link to this definition"></a></dt>
+<dd><p id="isleftopen">If the infimum of this interval is a finite number, tests whether
+it fails to be a member of the interval; else, the interval is
+vacuously said to be left-open.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><ul class="simple">
+<li><p><cite>False</cite> if this interval is not open to the left.</p></li>
+<li><p><cite>True</cite> if this interval is open to the left.</p></li>
+</ul>
+</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>bool</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<dl>
+<dt>Left-openness of some bounded interval.</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">splinekit.interval</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ivl</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ivl</span><span class="o">.</span><span class="n">OpenClosed</span><span class="p">((</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">))</span><span class="o">.</span><span class="n">isleftopen</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<dl class="simple">
+<dt><cite>isleftopen = True</cite> for the following classes.</dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">RR</span></code> All finite real numbers
+<span class="math notranslate nohighlight">\({\mathbb{R}}=(-\infty,\infty)\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Empty</span></code> The empty interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x\neq x\}=\emptyset\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Above</span></code> The right-unbounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x&gt;x_{0}\}=(x_{0},\infty)\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">NotAbove</span></code> The left-unbounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x\leq x_{0}\}=(—\infty,x_{0}]\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Below</span></code> The left-unbounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x&lt;x_{0}\}=(—\infty,x_{0})\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Open</span></code> The bounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x_{0}&lt;x&lt;x_{1}\}=(x_{0},x_{1})\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">OpenClosed</span></code> The bounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x_{0}&lt;x\leq x_{1}\}=(x_{0},x_{1}]\)</span></p></li>
+</ul>
+</dd>
+<dt><cite>isleftopen = False</cite> for the following classes.</dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Singleton</span></code> The degenerate interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x=x_{0}\}=[x_{0},x_{0}]\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">NotBelow</span></code> The right-unbounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x\geq x_{0}\}=[x_{0},\infty)\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Closed</span></code> The bounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x_{0}\leq x\leq x_{1}\}=[x_{0},x_{1}]\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ClosedOpen</span></code> The bounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x_{0}\leq x&lt;x_{1}\}=[x_{0},x_{1})\)</span></p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="py property">
+<dt class="sig sig-object py" id="splinekit.interval.interval.Interval.isrightopen">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">isrightopen</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#splinekit.interval.interval.Interval.isrightopen" title="Link to this definition"></a></dt>
+<dd><p id="isrightopen">If the supremum of this interval is a finite number, tests whether
+it fails to be a member of the interval; else, the interval is
+vacuously said to be right-open.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><ul class="simple">
+<li><p><cite>False</cite> if this interval is not open to the right.</p></li>
+<li><p><cite>True</cite> if this interval is open to the right.</p></li>
+</ul>
+</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>bool</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<dl>
+<dt>Right-openness of some bounded interval.</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">splinekit.interval</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ivl</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ivl</span><span class="o">.</span><span class="n">OpenClosed</span><span class="p">((</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">))</span><span class="o">.</span><span class="n">isrightopen</span>
+<span class="go">False</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<dl class="simple">
+<dt><cite>isrightopen = True</cite> for the following classes.</dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">RR</span></code> All finite real numbers
+<span class="math notranslate nohighlight">\({\mathbb{R}}=(-\infty,\infty)\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Empty</span></code> The empty interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x\neq x\}=\emptyset\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Above</span></code> The right-unbounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x&gt;x_{0}\}=(x_{0},\infty)\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">NotBelow</span></code> The right-unbounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x\geq x_{0}\}=[x_{0},\infty)\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Below</span></code> The left-unbounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x&lt;x_{0}\}=(—\infty,x_{0})\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Open</span></code> The bounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x_{0}&lt;x&lt;x_{1}\}=(x_{0},x_{1})\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ClosedOpen</span></code> The bounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x_{0}\leq x&lt;x_{1}\}=[x_{0},x_{1})\)</span></p></li>
+</ul>
+</dd>
+<dt><cite>isrightopen = False</cite> for the following classes.</dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Singleton</span></code> The degenerate interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x=x_{0}\}=[x_{0},x_{0}]\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">NotAbove</span></code> The left-unbounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x\leq x_{0}\}=(—\infty,x_{0}]\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">OpenClosed</span></code> The bounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x_{0}&lt;x\leq x_{1}\}=(x_{0},x_{1}]\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Closed</span></code> The bounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x_{0}\leq x\leq x_{1}\}=[x_{0},x_{1}]\)</span></p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="py property">
+<dt class="sig sig-object py" id="splinekit.interval.interval.Interval.isopen">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">isopen</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#splinekit.interval.interval.Interval.isopen" title="Link to this definition"></a></dt>
+<dd><p id="isopen">Tests if this interval is jointly left-open and right-open.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><ul class="simple">
+<li><p><cite>False</cite> if this interval is not open.</p></li>
+<li><p><cite>True</cite> if this interval is open.</p></li>
+</ul>
+</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>bool</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<dl>
+<dt>Openness of some bounded interval.</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">splinekit.interval</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ivl</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ivl</span><span class="o">.</span><span class="n">OpenClosed</span><span class="p">((</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">))</span><span class="o">.</span><span class="n">isopen</span>
+<span class="go">False</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<dl class="simple">
+<dt><cite>isopen = True</cite> for the following classes.</dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">RR</span></code> All finite real numbers
+<span class="math notranslate nohighlight">\({\mathbb{R}}=(-\infty,\infty)\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Empty</span></code> The empty interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x\neq x\}=\emptyset\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Above</span></code> The right-unbounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x&gt;x_{0}\}=(x_{0},\infty)\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Below</span></code> The left-unbounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x&lt;x_{0}\}=(—\infty,x_{0})\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Open</span></code> The bounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x_{0}&lt;x&lt;x_{1}\}=(x_{0},x_{1})\)</span></p></li>
+</ul>
+</dd>
+<dt><cite>isopen = False</cite> for the following classes.</dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Singleton</span></code> The degenerate interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x=x_{0}\}=[x_{0},x_{0}]\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">NotBelow</span></code> The right-unbounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x\geq x_{0}\}=[x_{0},\infty)\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">NotAbove</span></code> The left-unbounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x\leq x_{0}\}=(—\infty,x_{0}]\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">OpenClosed</span></code> The bounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x_{0}&lt;x\leq x_{1}\}=(x_{0},x_{1}]\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Closed</span></code> The bounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x_{0}\leq x\leq x_{1}\}=[x_{0},x_{1}]\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ClosedOpen</span></code> The bounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x_{0}\leq x&lt;x_{1}\}=[x_{0},x_{1})\)</span></p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="py property">
+<dt class="sig sig-object py" id="splinekit.interval.interval.Interval.ishalfopen">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ishalfopen</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#splinekit.interval.interval.Interval.ishalfopen" title="Link to this definition"></a></dt>
+<dd><p id="ishalfopen">Tests if this interval is open at one end only.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><ul class="simple">
+<li><p><cite>False</cite> if this interval is not half-open.</p></li>
+<li><p><cite>True</cite> if this interval is half-open.</p></li>
+</ul>
+</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>bool</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<dl>
+<dt>Half-openness of some bounded interval.</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">splinekit.interval</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ivl</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ivl</span><span class="o">.</span><span class="n">OpenClosed</span><span class="p">((</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">))</span><span class="o">.</span><span class="n">ishalfopen</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<dl class="simple">
+<dt><cite>ishalfopen = True</cite> for the following classes.</dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">NotBelow</span></code> The right-unbounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x\geq x_{0}\}=[x_{0},\infty)\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">NotAbove</span></code> The left-unbounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x\leq x_{0}\}=(—\infty,x_{0}]\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">OpenClosed</span></code> The bounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x_{0}&lt;x\leq x_{1}\}=(x_{0},x_{1}]\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ClosedOpen</span></code> The bounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x_{0}\leq x&lt;x_{1}\}=[x_{0},x_{1})\)</span></p></li>
+</ul>
+</dd>
+<dt><cite>ishalfopen = False</cite> for the following classes.</dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">RR</span></code> All finite real numbers
+<span class="math notranslate nohighlight">\({\mathbb{R}}=(-\infty,\infty)\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Empty</span></code> The empty interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x\neq x\}=\emptyset\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Singleton</span></code> The degenerate interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x=x_{0}\}=[x_{0},x_{0}]\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Above</span></code> The right-unbounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x&gt;x_{0}\}=(x_{0},\infty)\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Below</span></code> The left-unbounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x&lt;x_{0}\}=(—\infty,x_{0})\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Open</span></code> The bounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x_{0}&lt;x&lt;x_{1}\}=(x_{0},x_{1})\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Closed</span></code> The bounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x_{0}\leq x\leq x_{1}\}=[x_{0},x_{1}]\)</span></p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="py property">
+<dt class="sig sig-object py" id="splinekit.interval.interval.Interval.isclosed">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">isclosed</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#splinekit.interval.interval.Interval.isclosed" title="Link to this definition"></a></dt>
+<dd><p id="isclosed">If the infimum and the supremum of this interval are two finite
+numbers, tests if they are jointly members of the interval;
+else, the interval is vacuously said to be closed.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><ul class="simple">
+<li><p><cite>False</cite> if this interval is not closed.</p></li>
+<li><p><cite>True</cite> if this interval is closed.</p></li>
+</ul>
+</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>bool</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<dl>
+<dt>Closedness of some bounded interval.</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">splinekit.interval</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ivl</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ivl</span><span class="o">.</span><span class="n">OpenClosed</span><span class="p">((</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">))</span><span class="o">.</span><span class="n">isclosed</span>
+<span class="go">False</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<dl class="simple">
+<dt><cite>isclosed = True</cite> for the following classes.</dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">RR</span></code> All finite real numbers
+<span class="math notranslate nohighlight">\({\mathbb{R}}=(-\infty,\infty)\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Empty</span></code> The empty interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x\neq x\}=\emptyset\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Singleton</span></code> The degenerate interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x=x_{0}\}=[x_{0},x_{0}]\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">NotBelow</span></code> The right-unbounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x\geq x_{0}\}=[x_{0},\infty)\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">NotAbove</span></code> The left-unbounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x\leq x_{0}\}=(—\infty,x_{0}]\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Closed</span></code> The bounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x_{0}\leq x\leq x_{1}\}=[x_{0},x_{1}]\)</span></p></li>
+</ul>
+</dd>
+<dt><cite>isclosed = False</cite> for the following classes.</dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Above</span></code> The right-unbounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x&gt;x_{0}\}=(x_{0},\infty)\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Below</span></code> The left-unbounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x&lt;x_{0}\}=(—\infty,x_{0})\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Open</span></code> The bounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x_{0}&lt;x&lt;x_{1}\}=(x_{0},x_{1})\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">OpenClosed</span></code> The bounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x_{0}&lt;x\leq x_{1}\}=(x_{0},x_{1}]\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ClosedOpen</span></code> The bounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x_{0}\leq x&lt;x_{1}\}=[x_{0},x_{1})\)</span></p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="py property">
+<dt class="sig sig-object py" id="splinekit.interval.interval.Interval.isleftbounded">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">isleftbounded</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#splinekit.interval.interval.Interval.isleftbounded" title="Link to this definition"></a></dt>
+<dd><p id="isleftbounded">Tests whether the infimum of this interval fails to be an infinite
+number.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><ul class="simple">
+<li><p><cite>False</cite> if this interval is not bounded to the left.</p></li>
+<li><p><cite>True</cite> if this interval is bounded to the left.</p></li>
+</ul>
+</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>bool</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<dl>
+<dt>Left-boundedness of some half-bounded interval.</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">splinekit.interval</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ivl</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ivl</span><span class="o">.</span><span class="n">Above</span><span class="p">(</span><span class="mf">3.0</span><span class="p">)</span><span class="o">.</span><span class="n">isleftbounded</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<dl class="simple">
+<dt><cite>isleftbounded = True</cite> for the following classes.</dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Empty</span></code> The empty interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x\neq x\}=\emptyset\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Singleton</span></code> The degenerate interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x=x_{0}\}=[x_{0},x_{0}]\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Above</span></code> The right-unbounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x&gt;x_{0}\}=(x_{0},\infty)\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">NotBelow</span></code> The right-unbounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x\geq x_{0}\}=[x_{0},\infty)\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Open</span></code> The bounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x_{0}&lt;x&lt;x_{1}\}=(x_{0},x_{1})\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">OpenClosed</span></code> The bounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x_{0}&lt;x\leq x_{1}\}=(x_{0},x_{1}]\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Closed</span></code> The bounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x_{0}\leq x\leq x_{1}\}=[x_{0},x_{1}]\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ClosedOpen</span></code> The bounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x_{0}\leq x&lt;x_{1}\}=[x_{0},x_{1})\)</span></p></li>
+</ul>
+</dd>
+<dt><cite>isleftbounded = False</cite> for the following classes.</dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">RR</span></code> All finite real numbers
+<span class="math notranslate nohighlight">\({\mathbb{R}}=(-\infty,\infty)\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">NotAbove</span></code> The left-unbounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x\leq x_{0}\}=(—\infty,x_{0}]\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Below</span></code> The left-unbounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x&lt;x_{0}\}=(—\infty,x_{0})\)</span></p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="py property">
+<dt class="sig sig-object py" id="splinekit.interval.interval.Interval.isrightbounded">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">isrightbounded</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#splinekit.interval.interval.Interval.isrightbounded" title="Link to this definition"></a></dt>
+<dd><p id="isrightbounded">Tests whether the supremum of this interval fails to be an infinite
+number.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><ul class="simple">
+<li><p><cite>False</cite> if this interval is not bounded to the right.</p></li>
+<li><p><cite>True</cite> if this interval is bounded to the right.</p></li>
+</ul>
+</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>bool</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<dl>
+<dt>Right-boundedness of some half-bounded interval.</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">splinekit.interval</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ivl</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ivl</span><span class="o">.</span><span class="n">Above</span><span class="p">(</span><span class="mf">3.0</span><span class="p">)</span><span class="o">.</span><span class="n">isrightbounded</span>
+<span class="go">False</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<dl class="simple">
+<dt><cite>isrightbounded = True</cite> for the following classes.</dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Empty</span></code> The empty interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x\neq x\}=\emptyset\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Singleton</span></code> The degenerate interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x=x_{0}\}=[x_{0},x_{0}]\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">NotAbove</span></code> The left-unbounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x\leq x_{0}\}=(—\infty,x_{0}]\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Below</span></code> The left-unbounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x&lt;x_{0}\}=(—\infty,x_{0})\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Open</span></code> The bounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x_{0}&lt;x&lt;x_{1}\}=(x_{0},x_{1})\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">OpenClosed</span></code> The bounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x_{0}&lt;x\leq x_{1}\}=(x_{0},x_{1}]\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Closed</span></code> The bounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x_{0}\leq x\leq x_{1}\}=[x_{0},x_{1}]\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ClosedOpen</span></code> The bounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x_{0}\leq x&lt;x_{1}\}=[x_{0},x_{1})\)</span></p></li>
+</ul>
+</dd>
+<dt><cite>isrightbounded = False</cite> for the following classes.</dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">RR</span></code> All finite real numbers
+<span class="math notranslate nohighlight">\({\mathbb{R}}=(-\infty,\infty)\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Above</span></code> The right-unbounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x&gt;x_{0}\}=(x_{0},\infty)\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">NotBelow</span></code> The right-unbounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x\geq x_{0}\}=[x_{0},\infty)\)</span></p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="py property">
+<dt class="sig sig-object py" id="splinekit.interval.interval.Interval.ishalfbounded">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ishalfbounded</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#splinekit.interval.interval.Interval.ishalfbounded" title="Link to this definition"></a></dt>
+<dd><p id="ishalfbounded">Tests if this interval is bounded at one end only.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><ul class="simple">
+<li><p><cite>False</cite> if this interval is not half-bounded.</p></li>
+<li><p><cite>True</cite> if this interval is half-bounded.</p></li>
+</ul>
+</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>bool</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<dl>
+<dt>Half-boundedness of some half-bounded interval.</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">splinekit.interval</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ivl</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ivl</span><span class="o">.</span><span class="n">Above</span><span class="p">(</span><span class="mf">3.0</span><span class="p">)</span><span class="o">.</span><span class="n">ishalfbounded</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<dl class="simple">
+<dt><cite>ishalfbounded = True</cite> for the following classes.</dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Above</span></code> The right-unbounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x&gt;x_{0}\}=(x_{0},\infty)\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">NotBelow</span></code> The right-unbounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x\geq x_{0}\}=[x_{0},\infty)\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">NotAbove</span></code> The left-unbounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x\leq x_{0}\}=(—\infty,x_{0}]\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Below</span></code> The left-unbounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x&lt;x_{0}\}=(—\infty,x_{0})\)</span></p></li>
+</ul>
+</dd>
+<dt><cite>ishalfbounded = False</cite> for the following classes.</dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">RR</span></code> All finite real numbers
+<span class="math notranslate nohighlight">\({\mathbb{R}}=(-\infty,\infty)\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Empty</span></code> The empty interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x\neq x\}=\emptyset\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Singleton</span></code> The degenerate interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x=x_{0}\}=[x_{0},x_{0}]\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Open</span></code> The bounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x_{0}&lt;x&lt;x_{1}\}=(x_{0},x_{1})\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">OpenClosed</span></code> The bounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x_{0}&lt;x\leq x_{1}\}=(x_{0},x_{1}]\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Closed</span></code> The bounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x_{0}\leq x\leq x_{1}\}=[x_{0},x_{1}]\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ClosedOpen</span></code> The bounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x_{0}\leq x&lt;x_{1}\}=[x_{0},x_{1})\)</span></p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="py property">
+<dt class="sig sig-object py" id="splinekit.interval.interval.Interval.isbounded">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">isbounded</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#splinekit.interval.interval.Interval.isbounded" title="Link to this definition"></a></dt>
+<dd><p id="isbounded">Tests if this interval is bounded at both ends jointly.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><ul class="simple">
+<li><p><cite>False</cite> if this interval is not bounded.</p></li>
+<li><p><cite>True</cite> if this interval is bounded.</p></li>
+</ul>
+</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>bool</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<dl>
+<dt>Boundedness of some half-bounded interval.</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">splinekit.interval</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ivl</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ivl</span><span class="o">.</span><span class="n">Above</span><span class="p">(</span><span class="mf">3.0</span><span class="p">)</span><span class="o">.</span><span class="n">isbounded</span>
+<span class="go">False</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<dl class="simple">
+<dt><cite>isbounded = True</cite> for the following classes.</dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Empty</span></code> The empty interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x\neq x\}=\emptyset\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Singleton</span></code> The degenerate interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x=x_{0}\}=[x_{0},x_{0}]\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Open</span></code> The bounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x_{0}&lt;x&lt;x_{1}\}=(x_{0},x_{1})\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">OpenClosed</span></code> The bounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x_{0}&lt;x\leq x_{1}\}=(x_{0},x_{1}]\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Closed</span></code> The bounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x_{0}\leq x\leq x_{1}\}=[x_{0},x_{1}]\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ClosedOpen</span></code> The bounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x_{0}\leq x&lt;x_{1}\}=[x_{0},x_{1})\)</span></p></li>
+</ul>
+</dd>
+<dt><cite>isbounded = False</cite> for the following classes.</dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">RR</span></code> All finite real numbers
+<span class="math notranslate nohighlight">\({\mathbb{R}}=(-\infty,\infty)\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Above</span></code> The right-unbounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x&gt;x_{0}\}=(x_{0},\infty)\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">NotBelow</span></code> The right-unbounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x\geq x_{0}\}=[x_{0},\infty)\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">NotAbove</span></code> The left-unbounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x\leq x_{0}\}=(—\infty,x_{0}]\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Below</span></code> The left-unbounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x&lt;x_{0}\}=(—\infty,x_{0})\)</span></p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="py property">
+<dt class="sig sig-object py" id="splinekit.interval.interval.Interval.isdegenerate">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">isdegenerate</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#splinekit.interval.interval.Interval.isdegenerate" title="Link to this definition"></a></dt>
+<dd><p id="isdegenerate">Tests if this interval contains a single number.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><ul class="simple">
+<li><p><cite>False</cite> if this interval is not degenerate.</p></li>
+<li><p><cite>True</cite> if this interval is degenerate.</p></li>
+</ul>
+</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>bool</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<dl>
+<dt>Degeneracy of the Empty interval.</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">splinekit.interval</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ivl</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ivl</span><span class="o">.</span><span class="n">Empty</span><span class="p">()</span><span class="o">.</span><span class="n">isdegenerate</span>
+<span class="go">False</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<dl class="simple">
+<dt><cite>isdegenerate = True</cite> for the following class.</dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Singleton</span></code> The degenerate interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x=x_{0}\}=[x_{0},x_{0}]\)</span></p></li>
+</ul>
+</dd>
+<dt><cite>isdegenerate = False</cite> for the following classes.</dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">RR</span></code> All finite real numbers
+<span class="math notranslate nohighlight">\({\mathbb{R}}=(-\infty,\infty)\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Empty</span></code> The empty interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x\neq x\}=\emptyset\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Above</span></code> The right-unbounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x&gt;x_{0}\}=(x_{0},\infty)\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">NotBelow</span></code> The right-unbounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x\geq x_{0}\}=[x_{0},\infty)\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">NotAbove</span></code> The left-unbounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x\leq x_{0}\}=(—\infty,x_{0}]\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Below</span></code> The left-unbounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x&lt;x_{0}\}=(—\infty,x_{0})\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Open</span></code> The bounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x_{0}&lt;x&lt;x_{1}\}=(x_{0},x_{1})\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">OpenClosed</span></code> The bounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x_{0}&lt;x\leq x_{1}\}=(x_{0},x_{1}]\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Closed</span></code> The bounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x_{0}\leq x\leq x_{1}\}=[x_{0},x_{1}]\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ClosedOpen</span></code> The bounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x_{0}\leq x&lt;x_{1}\}=[x_{0},x_{1})\)</span></p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="py property">
+<dt class="sig sig-object py" id="splinekit.interval.interval.Interval.isproper">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">isproper</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#splinekit.interval.interval.Interval.isproper" title="Link to this definition"></a></dt>
+<dd><p id="isproper">Tests if this interval contains a range of numbers.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><ul class="simple">
+<li><p><cite>False</cite> if this interval is not proper.</p></li>
+<li><p><cite>True</cite> if this interval is proper.</p></li>
+</ul>
+</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>bool</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<dl>
+<dt>Properness of the Singleton interval.</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">splinekit.interval</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ivl</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ivl</span><span class="o">.</span><span class="n">Singleton</span><span class="p">(</span><span class="mf">6.0</span><span class="p">)</span><span class="o">.</span><span class="n">isproper</span>
+<span class="go">False</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<dl class="simple">
+<dt><cite>isproper = True</cite> for the following class.</dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">RR</span></code> All finite real numbers
+<span class="math notranslate nohighlight">\({\mathbb{R}}=(-\infty,\infty)\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Above</span></code> The right-unbounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x&gt;x_{0}\}=(x_{0},\infty)\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">NotBelow</span></code> The right-unbounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x\geq x_{0}\}=[x_{0},\infty)\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">NotAbove</span></code> The left-unbounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x\leq x_{0}\}=(—\infty,x_{0}]\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Below</span></code> The left-unbounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x&lt;x_{0}\}=(—\infty,x_{0})\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Open</span></code> The bounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x_{0}&lt;x&lt;x_{1}\}=(x_{0},x_{1})\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">OpenClosed</span></code> The bounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x_{0}&lt;x\leq x_{1}\}=(x_{0},x_{1}]\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Closed</span></code> The bounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x_{0}\leq x\leq x_{1}\}=[x_{0},x_{1}]\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ClosedOpen</span></code> The bounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x_{0}\leq x&lt;x_{1}\}=[x_{0},x_{1})\)</span></p></li>
+</ul>
+</dd>
+<dt><cite>isproper = False</cite> for the following classes.</dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Empty</span></code> The empty interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x\neq x\}=\emptyset\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Singleton</span></code> The degenerate interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x=x_{0}\}=[x_{0},x_{0}]\)</span></p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="py property">
+<dt class="sig sig-object py" id="splinekit.interval.interval.Interval.interior">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">interior</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Self</span></em><a class="headerlink" href="#splinekit.interval.interval.Interval.interior" title="Link to this definition"></a></dt>
+<dd><p id="interior">The largest open interval that is contained in this interval.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The interior of this interval.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#splinekit.interval.interval.Interval" title="splinekit.interval.interval.Interval">Interval</a></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<dl>
+<dt>The interior of an OpenClosed interval is an Open interval.</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">splinekit.interval</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ivl</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ivl</span><span class="o">.</span><span class="n">OpenClosed</span><span class="p">((</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">))</span><span class="o">.</span><span class="n">interior</span>
+<span class="go">Open((1.0, 5.0))</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<dl class="simple">
+<dt>The following class has <cite>RR()</cite> as interior.</dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">RR</span></code> All finite real numbers
+<span class="math notranslate nohighlight">\({\mathbb{R}}=(-\infty,\infty)\)</span></p></li>
+</ul>
+</dd>
+<dt>The following classes have <cite>Empty()</cite> as interior.</dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Empty</span></code> The empty interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x\neq x\}=\emptyset\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Singleton</span></code> The degenerate interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x=x_{0}\}=[x_{0},x_{0}]\)</span></p></li>
+</ul>
+</dd>
+<dt>The following classes have an object of class <cite>Above</cite> as interior.</dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Above</span></code> The right-unbounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x&gt;x_{0}\}=(x_{0},\infty)\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">NotBelow</span></code> The right-unbounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x\geq x_{0}\}=[x_{0},\infty)\)</span></p></li>
+</ul>
+</dd>
+<dt>The following classes have an object of class <cite>Below</cite> as interior.</dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">NotAbove</span></code> The left-unbounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x\leq x_{0}\}=(—\infty,x_{0}]\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Below</span></code> The left-unbounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x&lt;x_{0}\}=(—\infty,x_{0})\)</span></p></li>
+</ul>
+</dd>
+<dt>The following classes have an object of class <cite>Open</cite> as interior.</dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Open</span></code> The bounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x_{0}&lt;x&lt;x_{1}\}=(x_{0},x_{1})\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">OpenClosed</span></code> The bounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x_{0}&lt;x\leq x_{1}\}=(x_{0},x_{1}]\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Closed</span></code> The bounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x_{0}\leq x\leq x_{1}\}=[x_{0},x_{1}]\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ClosedOpen</span></code> The bounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x_{0}\leq x&lt;x_{1}\}=[x_{0},x_{1})\)</span></p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="py property">
+<dt class="sig sig-object py" id="splinekit.interval.interval.Interval.closure">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">closure</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Self</span></em><a class="headerlink" href="#splinekit.interval.interval.Interval.closure" title="Link to this definition"></a></dt>
+<dd><p id="closure">The smallest closed interval that contains this interval.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The closure of this interval.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#splinekit.interval.interval.Interval" title="splinekit.interval.interval.Interval">Interval</a></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<dl>
+<dt>The closure of an OpenClosed interval is a Closed interval.</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">splinekit.interval</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ivl</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ivl</span><span class="o">.</span><span class="n">OpenClosed</span><span class="p">((</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">))</span><span class="o">.</span><span class="n">closure</span>
+<span class="go">Closed((1.0, 5.0))</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<dl class="simple">
+<dt>The following class has <cite>RR()</cite> as closure.</dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">RR</span></code> All finite real numbers
+<span class="math notranslate nohighlight">\({\mathbb{R}}=(-\infty,\infty)\)</span></p></li>
+</ul>
+</dd>
+<dt>The following class has <cite>Empty()</cite> as closure.</dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Empty</span></code> The empty interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x\neq x\}=\emptyset\)</span></p></li>
+</ul>
+</dd>
+<dt>The following class has <cite>Singleton()</cite> as closure.</dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Singleton</span></code> The degenerate interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x=x_{0}\}=[x_{0},x_{0}]\)</span></p></li>
+</ul>
+</dd>
+<dt>The following classes have an object of class <cite>NotBelow</cite> as closure.</dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Above</span></code> The right-unbounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x&gt;x_{0}\}=(x_{0},\infty)\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">NotBelow</span></code> The right-unbounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x\geq x_{0}\}=[x_{0},\infty)\)</span></p></li>
+</ul>
+</dd>
+<dt>The following classes have an object of class <cite>NotAbove</cite> as closure.</dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">NotAbove</span></code> The left-unbounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x\leq x_{0}\}=(—\infty,x_{0}]\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Below</span></code> The left-unbounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x&lt;x_{0}\}=(—\infty,x_{0})\)</span></p></li>
+</ul>
+</dd>
+<dt>The following classes have an object of class <cite>Closed</cite> as closure.</dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Open</span></code> The bounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x_{0}&lt;x&lt;x_{1}\}=(x_{0},x_{1})\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">OpenClosed</span></code> The bounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x_{0}&lt;x\leq x_{1}\}=(x_{0},x_{1}]\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Closed</span></code> The bounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x_{0}\leq x\leq x_{1}\}=[x_{0},x_{1}]\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ClosedOpen</span></code> The bounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x_{0}\leq x&lt;x_{1}\}=[x_{0},x_{1})\)</span></p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="py property">
+<dt class="sig sig-object py" id="splinekit.interval.interval.Interval.diameter">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">diameter</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#splinekit.interval.interval.Interval.diameter" title="Link to this definition"></a></dt>
+<dd><p id="diameter">The distance between the two endpoints of this interval.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The diameter of this interval.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>float</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<dl>
+<dt>Here is the diameter of an OpenClosed interval.</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">splinekit.interval</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ivl</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ivl</span><span class="o">.</span><span class="n">OpenClosed</span><span class="p">((</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">))</span><span class="o">.</span><span class="n">diameter</span>
+<span class="go">4.0</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<dl class="simple">
+<dt><cite>diameter = float(“nan”)</cite> for the following class.</dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Empty</span></code> The empty interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x\neq x\}=\emptyset\)</span></p></li>
+</ul>
+</dd>
+<dt><cite>diameter = float(“inf”)</cite> for the following classes.</dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">RR</span></code> All finite real numbers
+<span class="math notranslate nohighlight">\({\mathbb{R}}=(-\infty,\infty)\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Above</span></code> The right-unbounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x&gt;x_{0}\}=(x_{0},\infty)\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">NotBelow</span></code> The right-unbounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x\geq x_{0}\}=[x_{0},\infty)\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">NotAbove</span></code> The left-unbounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x\leq x_{0}\}=(—\infty,x_{0}]\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Below</span></code> The left-unbounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x&lt;x_{0}\}=(—\infty,x_{0})\)</span></p></li>
+</ul>
+</dd>
+<dt><cite>diameter = 0.0</cite> for the following class.</dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Singleton</span></code> The degenerate interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x=x_{0}\}=[x_{0},x_{0}]\)</span></p></li>
+</ul>
+</dd>
+<dt><cite>math.isfinite(diameter) = True</cite> for the following classes.</dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Open</span></code> The bounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x_{0}&lt;x&lt;x_{1}\}=(x_{0},x_{1})\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">OpenClosed</span></code> The bounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x_{0}&lt;x\leq x_{1}\}=(x_{0},x_{1}]\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Closed</span></code> The bounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x_{0}\leq x\leq x_{1}\}=[x_{0},x_{1}]\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ClosedOpen</span></code> The bounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x_{0}\leq x&lt;x_{1}\}=[x_{0},x_{1})\)</span></p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="py property">
+<dt class="sig sig-object py" id="splinekit.interval.interval.Interval.midpoint">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">midpoint</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#splinekit.interval.interval.Interval.midpoint" title="Link to this definition"></a></dt>
+<dd><p id="midpoint">The midway point between the two endpoints of this interval.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The midpoint of this interval.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>float</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<dl>
+<dt>Here is the midpoint of an OpenClosed interval.</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">splinekit.interval</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ivl</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ivl</span><span class="o">.</span><span class="n">OpenClosed</span><span class="p">((</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">))</span><span class="o">.</span><span class="n">midpoint</span>
+<span class="go">3.0</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<dl class="simple">
+<dt><cite>midpoint = float(“nan”)</cite> for the following classes.</dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">RR</span></code> All finite real numbers
+<span class="math notranslate nohighlight">\({\mathbb{R}}=(-\infty,\infty)\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Empty</span></code> The empty interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x\neq x\}=\emptyset\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Above</span></code> The right-unbounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x&gt;x_{0}\}=(x_{0},\infty)\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">NotBelow</span></code> The right-unbounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x\geq x_{0}\}=[x_{0},\infty)\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">NotAbove</span></code> The left-unbounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x\leq x_{0}\}=(—\infty,x_{0}]\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Below</span></code> The left-unbounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x&lt;x_{0}\}=(—\infty,x_{0})\)</span></p></li>
+</ul>
+</dd>
+<dt><cite>math.isfinite(midpoint) = True</cite> for the following classes.</dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Singleton</span></code> The degenerate interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x=x_{0}\}=[x_{0},x_{0}]\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Open</span></code> The bounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x_{0}&lt;x&lt;x_{1}\}=(x_{0},x_{1})\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">OpenClosed</span></code> The bounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x_{0}&lt;x\leq x_{1}\}=(x_{0},x_{1}]\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Closed</span></code> The bounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x_{0}\leq x\leq x_{1}\}=[x_{0},x_{1}]\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ClosedOpen</span></code> The bounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x_{0}\leq x&lt;x_{1}\}=[x_{0},x_{1})\)</span></p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="py method">
+<dt class="sig sig-object py" id="splinekit.interval.interval.Interval.sortorder">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">sortorder</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#splinekit.interval.interval.Interval.sortorder" title="Link to this definition"></a></dt>
+<dd><p id="sortorder">Convenience method to sort the intervals. This method is not
+consistent with equal.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A scalar proxy of this interval.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>float</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<dl class="simple">
+<dt><cite>sortorder = float(“-inf”)</cite> for the following class.</dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Empty</span></code> The empty interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x\neq x\}=\emptyset\)</span></p></li>
+</ul>
+</dd>
+<dt><cite>sortorder = float(“inf”)</cite> for the following class.</dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">RR</span></code> All finite real numbers
+<span class="math notranslate nohighlight">\({\mathbb{R}}=(-\infty,\infty)\)</span></p></li>
+</ul>
+</dd>
+<dt><cite>sortorder</cite> is <span class="math notranslate nohighlight">\(x_{0}\)</span> for the following classes.</dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Singleton</span></code> The degenerate interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x=x_{0}\}=[x_{0},x_{0}]\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Above</span></code> The right-unbounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x&gt;x_{0}\}=(x_{0},\infty)\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">NotBelow</span></code> The right-unbounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x\geq x_{0}\}=[x_{0},\infty)\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">NotAbove</span></code> The left-unbounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x\leq x_{0}\}=(—\infty,x_{0}]\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Below</span></code> The left-unbounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x&lt;x_{0}\}=(—\infty,x_{0})\)</span></p></li>
+</ul>
+</dd>
+<dt><cite>sortorder</cite> is <span class="math notranslate nohighlight">\(\left(x_{0}+x_{1}\right)/2\)</span> for the following classes.</dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Open</span></code> The bounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x_{0}&lt;x&lt;x_{1}\}=(x_{0},x_{1})\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">OpenClosed</span></code> The bounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x_{0}&lt;x\leq x_{1}\}=(x_{0},x_{1}]\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Closed</span></code> The bounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x_{0}\leq x\leq x_{1}\}=[x_{0},x_{1}]\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ClosedOpen</span></code> The bounded interval
+<span class="math notranslate nohighlight">\(\{x\in{\mathbb{R}}|x_{0}\leq x&lt;x_{1}\}=[x_{0},x_{1})\)</span></p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="py method">
+<dt class="sig sig-object py" id="splinekit.interval.interval.Interval.__contains__">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">__contains__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#splinekit.interval.interval.Interval.__contains__" title="Link to this definition"></a></dt>
+<dd><p id="contains">Tests if the number <span class="math notranslate nohighlight">\(x\)</span> is contained in this interval <span class="math notranslate nohighlight">\(U,\)</span>
+as in <span class="math notranslate nohighlight">\(\left(x\in U\right).\)</span></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>x</strong> (<em>float</em>) – Real number whose membership is queried.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><cite>False</cite> if <code class="docutils literal notranslate"><span class="pre">x</span></code> is not a member of this interval.</p></li>
+<li><p><cite>True</cite> if <code class="docutils literal notranslate"><span class="pre">x</span></code> is a member of this interval.</p></li>
+</ul>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<dl>
+<dt>Load the library.</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">splinekit.interval</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ivl</span>
+</pre></div>
+</div>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">0.0</span></code> is in <code class="docutils literal notranslate"><span class="pre">Singleton(0.0)</span></code>.</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="mf">0.0</span> <span class="ow">in</span> <span class="n">ivl</span><span class="o">.</span><span class="n">Singleton</span><span class="p">(</span><span class="mf">0.0</span><span class="p">)</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">float(&quot;inf&quot;)</span></code> is not in <code class="docutils literal notranslate"><span class="pre">RR()</span></code>.</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">float</span><span class="p">(</span><span class="s2">&quot;inf&quot;</span><span class="p">)</span> <span class="ow">in</span> <span class="n">ivl</span><span class="o">.</span><span class="n">RR</span><span class="p">()</span>
+<span class="go">False</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="py method">
+<dt class="sig sig-object py" id="splinekit.interval.interval.Interval.ismember">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ismember</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">s</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Set</span><span class="p"><span class="pre">[</span></span><span class="pre">Self</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#splinekit.interval.interval.Interval.ismember" title="Link to this definition"></a></dt>
+<dd><p id="ismember">Tests the membership of a real number to a set of intervals.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>float</em>) – Real number whose membership is queried.</p></li>
+<li><p><strong>s</strong> (<em>set</em><em> of </em><a class="reference internal" href="#splinekit.interval.interval.Interval" title="splinekit.interval.interval.Interval"><em>Interval</em></a>) – Set of intervals that are interrogated for the membership of <code class="docutils literal notranslate"><span class="pre">x</span></code>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><cite>False</cite> if <code class="docutils literal notranslate"><span class="pre">x</span></code> does not belong to any interval in <code class="docutils literal notranslate"><span class="pre">s</span></code>.</p></li>
+<li><p><cite>True</cite> if <code class="docutils literal notranslate"><span class="pre">x</span></code> belongs to at least one interval in <code class="docutils literal notranslate"><span class="pre">s</span></code>.</p></li>
+</ul>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<dl>
+<dt>Load the library.</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">splinekit.interval</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ivl</span>
+</pre></div>
+</div>
+</dd>
+<dt>Every finite number is a member of <code class="docutils literal notranslate"><span class="pre">RR()</span></code>.</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ivl</span><span class="o">.</span><span class="n">Interval</span><span class="o">.</span><span class="n">ismember</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="p">{</span><span class="n">ivl</span><span class="o">.</span><span class="n">RR</span><span class="p">()})</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</dd>
+<dt>Infinite numbers do not belong to <code class="docutils literal notranslate"><span class="pre">RR()</span></code>.</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ivl</span><span class="o">.</span><span class="n">Interval</span><span class="o">.</span><span class="n">ismember</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="s2">&quot;-inf&quot;</span><span class="p">),</span> <span class="p">{</span><span class="n">ivl</span><span class="o">.</span><span class="n">RR</span><span class="p">()})</span>
+<span class="go">False</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="py method">
+<dt class="sig sig-object py" id="splinekit.interval.interval.Interval.enclosure">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">enclosure</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Set</span><span class="p"><span class="pre">[</span></span><span class="pre">Self</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Self</span></span></span><a class="headerlink" href="#splinekit.interval.interval.Interval.enclosure" title="Link to this definition"></a></dt>
+<dd><p id="enclosure">Determines the enclosure (or span) of a set of intervals.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>s</strong> (<em>set</em><em> of </em><a class="reference internal" href="#splinekit.interval.interval.Interval" title="splinekit.interval.interval.Interval"><em>Interval</em></a>) – Set of intervals whose enclosure is sought for.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The smallest interval that contains the numbers found in <code class="docutils literal notranslate"><span class="pre">s</span></code>.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#splinekit.interval.interval.Interval" title="splinekit.interval.interval.Interval">Interval</a></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<dl>
+<dt>Load the library.</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">splinekit.interval</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ivl</span>
+</pre></div>
+</div>
+</dd>
+<dt>Here is the enclosure of a pair of bounded intervals.</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ivl</span><span class="o">.</span><span class="n">Interval</span><span class="o">.</span><span class="n">enclosure</span><span class="p">({</span><span class="n">ivl</span><span class="o">.</span><span class="n">Open</span><span class="p">((</span><span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">)),</span> <span class="n">ivl</span><span class="o">.</span><span class="n">Closed</span><span class="p">((</span><span class="mf">5.0</span><span class="p">,</span> <span class="mf">8.0</span><span class="p">))})</span>
+<span class="go">OpenClosed([2.0, 8.0])</span>
+</pre></div>
+</div>
+</dd>
+<dt>The enclosure of <code class="docutils literal notranslate"><span class="pre">{RR()}</span></code> is <code class="docutils literal notranslate"><span class="pre">RR()</span></code>.</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ivl</span><span class="o">.</span><span class="n">Interval</span><span class="o">.</span><span class="n">enclosure</span><span class="p">({</span><span class="n">ivl</span><span class="o">.</span><span class="n">RR</span><span class="p">()})</span>
+<span class="go">RR()</span>
+</pre></div>
+</div>
+</dd>
+<dt>The enclosure of <code class="docutils literal notranslate"><span class="pre">{Empty()}</span></code> is <code class="docutils literal notranslate"><span class="pre">Empty()</span></code>.</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ivl</span><span class="o">.</span><span class="n">Interval</span><span class="o">.</span><span class="n">enclosure</span><span class="p">({</span><span class="n">ivl</span><span class="o">.</span><span class="n">Empty</span><span class="p">()})</span>
+<span class="go">Empty()</span>
+</pre></div>
+</div>
+</dd>
+<dt>The enclosure of an empty set of intervals is <code class="docutils literal notranslate"><span class="pre">Empty()</span></code>.</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ivl</span><span class="o">.</span><span class="n">Interval</span><span class="o">.</span><span class="n">enclosure</span><span class="p">({})</span>
+<span class="go">Empty()</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="py method">
+<dt class="sig sig-object py" id="splinekit.interval.interval.Interval.complement">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">complement</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Set</span><span class="p"><span class="pre">[</span></span><span class="pre">Self</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Set</span><span class="p"><span class="pre">[</span></span><span class="pre">Self</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#splinekit.interval.interval.Interval.complement" title="Link to this definition"></a></dt>
+<dd><p id="complement">Determines the complement (with respect to the real numbers) of a
+set of intervals.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>s</strong> (<em>set</em><em> of </em><a class="reference internal" href="#splinekit.interval.interval.Interval" title="splinekit.interval.interval.Interval"><em>Interval</em></a>) – Set of intervals whose complement is sought for.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A set of nonoverlapping intervals that contain every number
+not found in <code class="docutils literal notranslate"><span class="pre">s</span></code>.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>set of <a class="reference internal" href="#splinekit.interval.interval.Interval" title="splinekit.interval.interval.Interval">Interval</a></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<dl>
+<dt>Load the library.</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">splinekit.interval</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ivl</span>
+</pre></div>
+</div>
+</dd>
+<dt>Here is the complement of a pair of bounded intervals.</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ivl</span><span class="o">.</span><span class="n">Interval</span><span class="o">.</span><span class="n">complement</span><span class="p">({</span><span class="n">ivl</span><span class="o">.</span><span class="n">Open</span><span class="p">((</span><span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">)),</span> <span class="n">ivl</span><span class="o">.</span><span class="n">Closed</span><span class="p">((</span><span class="mf">5.0</span><span class="p">,</span> <span class="mf">8.0</span><span class="p">))})</span>
+<span class="go">{Above(8.0), NotAbove(2.0), ClosedOpen([3.0, 5.0])}</span>
+</pre></div>
+</div>
+</dd>
+<dt>The complement of the set <code class="docutils literal notranslate"><span class="pre">{Empty()}</span></code> is <code class="docutils literal notranslate"><span class="pre">{RR()}</span></code>.</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ivl</span><span class="o">.</span><span class="n">Interval</span><span class="o">.</span><span class="n">complement</span><span class="p">({</span><span class="n">ivl</span><span class="o">.</span><span class="n">Empty</span><span class="p">()})</span>
+<span class="go">{RR()}</span>
+</pre></div>
+</div>
+</dd>
+<dt>The complement of an empty set of intervals is <code class="docutils literal notranslate"><span class="pre">{RR()}</span></code>.</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ivl</span><span class="o">.</span><span class="n">Interval</span><span class="o">.</span><span class="n">complement</span><span class="p">({})</span>
+<span class="go">{RR()}</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="py method">
+<dt class="sig sig-object py" id="splinekit.interval.interval.Interval.intersection">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">intersection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Set</span><span class="p"><span class="pre">[</span></span><span class="pre">Self</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Self</span></span></span><a class="headerlink" href="#splinekit.interval.interval.Interval.intersection" title="Link to this definition"></a></dt>
+<dd><p id="intersection">Determines the intersection of a set of intervals.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>s</strong> (<em>set</em><em> of </em><a class="reference internal" href="#splinekit.interval.interval.Interval" title="splinekit.interval.interval.Interval"><em>Interval</em></a>) – Set of intervals whose intersection is sought for.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The smallest interval that contains all those numbers found
+jointly in every interval of <code class="docutils literal notranslate"><span class="pre">s</span></code>.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#splinekit.interval.interval.Interval" title="splinekit.interval.interval.Interval">Interval</a></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<dl>
+<dt>Load the library.</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">splinekit.interval</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ivl</span>
+</pre></div>
+</div>
+</dd>
+<dt>Here is the intersection of a pair of overlapping intervals.</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ivl</span><span class="o">.</span><span class="n">Interval</span><span class="o">.</span><span class="n">intersection</span><span class="p">({</span><span class="n">ivl</span><span class="o">.</span><span class="n">Open</span><span class="p">((</span><span class="mf">2.0</span><span class="p">,</span> <span class="mf">8.0</span><span class="p">)),</span> <span class="n">ivl</span><span class="o">.</span><span class="n">NotAbove</span><span class="p">((</span><span class="mf">5.0</span><span class="p">))})</span>
+<span class="go">OpenClosed([2.0, 5.0])</span>
+</pre></div>
+</div>
+</dd>
+<dt>The intersection of an empty set of intervals is <code class="docutils literal notranslate"><span class="pre">{Empty()}</span></code>.</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ivl</span><span class="o">.</span><span class="n">Interval</span><span class="o">.</span><span class="n">intersection</span><span class="p">({})</span>
+<span class="go">Empty()</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="py method">
+<dt class="sig sig-object py" id="splinekit.interval.interval.Interval.union">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">union</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Set</span><span class="p"><span class="pre">[</span></span><span class="pre">Self</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Set</span><span class="p"><span class="pre">[</span></span><span class="pre">Self</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#splinekit.interval.interval.Interval.union" title="Link to this definition"></a></dt>
+<dd><p id="union">Determines the union of a set of intervals.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>s</strong> (<em>set</em><em> of </em><a class="reference internal" href="#splinekit.interval.interval.Interval" title="splinekit.interval.interval.Interval"><em>Interval</em></a>) – Set of intervals whose union is sought for.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A set of nonoverlapping intervals that contain every number
+found in <code class="docutils literal notranslate"><span class="pre">s</span></code> and that contain no other number.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>set of <a class="reference internal" href="#splinekit.interval.interval.Interval" title="splinekit.interval.interval.Interval">Interval</a></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<dl>
+<dt>Load the library.</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">splinekit.interval</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ivl</span>
+</pre></div>
+</div>
+</dd>
+<dt>Here is the union of a pair of overlapping intervals.</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ivl</span><span class="o">.</span><span class="n">Interval</span><span class="o">.</span><span class="n">union</span><span class="p">({</span><span class="n">ivl</span><span class="o">.</span><span class="n">Open</span><span class="p">((</span><span class="mf">2.0</span><span class="p">,</span> <span class="mf">8.0</span><span class="p">)),</span> <span class="n">ivl</span><span class="o">.</span><span class="n">NotAbove</span><span class="p">((</span><span class="mf">5.0</span><span class="p">))})</span>
+<span class="go">{Below(8.0)}</span>
+</pre></div>
+</div>
+</dd>
+<dt>The union of the set <code class="docutils literal notranslate"><span class="pre">{Empty()}</span></code> is <code class="docutils literal notranslate"><span class="pre">{Empty()}</span></code>.</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ivl</span><span class="o">.</span><span class="n">Interval</span><span class="o">.</span><span class="n">union</span><span class="p">({</span><span class="n">ivl</span><span class="o">.</span><span class="n">Empty</span><span class="p">()})</span>
+<span class="go">{Empty()}</span>
+</pre></div>
+</div>
+</dd>
+<dt>The union of an empty set of intervals is <code class="docutils literal notranslate"><span class="pre">{Empty()}</span></code>.</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ivl</span><span class="o">.</span><span class="n">Interval</span><span class="o">.</span><span class="n">union</span><span class="p">({})</span>
+<span class="go">{Empty()}</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="py method">
+<dt class="sig sig-object py" id="splinekit.interval.interval.Interval.gravitycenter">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">gravitycenter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ivls</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">Self</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#splinekit.interval.interval.Interval.gravitycenter" title="Link to this definition"></a></dt>
+<dd><p id="gravitycenter">Determines the center of gravity of a set of weighted intervals.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>ivls</strong> (<em>list</em><em> of </em><em>tuple</em><em> (</em><a class="reference internal" href="#splinekit.interval.interval.Interval" title="splinekit.interval.interval.Interval"><em>Interval</em></a><em>, </em><em>float</em><em>)</em>) – List of weighted intervals whose center of gravity is sought for.
+For nondegenerate intervals, the second member of the tuple gives
+the density of the interval, in mass per unit length;
+for Singleton intervals, the second memebr of the tuple gives the
+pointwise mass.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The center of gravity.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<dl>
+<dt>Load the library.</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">splinekit.interval</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ivl</span>
+</pre></div>
+</div>
+</dd>
+<dt>Here is the center of gravity of a pair of bounded intervals.</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ivl</span><span class="o">.</span><span class="n">Interval</span><span class="o">.</span><span class="n">gravitycenter</span><span class="p">([(</span><span class="n">ivl</span><span class="o">.</span><span class="n">Open</span><span class="p">((</span><span class="mf">2.0</span><span class="p">,</span> <span class="mf">8.0</span><span class="p">)),</span> <span class="mf">1.0</span><span class="p">),</span> <span class="p">(</span><span class="n">ivl</span><span class="o">.</span><span class="n">Singleton</span><span class="p">(</span><span class="mf">3.0</span><span class="p">),</span> <span class="mf">6.0</span><span class="p">)])</span>
+<span class="go">4.0</span>
+</pre></div>
+</div>
+</dd>
+<dt>Here is the center of gravity of a balanced trio of unbounded intervals.</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ivl</span><span class="o">.</span><span class="n">Interval</span><span class="o">.</span><span class="n">gravitycenter</span><span class="p">([(</span><span class="n">ivl</span><span class="o">.</span><span class="n">Below</span><span class="p">(</span><span class="mf">2.0</span><span class="p">),</span> <span class="mf">1.0</span><span class="p">),</span> <span class="p">(</span><span class="n">ivl</span><span class="o">.</span><span class="n">Below</span><span class="p">(</span><span class="mf">9.0</span><span class="p">),</span> <span class="mf">3.0</span><span class="p">),</span> <span class="p">(</span><span class="n">ivl</span><span class="o">.</span><span class="n">Above</span><span class="p">(</span><span class="mf">8.0</span><span class="p">),</span> <span class="mf">4.0</span><span class="p">)])</span>
+<span class="go">1.5</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>The center of gravity <span class="math notranslate nohighlight">\(g\)</span> is such that
+<span class="math notranslate nohighlight">\(0=S(g)+U(g)+V(g)+B(g),\)</span>
+where the contribution of the <span class="math notranslate nohighlight">\(S_{0}\)</span> singletons of value
+<span class="math notranslate nohighlight">\(x_{k}\)</span> and weight <span class="math notranslate nohighlight">\(w_{k}\)</span> is
+<span class="math notranslate nohighlight">\(S(g)=\sum_{k=1}^{S_{0}}\,w_{k}\,(x_{k}-g),\)</span>
+the contribution of the <span class="math notranslate nohighlight">\(U_{0}\)</span> intervals that are not
+left-bounded, have threshold <span class="math notranslate nohighlight">\(u_{k},\)</span> and have linear density
+<span class="math notranslate nohighlight">\(\mu_{k}\)</span> is <span class="math notranslate nohighlight">\(U(g)=\sum_{k=1}^{U_{0}}\,
+\int_{-\infty}^{u_{k}}\,\mu_{k}\,(u-g)\,{\mathrm{d}}u,\)</span> the
+contribution of the <span class="math notranslate nohighlight">\(V_{0}\)</span> intervals that are not
+right-bounded, have threshold <span class="math notranslate nohighlight">\(v_{k},\)</span> and have linear
+density <span class="math notranslate nohighlight">\(\nu_{k}\)</span> is <span class="math notranslate nohighlight">\(V(g)=\sum_{k=1}^{V_{0}}\,
+\int_{v_{k}}^{\infty}\,\nu_{k}\,(v-g)\,{\mathrm{d}}v,\)</span> and the
+contribution of the <span class="math notranslate nohighlight">\(B_{0}\)</span> bounded intervals with
+infimum <span class="math notranslate nohighlight">\(a_{k},\)</span> supremum <span class="math notranslate nohighlight">\(b_{k},\)</span> and linear density
+<span class="math notranslate nohighlight">\(\rho_{k}\)</span> is <span class="math notranslate nohighlight">\(B(g)=\sum_{k=1}^{B_{0}}\,
+\int_{a_{k}}^{b_{k}}\,\rho_{k}\,(x-g)\,{\mathrm{d}}x.\)</span></p>
+<p>For intervals such that
+<span class="math notranslate nohighlight">\(\sum_{k=1}^{U_{0}}\,\mu_{k}=\sum_{k=1}^{V_{0}}\,\nu_{k},\)</span>
+the system is balanced and a center of gravity generally exists
+as a real number.</p>
+<p>For intervals such that
+<span class="math notranslate nohighlight">\(\sum_{k=1}^{U_{0}}\,\mu_{k}&gt;\sum_{k=1}^{V_{0}}\,\nu_{k},\)</span>
+the system is unbalanced and leans to the left. The center of
+gravity is returned as <code class="docutils literal notranslate"><span class="pre">float(&quot;-inf&quot;)</span></code>.</p>
+<p>For intervals such that
+<span class="math notranslate nohighlight">\(\sum_{k=1}^{U_{0}}\,\mu_{k}&lt;\sum_{k=1}^{V_{0}}\,\nu_{k},\)</span>
+the system is unbalanced and leans to the right. The center of
+gravity is returned as <code class="docutils literal notranslate"><span class="pre">float(&quot;inf&quot;)</span></code>.</p>
+<p>In some cases, the center of gravity will fail to exist at all.
+If such is the case, <code class="docutils literal notranslate"><span class="pre">float(&quot;nan&quot;)</span></code> is returned.</p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="py method">
+<dt class="sig sig-object py" id="splinekit.interval.interval.Interval.iskissing">
+<span class="sig-name descname"><span class="pre">iskissing</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#splinekit.interval.interval.Interval.iskissing" title="Link to this definition"></a></dt>
+<dd><p id="iskissing">Tests if this interval <code class="docutils literal notranslate"><span class="pre">self</span></code> is neighboring the interval <code class="docutils literal notranslate"><span class="pre">other</span></code>,
+as in
+<code class="docutils literal notranslate"><span class="pre">(self</span> <span class="pre">&amp;</span> <span class="pre">other</span> <span class="pre">==</span> <span class="pre">Empty())</span> <span class="pre">and</span> <span class="pre">(1</span> <span class="pre">==</span> <span class="pre">len(union({self,</span> <span class="pre">other})))</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>other</strong> (<a class="reference internal" href="#splinekit.interval.interval.Interval" title="splinekit.interval.interval.Interval"><em>Interval</em></a>) – Interval whose vicinity is queried.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><cite>False</cite> if this interval is not kissing <code class="docutils literal notranslate"><span class="pre">other</span></code>.</p></li>
+<li><p><cite>True</cite> if this interval is kissing <code class="docutils literal notranslate"><span class="pre">other</span></code>.</p></li>
+</ul>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<dl>
+<dt>Load the library.</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">splinekit.interval</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ivl</span>
+</pre></div>
+</div>
+</dd>
+<dt>Here are two kissing intervals.</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ivl</span><span class="o">.</span><span class="n">Closed</span><span class="p">((</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">))</span><span class="o">.</span><span class="n">iskissing</span><span class="p">(</span><span class="n">ivl</span><span class="o">.</span><span class="n">Above</span><span class="p">(</span><span class="mf">3.0</span><span class="p">))</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</dd>
+<dt>Here are two non-kissing intervals.</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ivl</span><span class="o">.</span><span class="n">Below</span><span class="p">(</span><span class="mf">0.0</span><span class="p">)</span><span class="o">.</span><span class="n">iskissing</span><span class="p">(</span><span class="n">ivl</span><span class="o">.</span><span class="n">Above</span><span class="p">(</span><span class="mf">0.0</span><span class="p">))</span>
+<span class="go">False</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="py method">
+<dt class="sig sig-object py" id="splinekit.interval.interval.Interval.isoverlapping">
+<span class="sig-name descname"><span class="pre">isoverlapping</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#splinekit.interval.interval.Interval.isoverlapping" title="Link to this definition"></a></dt>
+<dd><p id="isoverlapping">Tests if this interval <code class="docutils literal notranslate"><span class="pre">self</span></code> and the interval <code class="docutils literal notranslate"><span class="pre">other</span></code> share
+at least one number.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>other</strong> (<a class="reference internal" href="#splinekit.interval.interval.Interval" title="splinekit.interval.interval.Interval"><em>Interval</em></a>) – Interval whose intersection is queried.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><cite>False</cite> if this interval is not overlapping <code class="docutils literal notranslate"><span class="pre">other</span></code>.</p></li>
+<li><p><cite>True</cite> if this interval is overlapping <code class="docutils literal notranslate"><span class="pre">other</span></code>.</p></li>
+</ul>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<dl>
+<dt>Load the library.</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">splinekit.interval</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ivl</span>
+</pre></div>
+</div>
+</dd>
+<dt>Here are two overlapping intervals.</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ivl</span><span class="o">.</span><span class="n">Closed</span><span class="p">((</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">))</span><span class="o">.</span><span class="n">isoverlapping</span><span class="p">(</span><span class="n">ivl</span><span class="o">.</span><span class="n">NotBelow</span><span class="p">(</span><span class="mf">3.0</span><span class="p">))</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</dd>
+<dt>Here are two non-overlapping intervals.</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ivl</span><span class="o">.</span><span class="n">Below</span><span class="p">(</span><span class="mf">0.0</span><span class="p">)</span><span class="o">.</span><span class="n">isoverlapping</span><span class="p">(</span><span class="n">ivl</span><span class="o">.</span><span class="n">Above</span><span class="p">(</span><span class="mf">0.0</span><span class="p">))</span>
+<span class="go">False</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="py method">
+<dt class="sig sig-object py" id="splinekit.interval.interval.Interval.partition">
+<span class="sig-name descname"><span class="pre">partition</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cuts</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Set</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Self</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#splinekit.interval.interval.Interval.partition" title="Link to this definition"></a></dt>
+<dd><p id="partition">Creates a list of nonoverlapping intervals whose union is equal to
+this interval. The created list contains an alternance of open and
+degenerate intervals, where <code class="docutils literal notranslate"><span class="pre">cuts</span></code> imposes the values associated
+to the degenerate <code class="docutils literal notranslate"><span class="pre">Singleton</span></code> intervals.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>cuts</strong> (<em>set</em><em> of </em><em>float</em>) – Endpoints of the proper intervals of the partition.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Kissing intervals that partition this interval.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list of <a class="reference internal" href="#splinekit.interval.interval.Interval" title="splinekit.interval.interval.Interval">Interval</a></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<dl class="simple">
+<dt>Here is some partition of a left-unbounded interval. Observe that it</dt><dd><p>is not required that every element of <code class="docutils literal notranslate"><span class="pre">cuts</span></code> belong to this interval.
+&gt;&gt;&gt; import splinekit.interval as ivl
+&gt;&gt;&gt; ivl.NotAbove(5.0).partition({2.0, 4.0, 6.0})
+[Below(2.0), Singleton(2.0), Open((2.0, 4.0)), Singleton(4.0), Open((4.0, 5.0)), Singleton(5.0)]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="py method">
+<dt class="sig sig-object py" id="splinekit.interval.interval.Interval.copy">
+<span class="sig-name descname"><span class="pre">copy</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Self</span></span></span><a class="headerlink" href="#splinekit.interval.interval.Interval.copy" title="Link to this definition"></a></dt>
+<dd><p id="copy">Creates a copy of this interval.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A copy of this interval.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#splinekit.interval.interval.Interval" title="splinekit.interval.interval.Interval">Interval</a></p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<dl>
+<dt>The classes <code class="docutils literal notranslate"><span class="pre">Empty</span></code> and <code class="docutils literal notranslate"><span class="pre">RR</span></code> have a single instance.</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">splinekit.interval</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ivl</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ivl</span><span class="o">.</span><span class="n">Empty</span><span class="p">()</span> <span class="ow">is</span> <span class="n">ivl</span><span class="o">.</span><span class="n">Empty</span><span class="p">()</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ivl</span><span class="o">.</span><span class="n">RR</span><span class="p">()</span> <span class="ow">is</span> <span class="n">ivl</span><span class="o">.</span><span class="n">RR</span><span class="p">()</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="py method">
+<dt class="sig sig-object py" id="splinekit.interval.interval.Interval.__eq__">
+<span class="sig-name descname"><span class="pre">__eq__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#splinekit.interval.interval.Interval.__eq__" title="Link to this definition"></a></dt>
+<dd><p id="eq">Tests if this interval <span class="math notranslate nohighlight">\(U\)</span> is equal to the interval <span class="math notranslate nohighlight">\(V,\)</span>
+as in <span class="math notranslate nohighlight">\(\left(U=V\right)\Leftrightarrow
+\left(U\subseteq V\wedge V\subseteq U\right).\)</span></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>other</strong> (<a class="reference internal" href="#splinekit.interval.interval.Interval" title="splinekit.interval.interval.Interval"><em>Interval</em></a>) – Interval whose equality is queried.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><cite>True</cite> if this interval and <code class="docutils literal notranslate"><span class="pre">other</span></code> have all the same members.</p></li>
+<li><p><cite>False</cite> otherwise.</p></li>
+</ul>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<dl>
+<dt>Load the library.</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">splinekit.interval</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ivl</span>
+</pre></div>
+</div>
+</dd>
+<dt>Here are two equal intervals.</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ivl</span><span class="o">.</span><span class="n">Closed</span><span class="p">((</span><span class="mf">3.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">))</span> <span class="o">==</span> <span class="n">ivl</span><span class="o">.</span><span class="n">Singleton</span><span class="p">(</span><span class="mf">3.0</span><span class="p">)</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</dd>
+<dt>Here are two different intervals.</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ivl</span><span class="o">.</span><span class="n">OpenClosed</span><span class="p">((</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">))</span> <span class="o">==</span> <span class="n">ivl</span><span class="o">.</span><span class="n">ClosedOpen</span><span class="p">((</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">))</span>
+<span class="go">False</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="py method">
+<dt class="sig sig-object py" id="splinekit.interval.interval.Interval.__ne__">
+<span class="sig-name descname"><span class="pre">__ne__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#splinekit.interval.interval.Interval.__ne__" title="Link to this definition"></a></dt>
+<dd><p id="ne">Tests if this interval <span class="math notranslate nohighlight">\(U\)</span> differs from the interval <span class="math notranslate nohighlight">\(V,\)</span>
+as in <span class="math notranslate nohighlight">\(\left(U\neq V\right)\Leftrightarrow\neg\left(U=V\right).\)</span></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>other</strong> (<a class="reference internal" href="#splinekit.interval.interval.Interval" title="splinekit.interval.interval.Interval"><em>Interval</em></a>) – Interval whose inequality is queried.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><cite>True</cite> if this interval and <code class="docutils literal notranslate"><span class="pre">other</span></code> have all the same members.</p></li>
+<li><p><cite>False</cite> otherwise.</p></li>
+</ul>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<dl>
+<dt>Load the library.</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">splinekit.interval</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ivl</span>
+</pre></div>
+</div>
+</dd>
+<dt>Here are two equal intervals.</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ivl</span><span class="o">.</span><span class="n">Closed</span><span class="p">((</span><span class="mf">3.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">))</span> <span class="o">!=</span> <span class="n">ivl</span><span class="o">.</span><span class="n">Singleton</span><span class="p">(</span><span class="mf">3.0</span><span class="p">)</span>
+<span class="go">False</span>
+</pre></div>
+</div>
+</dd>
+<dt>Here are two different intervals.</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ivl</span><span class="o">.</span><span class="n">OpenClosed</span><span class="p">((</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">))</span> <span class="o">!=</span> <span class="n">ivl</span><span class="o">.</span><span class="n">ClosedOpen</span><span class="p">((</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">))</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="py method">
+<dt class="sig sig-object py" id="splinekit.interval.interval.Interval.__lt__">
+<span class="sig-name descname"><span class="pre">__lt__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#splinekit.interval.interval.Interval.__lt__" title="Link to this definition"></a></dt>
+<dd><p id="lt"><code class="docutils literal notranslate"><span class="pre">&lt;</span></code> Proper subset: <span class="math notranslate nohighlight">\(\subset\)</span></p>
+<p>Tests if this interval <span class="math notranslate nohighlight">\(U\)</span> is a proper subset of the interval
+<span class="math notranslate nohighlight">\(V,\)</span> as in <span class="math notranslate nohighlight">\(\left(U\subset V\right)\Leftrightarrow
+\left(U\subseteq V\wedge U\neq V\right).\)</span></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>other</strong> (<a class="reference internal" href="#splinekit.interval.interval.Interval" title="splinekit.interval.interval.Interval"><em>Interval</em></a>) – Interval that may or may not be a proper superset of this interval.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><cite>False</cite> if this interval is not a proper subset of <code class="docutils literal notranslate"><span class="pre">other</span></code>.</p></li>
+<li><p><cite>True</cite> if this interval is a proper subset of <code class="docutils literal notranslate"><span class="pre">other</span></code>.</p></li>
+</ul>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<dl>
+<dt>Load the library.</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">splinekit.interval</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ivl</span>
+</pre></div>
+</div>
+</dd>
+<dt>The positive numbers form a proper subset of the nonnegative numbers.</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ivl</span><span class="o">.</span><span class="n">Above</span><span class="p">(</span><span class="mf">0.0</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">ivl</span><span class="o">.</span><span class="n">NotBelow</span><span class="p">(</span><span class="mf">0.0</span><span class="p">)</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</dd>
+<dt>The empty interval is a proper subset of every interval except itself.</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ivl</span><span class="o">.</span><span class="n">Empty</span><span class="p">()</span> <span class="o">&lt;</span> <span class="n">ivl</span><span class="o">.</span><span class="n">Empty</span><span class="p">()</span>
+<span class="go">False</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="py method">
+<dt class="sig sig-object py" id="splinekit.interval.interval.Interval.__le__">
+<span class="sig-name descname"><span class="pre">__le__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#splinekit.interval.interval.Interval.__le__" title="Link to this definition"></a></dt>
+<dd><p id="le"><code class="docutils literal notranslate"><span class="pre">&lt;=</span></code> Subset: <span class="math notranslate nohighlight">\(\subseteq\)</span></p>
+<p>Tests if this interval <span class="math notranslate nohighlight">\(U\)</span> is a subset of the interval <span class="math notranslate nohighlight">\(V,\)</span>
+as in <span class="math notranslate nohighlight">\(\left(U\subseteq V\right)\Leftrightarrow
+\left(\forall x\in U:x\in V\right).\)</span></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>other</strong> (<a class="reference internal" href="#splinekit.interval.interval.Interval" title="splinekit.interval.interval.Interval"><em>Interval</em></a>) – Interval that may or may not be a superset of this interval.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><cite>False</cite> if this interval is not a subset of <code class="docutils literal notranslate"><span class="pre">other</span></code>.</p></li>
+<li><p><cite>True</cite> if this interval is a subset of <code class="docutils literal notranslate"><span class="pre">other</span></code>.</p></li>
+</ul>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<dl>
+<dt>The empty interval is a subset of every interval, including itself.</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">splinekit.interval</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ivl</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ivl</span><span class="o">.</span><span class="n">Empty</span><span class="p">()</span> <span class="o">&lt;=</span> <span class="n">ivl</span><span class="o">.</span><span class="n">Empty</span><span class="p">()</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="py method">
+<dt class="sig sig-object py" id="splinekit.interval.interval.Interval.__neg__">
+<span class="sig-name descname"><span class="pre">__neg__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Set</span><span class="p"><span class="pre">[</span></span><span class="pre">Self</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#splinekit.interval.interval.Interval.__neg__" title="Link to this definition"></a></dt>
+<dd><p id="neg"><code class="docutils literal notranslate"><span class="pre">-</span></code> Unary complement in <code class="docutils literal notranslate"><span class="pre">RR()</span></code>: <span class="math notranslate nohighlight">\((\cdot)^{{\mathrm{c}}}\)</span></p>
+<p>Creates a set of mutually nonoverlapping intervals that contain
+every real number except those found in this interval <span class="math notranslate nohighlight">\(U,\)</span> as in
+<span class="math notranslate nohighlight">\(U^{{\mathrm{c}}}:=\{x\in{\mathbb{R}}|x\not\in U\}.\)</span></p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The complement in <code class="docutils literal notranslate"><span class="pre">RR()</span></code> to this interval.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>set of <a class="reference internal" href="#splinekit.interval.interval.Interval" title="splinekit.interval.interval.Interval">Interval</a></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<dl>
+<dt>The complement of the negative numbers is the nonnegative numbers.</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">splinekit.interval</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ivl</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="o">-</span><span class="n">ivl</span><span class="o">.</span><span class="n">Below</span><span class="p">(</span><span class="mf">0.0</span><span class="p">)</span>
+<span class="go">{NotBelow(0.0)}</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="py method">
+<dt class="sig sig-object py" id="splinekit.interval.interval.Interval.__sub__">
+<span class="sig-name descname"><span class="pre">__sub__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Set</span><span class="p"><span class="pre">[</span></span><span class="pre">Self</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#splinekit.interval.interval.Interval.__sub__" title="Link to this definition"></a></dt>
+<dd><p id="sub"><code class="docutils literal notranslate"><span class="pre">-</span></code> Pairwise difference: <span class="math notranslate nohighlight">\(\setminus\)</span></p>
+<p>Creates a set of nonoverlapping intervals that contains all elements
+of this interval <span class="math notranslate nohighlight">\(U\)</span> except those of the interval <span class="math notranslate nohighlight">\(V,\)</span> as
+in <span class="math notranslate nohighlight">\(U\setminus V:=\{x\in U|x\not\in V\}.\)</span></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>other</strong> (<a class="reference internal" href="#splinekit.interval.interval.Interval" title="splinekit.interval.interval.Interval"><em>Interval</em></a>) – The interval been removed from this interval.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The pairwise difference between this interval and <code class="docutils literal notranslate"><span class="pre">other</span></code>.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>set of <a class="reference internal" href="#splinekit.interval.interval.Interval" title="splinekit.interval.interval.Interval">Interval</a></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<dl>
+<dt>The pairwise difference between the nonnegative numbers and the positive numbers is a single number.</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">splinekit.interval</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ivl</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ivl</span><span class="o">.</span><span class="n">NotBelow</span><span class="p">(</span><span class="mf">0.0</span><span class="p">)</span> <span class="o">-</span> <span class="n">ivl</span><span class="o">.</span><span class="n">Above</span><span class="p">(</span><span class="mf">0.0</span><span class="p">)</span>
+<span class="go">{Singleton(0.0)}</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="py method">
+<dt class="sig sig-object py" id="splinekit.interval.interval.Interval.__and__">
+<span class="sig-name descname"><span class="pre">__and__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Self</span></span></span><a class="headerlink" href="#splinekit.interval.interval.Interval.__and__" title="Link to this definition"></a></dt>
+<dd><p id="and"><code class="docutils literal notranslate"><span class="pre">&amp;</span></code> Intersection: <span class="math notranslate nohighlight">\(\cap\)</span></p>
+<p>Creates an interval that contains every element that is a member
+of both this interval <span class="math notranslate nohighlight">\(U\)</span> and the interval <span class="math notranslate nohighlight">\(V,\)</span> as in
+<span class="math notranslate nohighlight">\(U\cap V:=\{x\in U|x\in V\}.\)</span></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>other</strong> (<a class="reference internal" href="#splinekit.interval.interval.Interval" title="splinekit.interval.interval.Interval"><em>Interval</em></a>) – The interval whose intersection with this interval is sought for.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The intersection between this interval and <code class="docutils literal notranslate"><span class="pre">other</span></code>.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#splinekit.interval.interval.Interval" title="splinekit.interval.interval.Interval">Interval</a></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<dl>
+<dt>The intersection between the negative numbers and the positive numbers is empty.</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">splinekit.interval</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ivl</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ivl</span><span class="o">.</span><span class="n">Below</span><span class="p">(</span><span class="mf">0.0</span><span class="p">)</span> <span class="o">&amp;</span> <span class="n">ivl</span><span class="o">.</span><span class="n">Above</span><span class="p">(</span><span class="mf">0.0</span><span class="p">)</span>
+<span class="go">Empty()</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="py method">
+<dt class="sig sig-object py" id="splinekit.interval.interval.Interval.__or__">
+<span class="sig-name descname"><span class="pre">__or__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Set</span><span class="p"><span class="pre">[</span></span><span class="pre">Self</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#splinekit.interval.interval.Interval.__or__" title="Link to this definition"></a></dt>
+<dd><p id="or"><code class="docutils literal notranslate"><span class="pre">|</span></code> Union: <span class="math notranslate nohighlight">\(\cup\)</span></p>
+<p>Creates a set of nonoverlapping intervals that contains all elements
+of this interval <span class="math notranslate nohighlight">\(U\)</span> and all elements of the the interval
+<span class="math notranslate nohighlight">\(V,\)</span> as in
+<span class="math notranslate nohighlight">\(U\cup V:=\{x\in{\mathbb{R}}|x\in U\vee x\in V\}.\)</span></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>other</strong> (<a class="reference internal" href="#splinekit.interval.interval.Interval" title="splinekit.interval.interval.Interval"><em>Interval</em></a>) – The interval whose union with this interval is sought for.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The union between this interval and <code class="docutils literal notranslate"><span class="pre">other</span></code>.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>set of <a class="reference internal" href="#splinekit.interval.interval.Interval" title="splinekit.interval.interval.Interval">Interval</a></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<dl>
+<dt>The nonnegative numbers result from the union between the number <code class="docutils literal notranslate"><span class="pre">0.0</span></code> and the positive numbers.</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">splinekit.interval</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ivl</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ivl</span><span class="o">.</span><span class="n">Singleton</span><span class="p">(</span><span class="mf">0.0</span><span class="p">)</span> <span class="o">|</span> <span class="n">ivl</span><span class="o">.</span><span class="n">Above</span><span class="p">(</span><span class="mf">0.0</span><span class="p">)</span>
+<span class="go">{NotBelow(0.0)}</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="py method">
+<dt class="sig sig-object py" id="splinekit.interval.interval.Interval.__xor__">
+<span class="sig-name descname"><span class="pre">__xor__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Set</span><span class="p"><span class="pre">[</span></span><span class="pre">Self</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#splinekit.interval.interval.Interval.__xor__" title="Link to this definition"></a></dt>
+<dd><p id="xor"><code class="docutils literal notranslate"><span class="pre">^</span></code> Symmetric difference: <span class="math notranslate nohighlight">\(\Delta\)</span></p>
+<p>Creates a set of nonoverlapping intervals that contains the elements
+that belong either to this interval <span class="math notranslate nohighlight">\(U\)</span> or to the interval
+<span class="math notranslate nohighlight">\(V,\)</span> as in <span class="math notranslate nohighlight">\(U\Delta V:=\left(U\setminus V\right)\cup
+\left(V\setminus U\right).\)</span></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>other</strong> (<a class="reference internal" href="#splinekit.interval.interval.Interval" title="splinekit.interval.interval.Interval"><em>Interval</em></a>) – The interval whose symmetric difference with this interval is
+sought for.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The symmetric difference between this interval and <code class="docutils literal notranslate"><span class="pre">other</span></code>.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>set of <a class="reference internal" href="#splinekit.interval.interval.Interval" title="splinekit.interval.interval.Interval">Interval</a></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<dl>
+<dt>Here is the symmetric difference between two bounded intervals.</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">splinekit.interval</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ivl</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ivl</span><span class="o">.</span><span class="n">Closed</span><span class="p">((</span><span class="o">-</span><span class="mf">3.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">))</span> <span class="o">^</span> <span class="n">ivl</span><span class="o">.</span><span class="n">Closed</span><span class="p">((</span><span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">))</span>
+<span class="go">{OpenClosed((1.0, 3.0)), ClosedOpen((-3.0, -1.0))}</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="Interval [toc]" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../universal/index.html" class="btn btn-neutral float-right" title="Universal [toc]" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright .</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

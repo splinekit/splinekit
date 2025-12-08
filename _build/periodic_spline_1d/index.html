@@ -1,0 +1,205 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Periodic Spline 1D [toc] &mdash; splinekit  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=2f8eb179" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+      <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Periodic Spline 1D [module]" href="01_periodic_spline_1d.html" />
+    <link rel="prev" title="Glossary—Terminology" href="../glossary/glossary-terminology.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            splinekit
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../installation/index.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/index.html">Tutorial [toc]</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../glossary/index.html">Glossary [toc]</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Periodic Spline 1D [toc]</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="01_periodic_spline_1d.html">Periodic Spline 1D [module]</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../bsplines/index.html">B-Splines [toc]</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spline_padding/index.html">Spline Padding [toc]</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bases/index.html">Bases [toc]</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../periodic_nonuniform_piecewise/index.html">Periodic Nonuniform Piecewise [toc]</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../interval/index.html">Interval [package]</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spline_utilities/index.html">Spline Utilities [toc]</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">splinekit</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Periodic Spline 1D [toc]</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/Philippe-Thevenaz/splinekit/blob/main/docs/periodic_spline_1d/index.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="periodic-spline-1d-toc">
+<h1>Periodic Spline 1D [toc]<a class="headerlink" href="#periodic-spline-1d-toc" title="Link to this heading"></a></h1>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 25.0%" />
+<col style="width: 75.0%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><strong>Periodic Spline 1D</strong></p></td>
+<td><p><strong>PeriodicSpline1D</strong> is a class of <code class="docutils literal notranslate"><span class="pre">splinekit</span></code>. It provides a comprehensive set of functions to create, transform, process, and display a one-dimensional spline extended by periodic padding.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="01_periodic_spline_1d.html">Periodic Spline 1D [module]</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="01_periodic_spline_1d.html#properties">Properties</a></li>
+<li class="toctree-l2"><a class="reference internal" href="01_periodic_spline_1d.html#constructors">Constructors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="01_periodic_spline_1d.html#class-methods">Class Methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="01_periodic_spline_1d.html#instance-methods">Instance Methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="01_periodic_spline_1d.html#splinekit.periodic_spline_1d.PeriodicSpline1D"><code class="docutils literal notranslate"><span class="pre">PeriodicSpline1D</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="01_periodic_spline_1d.html#splinekit.periodic_spline_1d.PeriodicSpline1D.period"><code class="docutils literal notranslate"><span class="pre">PeriodicSpline1D.period</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="01_periodic_spline_1d.html#splinekit.periodic_spline_1d.PeriodicSpline1D.degree"><code class="docutils literal notranslate"><span class="pre">PeriodicSpline1D.degree</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="01_periodic_spline_1d.html#splinekit.periodic_spline_1d.PeriodicSpline1D.delay"><code class="docutils literal notranslate"><span class="pre">PeriodicSpline1D.delay</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="01_periodic_spline_1d.html#splinekit.periodic_spline_1d.PeriodicSpline1D.spline_coeff"><code class="docutils literal notranslate"><span class="pre">PeriodicSpline1D.spline_coeff</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="01_periodic_spline_1d.html#splinekit.periodic_spline_1d.PeriodicSpline1D.__init__"><code class="docutils literal notranslate"><span class="pre">PeriodicSpline1D.__init__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="01_periodic_spline_1d.html#splinekit.periodic_spline_1d.PeriodicSpline1D.periodized_b_spline"><code class="docutils literal notranslate"><span class="pre">PeriodicSpline1D.periodized_b_spline()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="01_periodic_spline_1d.html#splinekit.periodic_spline_1d.PeriodicSpline1D.periodized_cardinal_b_spline"><code class="docutils literal notranslate"><span class="pre">PeriodicSpline1D.periodized_cardinal_b_spline()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="01_periodic_spline_1d.html#splinekit.periodic_spline_1d.PeriodicSpline1D.periodized_dual_b_spline"><code class="docutils literal notranslate"><span class="pre">PeriodicSpline1D.periodized_dual_b_spline()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="01_periodic_spline_1d.html#splinekit.periodic_spline_1d.PeriodicSpline1D.periodized_orthonormal_b_spline"><code class="docutils literal notranslate"><span class="pre">PeriodicSpline1D.periodized_orthonormal_b_spline()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="01_periodic_spline_1d.html#splinekit.periodic_spline_1d.PeriodicSpline1D.from_samples"><code class="docutils literal notranslate"><span class="pre">PeriodicSpline1D.from_samples()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="01_periodic_spline_1d.html#splinekit.periodic_spline_1d.PeriodicSpline1D.from_smoothed_samples"><code class="docutils literal notranslate"><span class="pre">PeriodicSpline1D.from_smoothed_samples()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="01_periodic_spline_1d.html#splinekit.periodic_spline_1d.PeriodicSpline1D.from_spline_coeff"><code class="docutils literal notranslate"><span class="pre">PeriodicSpline1D.from_spline_coeff()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="01_periodic_spline_1d.html#splinekit.periodic_spline_1d.PeriodicSpline1D.add"><code class="docutils literal notranslate"><span class="pre">PeriodicSpline1D.add()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="01_periodic_spline_1d.html#splinekit.periodic_spline_1d.PeriodicSpline1D.add_projected"><code class="docutils literal notranslate"><span class="pre">PeriodicSpline1D.add_projected()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="01_periodic_spline_1d.html#splinekit.periodic_spline_1d.PeriodicSpline1D.convolve"><code class="docutils literal notranslate"><span class="pre">PeriodicSpline1D.convolve()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="01_periodic_spline_1d.html#splinekit.periodic_spline_1d.PeriodicSpline1D.normed_cross_correlate"><code class="docutils literal notranslate"><span class="pre">PeriodicSpline1D.normed_cross_correlate()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="01_periodic_spline_1d.html#splinekit.periodic_spline_1d.PeriodicSpline1D.eval_piecewise_polynomials_at"><code class="docutils literal notranslate"><span class="pre">PeriodicSpline1D.eval_piecewise_polynomials_at()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="01_periodic_spline_1d.html#splinekit.periodic_spline_1d.PeriodicSpline1D.eval_piecewise_sgn_at"><code class="docutils literal notranslate"><span class="pre">PeriodicSpline1D.eval_piecewise_sgn_at()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="01_periodic_spline_1d.html#splinekit.periodic_spline_1d.PeriodicSpline1D.copy"><code class="docutils literal notranslate"><span class="pre">PeriodicSpline1D.copy()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="01_periodic_spline_1d.html#splinekit.periodic_spline_1d.PeriodicSpline1D.plot"><code class="docutils literal notranslate"><span class="pre">PeriodicSpline1D.plot()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="01_periodic_spline_1d.html#splinekit.periodic_spline_1d.PeriodicSpline1D.at"><code class="docutils literal notranslate"><span class="pre">PeriodicSpline1D.at()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="01_periodic_spline_1d.html#splinekit.periodic_spline_1d.PeriodicSpline1D.get_samples"><code class="docutils literal notranslate"><span class="pre">PeriodicSpline1D.get_samples()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="01_periodic_spline_1d.html#splinekit.periodic_spline_1d.PeriodicSpline1D.mean"><code class="docutils literal notranslate"><span class="pre">PeriodicSpline1D.mean()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="01_periodic_spline_1d.html#splinekit.periodic_spline_1d.PeriodicSpline1D.variance"><code class="docutils literal notranslate"><span class="pre">PeriodicSpline1D.variance()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="01_periodic_spline_1d.html#splinekit.periodic_spline_1d.PeriodicSpline1D.lower_bound"><code class="docutils literal notranslate"><span class="pre">PeriodicSpline1D.lower_bound()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="01_periodic_spline_1d.html#splinekit.periodic_spline_1d.PeriodicSpline1D.upper_bound"><code class="docutils literal notranslate"><span class="pre">PeriodicSpline1D.upper_bound()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="01_periodic_spline_1d.html#splinekit.periodic_spline_1d.PeriodicSpline1D.get_knots"><code class="docutils literal notranslate"><span class="pre">PeriodicSpline1D.get_knots()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="01_periodic_spline_1d.html#splinekit.periodic_spline_1d.PeriodicSpline1D.zeros"><code class="docutils literal notranslate"><span class="pre">PeriodicSpline1D.zeros()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="01_periodic_spline_1d.html#splinekit.periodic_spline_1d.PeriodicSpline1D.zero_crossings"><code class="docutils literal notranslate"><span class="pre">PeriodicSpline1D.zero_crossings()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="01_periodic_spline_1d.html#splinekit.periodic_spline_1d.PeriodicSpline1D.Extremum"><code class="docutils literal notranslate"><span class="pre">PeriodicSpline1D.Extremum</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="01_periodic_spline_1d.html#splinekit.periodic_spline_1d.PeriodicSpline1D.Extremum.domain"><code class="docutils literal notranslate"><span class="pre">PeriodicSpline1D.Extremum.domain</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="01_periodic_spline_1d.html#splinekit.periodic_spline_1d.PeriodicSpline1D.Extremum.value"><code class="docutils literal notranslate"><span class="pre">PeriodicSpline1D.Extremum.value</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="01_periodic_spline_1d.html#splinekit.periodic_spline_1d.PeriodicSpline1D.extrema"><code class="docutils literal notranslate"><span class="pre">PeriodicSpline1D.extrema()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="01_periodic_spline_1d.html#splinekit.periodic_spline_1d.PeriodicSpline1D.plus"><code class="docutils literal notranslate"><span class="pre">PeriodicSpline1D.plus()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="01_periodic_spline_1d.html#splinekit.periodic_spline_1d.PeriodicSpline1D.times"><code class="docutils literal notranslate"><span class="pre">PeriodicSpline1D.times()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="01_periodic_spline_1d.html#splinekit.periodic_spline_1d.PeriodicSpline1D.negated"><code class="docutils literal notranslate"><span class="pre">PeriodicSpline1D.negated()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="01_periodic_spline_1d.html#splinekit.periodic_spline_1d.PeriodicSpline1D.mirrored"><code class="docutils literal notranslate"><span class="pre">PeriodicSpline1D.mirrored()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="01_periodic_spline_1d.html#splinekit.periodic_spline_1d.PeriodicSpline1D.fractionalized_delay"><code class="docutils literal notranslate"><span class="pre">PeriodicSpline1D.fractionalized_delay()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="01_periodic_spline_1d.html#splinekit.periodic_spline_1d.PeriodicSpline1D.delayed_by"><code class="docutils literal notranslate"><span class="pre">PeriodicSpline1D.delayed_by()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="01_periodic_spline_1d.html#splinekit.periodic_spline_1d.PeriodicSpline1D.differentiated"><code class="docutils literal notranslate"><span class="pre">PeriodicSpline1D.differentiated()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="01_periodic_spline_1d.html#splinekit.periodic_spline_1d.PeriodicSpline1D.gradient"><code class="docutils literal notranslate"><span class="pre">PeriodicSpline1D.gradient()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="01_periodic_spline_1d.html#splinekit.periodic_spline_1d.PeriodicSpline1D.anti_grad"><code class="docutils literal notranslate"><span class="pre">PeriodicSpline1D.anti_grad()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="01_periodic_spline_1d.html#splinekit.periodic_spline_1d.PeriodicSpline1D.integrate"><code class="docutils literal notranslate"><span class="pre">PeriodicSpline1D.integrate()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="01_periodic_spline_1d.html#splinekit.periodic_spline_1d.PeriodicSpline1D.fourier_coeff"><code class="docutils literal notranslate"><span class="pre">PeriodicSpline1D.fourier_coeff()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="01_periodic_spline_1d.html#splinekit.periodic_spline_1d.PeriodicSpline1D.piecewise_polynomials"><code class="docutils literal notranslate"><span class="pre">PeriodicSpline1D.piecewise_polynomials()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="01_periodic_spline_1d.html#splinekit.periodic_spline_1d.PeriodicSpline1D.piecewise_sgn"><code class="docutils literal notranslate"><span class="pre">PeriodicSpline1D.piecewise_sgn()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="01_periodic_spline_1d.html#splinekit.periodic_spline_1d.PeriodicSpline1D.projected"><code class="docutils literal notranslate"><span class="pre">PeriodicSpline1D.projected()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="01_periodic_spline_1d.html#splinekit.periodic_spline_1d.PeriodicSpline1D.upscaled"><code class="docutils literal notranslate"><span class="pre">PeriodicSpline1D.upscaled()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="01_periodic_spline_1d.html#splinekit.periodic_spline_1d.PeriodicSpline1D.upscaled_projected"><code class="docutils literal notranslate"><span class="pre">PeriodicSpline1D.upscaled_projected()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="01_periodic_spline_1d.html#splinekit.periodic_spline_1d.PeriodicSpline1D.downscaled_projected"><code class="docutils literal notranslate"><span class="pre">PeriodicSpline1D.downscaled_projected()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="01_periodic_spline_1d.html#splinekit.periodic_spline_1d.PeriodicSpline1D.rescaled_projected"><code class="docutils literal notranslate"><span class="pre">PeriodicSpline1D.rescaled_projected()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../glossary/glossary-terminology.html" class="btn btn-neutral float-left" title="Glossary—Terminology" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="01_periodic_spline_1d.html" class="btn btn-neutral float-right" title="Periodic Spline 1D [module]" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright .</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
