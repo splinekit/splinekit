@@ -1,0 +1,20 @@
+/* splinekit/docs/_static/custom.css */
+
+/* Slightly larger inline code everywhere in the main content */
+.rst-content code.literal,
+.rst-content tt.literal {
+    font-size: 1.05em;  /* 5% bigger than surrounding text */
+}
+
+/* Also affect code inside tables explicitly, if needed */
+.wy-table-responsive table code.literal,
+.wy-table-responsive table tt.literal {
+    font-size: 1.05em;
+}
+
+/* Slightly larger inline code in the left sidebar (table of contents) */
+.wy-nav-side code.literal,
+.wy-nav-side tt.literal {
+    font-size: 1.15em;  /* or 1.25em if you want it a bit larger */
+    line-height: 1.4;   /* optional: more vertical spacing */
+}

@@ -1,3 +1,5 @@
+# splinekit/pyproject.toml
+
 [build-system]
 requires = [
     "hatchling",
@@ -35,11 +37,11 @@ authors = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/pypa/splinekit"
+Homepage = "https://github.com/Philippe-Thevenaz/splinekit"
 # Homepage = "https://splinekit.github.io/"
-# Source = "https://github.com/splinekit/splinekit"
-# Issues = "https://github.com/splinekit/splinekit/issues"
-# Download = "https://github.com/splinekit/splinekit.git"
+# Source = "https://github.com/Philippe-Thevenaz/splinekit"
+# Issues = "https://github.com/Philippe-Thevenaz/splinekit/issues"
+# Download = "https://github.com/Philippe-Thevenaz/splinekit"
 
 [project.optional-dependencies]
 visualization = [
@@ -64,8 +66,9 @@ docs = [
     "sphinx-copybutton >=0.5",
     "sphinx-remove-toctrees >=1.0",
     "sphinx-design >=0.6",
-    "pydata-sphinx-theme >=0.15",
-    "myst-parser >=3.0"
+    "sphinx-rtd-theme >=3.0.2",
+    "myst-parser >=3.0",
+    "nbsphinx >=0.9"
 ]
 
 # scikit-build-core configuration

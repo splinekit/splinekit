@@ -1,3 +1,5 @@
+.. splinekit/docs/index.rst
+
 SplineKit
 =========
 

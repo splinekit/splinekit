@@ -1,0 +1,35 @@
+# splinekit/.github/workflows/release.yml
+
+name: Build & publish to PyPI
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: read
+  id-token: write  # OIDC for PyPI
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install build tooling
+        run: |
+          python -m pip install -U pip build
+
+      - name: Build sdist and wheel (pure Python)
+        run: python -m build  # creates dist/*.tar.gz and dist/*.whl
+
+      - name: Publish to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1

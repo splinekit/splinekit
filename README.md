@@ -1,1 +1,120 @@
-<!-- splinekit/README.md --># splinekit: Spline Operations`splinekit` is a Python-based open-source software library aimed at themanipulation of one-dimensional periodic splines.## InstallationYou need at least `Python 3.10` to install `splinekit` (ideally `Python 3.12`).`Python 3.11` is also compatible.Create and activate your Python virtual environment (on Unix or MacOS)```shellpython -m venv splinekit-envsource splinekit-env/bin/activate```On Windows,```shellpython -m venv splinekit-env.splinekit-env/Scripts/Activate```To deactivate the environment use```shelldeactivate```Minimal requirement:```shellpip install numpy scipy sympy matplotlib```Simply install `splinekit` using `pip````shellpip install splinekit```## Formatting, Type Checking, and TestingFormatting and type checking is performed as```shelltox -e formattox -e type```The testing requires a valid environment with a supported Python version and `tox`installed. The tests are run with the following command (automatic pick of thePython version)```shelltox```The tests can also be launched for a specific Python version (must match the oneinstalled in the active environment)```shelltox -e py310tox -e py311tox -e py312```*IMPORTANT:* Since CI is not implemented, make sure to run, pass, and/or fix`tox -e format`, `tox -e type`, and `tox`.## PackagingUsing `tox` (preferred)```shelltox -e build```Using `hatch````shellhatch build -t wheel```## Development EnvironmentInstall `splinekit` development environment in editable mode```shellpip install -e .[dev]```## Building of the DocumentationTo build the Sphinx documentation, install `splinekit` doc dependencies```shellpip install -e .[docs]```Run the command from the splinekit root folder```shellsphinx-build docs/ _build/```Then, go to `_build/` and open `index.html` to navigate thedocumentation locally.### TroubleshootingIf you want to make a "clean" build, go to the splinekit root folder andmanually delete the folder `_build`. Thereafter, you can build the documentationafresh.
+<!-- splinekit/README.md -->
+
+# splinekit: Spline Operations
+
+`splinekit` is a Python-based open-source software library aimed at the manipulation of one-dimensional periodic splines.
+
+## Installation
+
+You need at least `Python 3.10` to install `splinekit` (ideally `Python 3.12`). `Python 3.11` is also compatible.
+
+Create and activate your Python virtual environment (on Unix or MacOS)
+
+```shell
+python -m venv splinekit-env
+source splinekit-env/bin/activate
+```
+
+On Windows,
+
+```shell
+python -m venv splinekit-env
+./splinekit-env/Scripts/Activate
+```
+
+To deactivate the environment use
+
+```shell
+deactivate
+```
+
+Minimal requirement:
+
+```shell
+pip install numpy scipy sympy matplotlib
+```
+
+Simply install `splinekit` using `pip`
+
+```shell
+pip install splinekit
+```
+
+## Formatting, Type Checking, and Testing
+
+Formatting and type checking is performed as
+
+```shell
+tox -e format
+tox -e type
+```
+
+The testing requires a valid environment with a supported Python version and `tox`
+installed. The tests are run with the following command (automatic pick of the
+Python version)
+
+```shell
+tox
+```
+
+The tests can also be launched for a specific Python version (must match the one
+installed in the active environment)
+
+```shell
+tox -e py310
+tox -e py311
+tox -e py312
+```
+
+*IMPORTANT:* Since CI is not implemented, make sure to run, pass, and/or fix
+`tox -e format`, `tox -e type`, and `tox`.
+
+## Packaging
+
+Using `tox` (preferred)
+
+```shell
+tox -e build
+```
+
+Using `hatch`
+
+```shell
+hatch build -t wheel
+```
+
+## Development Environment
+
+Install `splinekit` development environment in editable mode
+
+```shell
+pip install -e .[dev]
+```
+
+## Building of the Documentation
+
+To build the Sphinx documentation, install `splinekit` doc dependencies
+
+```shell
+pip install -e .[docs]
+```
+
+Run the command from the splinekit root folder
+
+```shell
+sphinx-build docs/ docs/_build/
+```
+
+Then, go to `_build/` and open `index.html` to navigate the
+documentation locally.
+
+### Troubleshooting
+
+If you want to make a "clean" build, go to `docs` and manually delete the
+folders `_build`, `auto_examples`, `gen_modules`, and the file `sg_execution_times.rst`.
+Why isn't this done automatically? Because Sphinx optimizes speed and removes
+redundant tasks, by not re-creating the examples notebooks if they have already
+been created. If you, for example, modify the name of the examples files, you
+will have to delete at least the folder `auto_examples`. Otherwise, the old
+examples files will not have disappeared automatically and Sphinx will raise
+an internal warning referring to a toctree.
