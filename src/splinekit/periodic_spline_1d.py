@@ -1708,6 +1708,7 @@ class PeriodicSpline1D:
         plotrange: Interval = RR(),
         plotpoints: int,
         line_fmt: str = "-C0",
+        line_width: float = 1.0,
         marker_fmt: str = "oC0",
         stem_fmt: str = "-C0",
         knot_marker: str = "o",
@@ -1731,6 +1732,8 @@ class PeriodicSpline1D:
             The number of points sampled over ``plotdomain``.
         line_fmt : str
             The format of the line depicting the spline curve.
+        line_width : float
+            The width of the line depicting the spline curve.
         marker_fmt : str
             The format of the markers at the integer samples of the spline
             curve.
@@ -1813,6 +1816,11 @@ class PeriodicSpline1D:
             field corresponds to the color of the spline curve.
         *   The default line format is ``"-C0"``, which means no marker and
             solid lines rendered in default-property color blue.
+
+        *line_width*
+
+        *   ``line_width`` is the width passed to the property ``linewidth``
+            of ``matplotlib.axes.Axes.plot``.
 
         *marker_fmt*
 
@@ -2108,7 +2116,7 @@ class PeriodicSpline1D:
                 fx0 = self.at(0.5 * (start + stop))
                 xx = np.array([start, stop], dtype = float)
                 fxx = np.array([fx0, fx0], dtype = float)
-                data.plot(xx, fxx, line_fmt)
+                data.plot(xx, fxx, line_fmt, lw = line_width)
                 if not minrange_provided:
                     (minrange, _) = plt.pyplot.ylim()
                 if not maxrange_provided:
@@ -2155,7 +2163,7 @@ class PeriodicSpline1D:
                 f_left = self.at(knots[0] - 0.5)
                 xx = np.array([start, knots[0]], dtype = float)
                 fxx = np.array([f_left, f_left], dtype = float)
-                data.plot(xx, fxx, line_fmt)
+                data.plot(xx, fxx, line_fmt, lw = line_width)
                 for (k, k0) in enumerate(knots):
                     f_right = self.at(k0 + 0.5)
                     data.plot(
@@ -2173,12 +2181,12 @@ class PeriodicSpline1D:
                         continue
                     xx = np.array([k0 - 1.0, k0], dtype = float)
                     fxx = np.array([f_left, f_left], dtype = float)
-                    data.plot(xx, fxx, line_fmt)
+                    data.plot(xx, fxx, line_fmt, lw = line_width)
                     f_left = f_right
                 f_right = self.at(0.5 * (knots[-1] + stop))
                 xx = np.array([knots[-1], stop], dtype = float)
                 fxx = np.array([f_right, f_right], dtype = float)
-                data.plot(xx, fxx, line_fmt)
+                data.plot(xx, fxx, line_fmt, lw = line_width)
                 if not minrange_provided:
                     (minrange, _) = plt.pyplot.ylim()
                 if not maxrange_provided:
@@ -2258,7 +2266,7 @@ class PeriodicSpline1D:
                 dtype = float,
                 count = plotpoints
             )
-            data.plot(xx, fxx, line_fmt)
+            data.plot(xx, fxx, line_fmt, lw = line_width)
             kk = self.get_knots(domain)
             for k0 in kk:
                 data.plot(
