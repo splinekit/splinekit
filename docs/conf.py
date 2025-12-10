@@ -15,6 +15,8 @@ extensions = [
 #    "inheritance_diagram",
 #    "numpydoc',
     "nbsphinx",
+    "nbsphinx_link",
+    "sphinx_design",
 ]
 
 # Do not treat .html as a source type:
@@ -52,3 +54,10 @@ html_context = {
     "github_version": "main",            # Branch: use "main" or "master"
     "conf_py_path": "/docs/",            # Path from repo root to docs root
 }
+
+# Execute notebooks on every build
+nbsphinx_execute = "always"  # default is "auto"
+nbsphinx_timeout = 120       # seconds per cell, adjust as needed
+
+# We don't use any custom notebook formats (jupytext etc.)
+nbsphinx_custom_formats = {}

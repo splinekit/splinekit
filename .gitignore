@@ -33,6 +33,7 @@ share/python-wheels/
 MANIFEST
 
 # Sphinx documentation
+_build/
 docs/_build/
 docs/_contents/
 docs/sg_execution_times.rst
