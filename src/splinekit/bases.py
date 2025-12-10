@@ -38,7 +38,7 @@ class Bases:
             f(x)=\sum_{k\in{\mathbb{Z}}}\,c[k]\,\beta^{n}(x-k).
 
     *   For ``splinekit.Bases.CARDINAL``, the coefficients are :math:`f` and
-        the basis is the :ref:`cardinal spline<def-cardinal_b_spline>`
+        the basis is the :ref:`cardinal B-spline<def-cardinal_b_spline>`
         :math:`\eta^{n},` so that
 
         ..  math::
@@ -46,7 +46,7 @@ class Bases:
             f(x)=\sum_{k\in{\mathbb{Z}}}\,f(k)\,\eta^{n}(x-k).
 
     *   For ``splinekit.Bases.DUAL``, the coefficients are :math:`g` and the
-        basis is the :ref:`polynomial dual b-spline<def-dual_b_spline>`
+        basis is the :ref:`polynomial dual B-spline<def-dual_b_spline>`
         :math:`\mathring{\beta}^{n,n},` so that
 
         ..  math::
@@ -55,7 +55,7 @@ class Bases:
 
     *   For ``splinekit.Bases.ORTHONORMAL``, the coefficients are :math:`a`
         and the basis is the
-        :ref:`polynomial orthonormal b-spline<def-orthonormal_b_spline>`
+        :ref:`polynomial orthonormal B-spline<def-orthonormal_b_spline>`
         :math:`\phi^{n},` so that
 
         ..  math::

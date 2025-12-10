@@ -7,7 +7,7 @@ manipulation of one-dimensional periodic splines.
 ## Installation
 You need at least `Python 3.11` to install `splinekit`.
 
-Create and activate your Python virtual environment
+Creation and activation of your Python virtual environment
 
 (on Unix)
 ```shell
