@@ -37,11 +37,11 @@ authors = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/Philippe-Thevenaz/splinekit"
+Homepage = "https://github.com/splinekit/splinekit"
 # Homepage = "https://splinekit.github.io/"
-# Source = "https://github.com/Philippe-Thevenaz/splinekit"
-# Issues = "https://github.com/Philippe-Thevenaz/splinekit/issues"
-# Download = "https://github.com/Philippe-Thevenaz/splinekit"
+# Source = "https://github.com/splinekit/splinekit"
+# Issues = "https://github.com/splinekit/splinekit/issues"
+# Download = "https://github.com/splinekit/splinekit"
 
 [project.optional-dependencies]
 visualization = [
