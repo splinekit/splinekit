@@ -81,7 +81,7 @@ is minimized. While the desired spline :math:`\tilde{f}_{\uparrow M}` could be d
 ..  math::
     \frac{\partial J}{\partial \tilde{c}_{\uparrow M}^{n}[q]}=\int_{0}^{K}\,\sum_{k\in{\mathbb{Z}}}\,{\mathbf{[\![}}q={k\bmod K}\,{\mathbf{]\!]}}\,\beta^{n}(x-\delta x-k)\,\left(\tilde{f}_{\uparrow M}(x)-f_{\uparrow M}(x)\right)\,{\mathrm{d}}x.
 
-Wen the coefficients are optimal, :math:`\frac{\partial J}{\partial \tilde{c}_{\uparrow M}^{n}[q]}` vanishes. Now, the multiplication of this zero value by the quantity :math:`\tilde{c}_{\uparrow M}^{n}[q]` is still zero, and so is the sum over all indices :math:`q.` This leads to
+When the coefficients are optimal, :math:`\frac{\partial J}{\partial \tilde{c}_{\uparrow M}^{n}[q]}` vanishes. Now, the multiplication of this zero value by the quantity :math:`\tilde{c}_{\uparrow M}^{n}[q]` is still zero, and so is the sum over all indices :math:`q.` This leads to
 
 ..  math::
     \begin{array}{rcl}
@@ -103,7 +103,7 @@ where the last equality involves periodic convolutions and mirrored versions :ma
 
 where :math:`x_{0}=\left(\delta x-M\,\delta x_{0}+\frac{\left(M-1\right)\,\left(n_{0}+1\right)}{2}\right)` and where :math:`\left(b^{2n+1}\right)^{-1}` represents a B-spline inverse sequence.
 
-We now propose a few lines of code that first create a random spline :math:`f_{0}` of specified period :math:`K_{0},` degree :math:`n_{0},` and delay :math:`\delta x_{0},` and then display its :math:`M`-magnified version :math:`f_{\uparrow M}.` The spline :math:`\tilde{f}_{\uparrow M}` of arbitrary degree :math:`n` and arbitrary delay :math:`\delta x` that best represents :math:`f_{\uparrow M}` is then determined and displayed. We validate optimality by verifying that a quantity that vanishes in theory does so numerically, too, first through the explicit numerical estimate of an integral, then through the convolution form.
+We now propose a few lines of code that first create a random spline :math:`f_{0}` of specified period :math:`K_{0},` degree :math:`n_{0},` and delay :math:`\delta x_{0},` and then display its :math:`M`-magnified version :math:`f_{\uparrow M}.` The spline :math:`\tilde{f}_{\uparrow M}` of arbitrary degree :math:`n` and arbitrary delay :math:`\delta x` that best represents :math:`f_{\uparrow M}` is then determined and displayed. We validate optimality by verifying that a quantity that vanishes in theory does so numerically, too, first through the explicit numerical estimate of an integral, then with the help of convolutions.
 
 ..  admonition:: Jupyter Lab notebook
 
@@ -176,6 +176,12 @@ where :math:`f_{\left(K_{0}\downarrow m\right)\uparrow m}` is the exact :math:`m
     {\mathbf{c}}_{K_{0}\downarrow m}^{n}=\left(\left(\left(b^{2\,n+1}\right)^{-1}*\left({\mathbf{c}}_{K_{0}\downarrow m}^{n}\right)'\right)[k]\right)_{k=0}^{K-1},
 
 where :math:`x_{0}=\left(\delta x_{0}-m\,\delta x-\frac{\left(m-1\right)\,\left(n+1\right)}{2}\right)` and :math:`k_{0}=\left\lfloor x_{0}-\frac{n_{0}+n}{2}\right\rfloor.`
+
+We now propose a few lines of code that first create a random spline :math:`f_{0}` of fixed period :math:`K_{0}` and specified degree :math:`n_{0}` and delay :math:`\delta x_{0},` and then determine and display its optimal :math:`m`-minified version :math:`f_{K_{0}\downarrow m}` of arbitrary degree :math:`n` and arbitrary delay :math:`\delta x.` We validate optimality by verifying that a quantity that vanishes in theory does so numerically, too, first through the explicit numerical estimate of an integral, then with the help of convolutions.
+
+..  admonition:: Jupyter Lab notebook
+
+    `Downscaling of a spline <https://splinekit.github.io/splinekit-jupyterlite/lab/?path=periodic-spline/multiresolution/spline_down_proj.ipynb&mode=single-document>`_
 
 ----
 
