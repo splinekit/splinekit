@@ -49,7 +49,7 @@ We now propose a few lines of code that first create a random spline of specifie
 
 ..  admonition:: Jupyter Lab notebook
 
-    `Upscaling of a spline <https://splinekit.github.io/splinekit-jupyterlite/lab/?path=periodic-spline/multiresolution/spline_upscaling.ipynb&mode=single-document>`_
+    `Upscaling of a spline <https://splinekit.github.io/splinekit-jupyterlite/lab/?path=periodic-spline/multiresolution/spline_up.ipynb&mode=single-document>`_
 
 ----
 
@@ -119,7 +119,7 @@ Let :math:`m\in{\mathbb{N}}+1` be a positive integer minification factor. The go
 ..  math::
     f_{0}:{\mathbb{R}}\rightarrow{\mathbb{R}},x\mapsto f_{0}(x)=\sum_{k\in{\mathbb{Z}}}\,c_{0}[{k\bmod K_{0}}]\,\beta^{n_{0}}(x-\delta x_{0}-k).
 
-The coarser version :math:`f_{K_{0}\downarrow m}` is assumed to be a periodic spline of arbitrary nonnegative integer degree :math:`n\in{\mathbb{N}},` arbitrary delay :math:`\delta x\in{\mathbb{R}},` and positive integer period :math:`K=\frac{K_{0}}{\gcd(K_{0},m)}\in{\mathbb{N}}+1.` This period is shorter than that of :math:`f_{0}` when :math:`m` and :math:`K_{0}` have multiplicative factors in common; otherwise, :math:`f_{K_{0}\downarrow m}` is still coarser than the spline :math:`f_{0}` in terms of data details but nevertheless retains its periodicity.
+The coarser version :math:`f_{K_{0}\downarrow m}` is assumed to be a periodic spline of arbitrary nonnegative integer degree :math:`n\in{\mathbb{N}},` arbitrary delay :math:`\delta x\in{\mathbb{R}},` and positive integer period :math:`K=\frac{K_{0}}{\gcd(K_{0},m)}\in{\mathbb{N}}+1.` This period is shorter than that of :math:`f_{0}` when :math:`m` and :math:`K_{0}` have multiplicative factors in common; otherwise, when :math:`K_{0}` and :math:`M` are co-primes, :math:`f_{K_{0}\downarrow m}` is still coarser than the spline :math:`f_{0}` in terms of data details but nevertheless retains its periodicity.
 
 Here is a table that gives :math:`K` in terms of :math:`K_{0}` and :math:`m` for a few examples. The blue entries highlight those cases where the period at nominal scale can be entirely divided by the minification factor. In all other cases, just sufficiently many periods of the :math:`K_{0}`-periodic :math:`f_{0}` are concatenated to make an extended spline whose overall period is entirely divisible both by :math:`K_{0}` and by :math:`m.`
 
@@ -164,7 +164,7 @@ is minimized. For reasons that are similar to those developed in the projected-u
     &=&\left(f_{\left(K_{0}\downarrow m\right)\uparrow m}^{\vee}*f_{\left(K_{0}\downarrow m\right)\uparrow m}\right)(0)-\left(f_{\left(K_{0}\downarrow m\right)\uparrow m}^{\vee}*f_{0}\right)(0),
     \end{array}
 
-where :math:`f_{\left(K_{0}\downarrow m\right)\uparrow m}` is the exact :math:`m`-upscaled version of :math:`f_{K_{0}\downarrow m},` with :math:`f_{\left(K_{0}\downarrow m\right)\uparrow m}(x)=f_{K_{0}\downarrow m}(\frac{x}{m})` for all :math:`x\in{\mathbb{R}}.` The solution of this equation in terms of the vector :math:`{\mathbf{c}}_{K_{0}\downarrow m}^{n}=\left(c_{K_{0}\downarrow m}^{n}[q]\right)_{q=0}^{K-1}` is obtained in the three successive steps
+where :math:`f_{\left(K_{0}\downarrow m\right)\uparrow m}` is the exact :math:`m`-upscaled version of :math:`f_{K_{0}\downarrow m},` with :math:`f_{\left(K_{0}\downarrow m\right)\uparrow m}(x)=f_{K_{0}\downarrow m}(\frac{x}{m})` for all :math:`x\in{\mathbb{R}}.` The vector :math:`{\mathbf{c}}_{K_{0}\downarrow m}^{n}=\left(c_{K_{0}\downarrow m}^{n}[q]\right)_{q=0}^{K-1}` is obtained in the three successive steps
 
 ..  math::
     \left({\mathbf{c}}_{0}\right)'=\left(\frac{1}{m^{n+1}}\,\sum_{q=0}^{\left(m-1\right)\,\left(n+1\right)}\,h_{m}^{n}[q]\,c_{0}[{\left(k-q\right)\bmod K_{0}}]\right)_{k=0}^{K_{0}-1}
@@ -177,11 +177,17 @@ where :math:`f_{\left(K_{0}\downarrow m\right)\uparrow m}` is the exact :math:`m
 
 where :math:`x_{0}=\left(\delta x_{0}-m\,\delta x-\frac{\left(m-1\right)\,\left(n+1\right)}{2}\right)` and :math:`k_{0}=\left\lfloor x_{0}-\frac{n_{0}+n}{2}\right\rfloor.`
 
-We now propose a few lines of code that first create a random spline :math:`f_{0}` of fixed period :math:`K_{0}` and specified degree :math:`n_{0}` and delay :math:`\delta x_{0},` and then determine and display its optimal :math:`m`-minified version :math:`f_{K_{0}\downarrow m}` of arbitrary degree :math:`n` and arbitrary delay :math:`\delta x.` We validate optimality by verifying that a quantity that vanishes in theory does so numerically, too, first through the explicit numerical estimate of an integral, then with the help of convolutions.
+We now propose a few lines of code that first create a random spline :math:`f_{0}` that has a highly composite period :math:`K_{0}` that is fixed, but whose degree :math:`n_{0}` and delay :math:`\delta x_{0}` can be specified. We then determine and display the :math:`m`-minified version :math:`f_{K_{0}\downarrow m}` of arbitrary degree :math:`n` and arbitrary delay :math:`\delta x.` We validate optimality by verifying that a quantity that vanishes in theory does so numerically, too, first through the explicit numerical estimate of an integral, then with the help of convolutions.
 
 ..  admonition:: Jupyter Lab notebook
 
-    `Downscaling of a spline <https://splinekit.github.io/splinekit-jupyterlite/lab/?path=periodic-spline/multiresolution/spline_down_proj.ipynb&mode=single-document>`_
+    `Downscaling of a composite-period spline <https://splinekit.github.io/splinekit-jupyterlite/lab/?path=periodic-spline/multiresolution/spline_down_comp.ipynb&mode=single-document>`_
+
+Next, we propose a notebook where the period of the spline at nominal scale can also be chosen freely. In this case, we display separately :math:`f_{0}` and :math:`f_{K_{0}\downarrow m}.`
+
+..  admonition:: Jupyter Lab notebook
+
+    `Downscaling of an arbitrary-period spline <https://splinekit.github.io/splinekit-jupyterlite/lab/?path=periodic-spline/multiresolution/spline_down.ipynb&mode=single-document>`_
 
 ----
 
