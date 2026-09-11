@@ -181,7 +181,7 @@ We now propose a few lines of code that first create a random spline :math:`f_{0
 
 ..  admonition:: Jupyter Lab notebook
 
-    `Downscaling of a composite-period spline <https://splinekit.github.io/splinekit-jupyterlite/lab/?path=periodic-spline/multiresolution/spline_down_comp.ipynb&mode=single-document>`_
+    `Downscaling of a composite-period spline <https://splinekit.github.io/splinekit-jupyterlite/lab/?path=periodic-spline/multiresolution/spline_down_divisible.ipynb&mode=single-document>`_
 
 Next, we propose a notebook where the period of the spline at nominal scale can also be chosen freely. In this case, we display separately :math:`f_{0}` and :math:`f_{K_{0}\downarrow m}.`
 
