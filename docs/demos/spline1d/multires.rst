@@ -8,6 +8,18 @@ Multiresolution
 
 How to manipulate the period of splines.
 
+Roadmap
+-------
+
+We propose the solution to three common tasks
+
+*   The upscaling of a spline by some integer magnification factor
+
+    *   The exact upscaling, seen as a geometric operation
+    *   The projected upscaling, where a spline of arbitrary degree and delay is produced
+*   The downscaling of a spline by some integer minification factor, with provisions for the case when the minification factor fails to divide entirely the spline period
+*   The rescaling of a spline from a nominal period to an arbitrary period
+
 ----
 
 Upscaling
@@ -25,7 +37,7 @@ Because a spline is itself a weighted sum of shifted B-splines, it benefits from
 ..  math::
     f_{0}:{\mathbb{R}}\rightarrow{\mathbb{R}},x\mapsto f_{0}(x)=\sum_{k\in{\mathbb{Z}}}\,c_{0}[{k\bmod K_{0}}]\,\beta^{n_{0}}(x-\delta x_{0}-k),
 
-and let its :math:`M`-enlarged version (with the same, non-enlarged delay) be
+and let its :math:`M`-enlarged version (the center of enlargement being at the origin) be
 
 ..  math::
     f_{{\color{blue}{\uparrow M}}}:{\mathbb{R}}\rightarrow{\mathbb{R}},x\mapsto f_{{\color{blue}{\uparrow M}}}(x)=f_{0}(\frac{x}{{\color{blue}{M}}})=\sum_{k\in{\mathbb{Z}}}\,c_{0}[{k\bmod K_{0}}]\,\beta^{n_{0}}(\frac{x}{{\color{blue}{M}}}-\delta x_{0}-k).
@@ -33,17 +45,17 @@ and let its :math:`M`-enlarged version (with the same, non-enlarged delay) be
 There, the B-splines that take part in the sum are not at their nominal scale. However, for all :math:`x\in{\mathbb{R}},` the M-scale equality implies that
 
 ..  math::
-    f_{\uparrow M}(x)=\sum_{k\in{\mathbb{Z}}}\,c_{\uparrow M}^{n_{0}}[{k\bmod K}]\,\beta^{n_{0}}(x-\delta x_{\uparrow M}^{n_{0}}-k)
+    f_{\uparrow M}(x)=\sum_{k\in{\mathbb{Z}}}\,c_{\uparrow M}[{k\bmod K}]\,\beta^{n_{0}}(x-\delta x_{\uparrow M}-k)
 
-also holds true, where it is more immediately apparent that :math:`f_{\uparrow M}` is not only :math:`K`-periodic with :math:`K=M\,K_{0},` but also a weighted sum of integer-shifted B-splines at nominal scale, with the vector of weights being :math:`{\mathbf{c}}_{\uparrow M}^{n_{0}}=\left(c_{\uparrow M}^{n_{0}}[k]\right)_{k=0}^{K-1}` and the delay being :math:`\delta x_{\uparrow M}^{n_{0}}.` More precisely, the equality between :math:`f_{\uparrow M}` and the enlarged :math:`f_{0}` is achieved for
+also holds true, where it is more immediately apparent that :math:`f_{\uparrow M}` is not only :math:`K`-periodic with :math:`K=M\,K_{0},` but also a weighted sum of integer-shifted B-splines at nominal scale, with the vector of weights being :math:`{\mathbf{c}}_{\uparrow M}=\left(c_{\uparrow M}[k]\right)_{k=0}^{K-1}` and the delay being :math:`\delta x_{\uparrow M}.` More precisely, the equality between :math:`f_{\uparrow M}` and the enlarged :math:`f_{0}` is achieved for
 
 ..  math::
-    {\mathbf{c}}_{\uparrow M}^{n_{0}}=\left(\frac{1}{M^{n_{0}}}\,\sum_{q=\left\lceil\frac{k-\left(M-1\right)\,\left(n+1\right)}{M}\right\rceil}^{\left\lfloor\frac{k}{M}\right\rfloor}\,c_{0}[{q\bmod K_{0}}]\,h_{M}^{n_{0}}[k-M\,q]\right)_{k=0}^{K-1}
+    {\mathbf{c}}_{\uparrow M}=\left(\frac{1}{M^{n_{0}}}\,\sum_{q=\left\lceil\frac{k-\left(M-1\right)\,\left(n+1\right)}{M}\right\rceil}^{\left\lfloor\frac{k}{M}\right\rfloor}\,c_{0}[{q\bmod K_{0}}]\,h_{M}^{n_{0}}[k-M\,q]\right)_{k=0}^{K-1}
 
 and
 
 ..  math::
-    \delta x_{\uparrow M}^{n_{0}}=M\,\delta x_{0}-\frac{\left(M-1\right)\,\left(n_{0}+1\right)}{2}.
+    \delta x_{\uparrow M}=M\,\delta x_{0}-\frac{\left(M-1\right)\,\left(n_{0}+1\right)}{2}.
 
 We now propose a few lines of code that first create a random spline of specified period, degree, and delay, and then enlarge it by a factor :math:`M.` We display a stack where the top figure contains the spline at its nominal size and the bottom figure contains the enlarged spline. A pair of synchronized sliders allows one to explore the values taken by the two functions and to conclude that, up to change of scale, the two versions are identical.
 
@@ -66,10 +78,10 @@ where the spline of positive integer period :math:`K_{0}\in{\mathbb{N}}+1` at no
 ..  math::
     f_{0}:{\mathbb{R}}\rightarrow{\mathbb{R}},x\mapsto f_{0}(x)=\sum_{k\in{\mathbb{Z}}}\,c_{0}[{k\bmod K_{0}}]\,\beta^{n_{0}}(x-\delta x_{0}-k).
 
-More precisely, for :math:`K=M\,K_{0},` we want to establish the value of the spline coefficients :math:`\tilde{c}_{\uparrow M}^{n}` that parameterize the :math:`K`-periodic spline
+More precisely, for :math:`K=M\,K_{0},` we want to establish the value of the spline coefficients :math:`\tilde{c}_{\uparrow M}` that parameterize the :math:`K`-periodic spline
 
 ..  math::
-    \tilde{f}_{\uparrow M}:{\mathbb{R}}\rightarrow{\mathbb{R}},x\mapsto \tilde{f}_{\uparrow M}(x)=\sum_{k\in{\mathbb{Z}}}\,\tilde{c}_{\uparrow M}^{n}[{k\bmod K}]\,\beta^{n}(x-\delta x-k)
+    \tilde{f}_{\uparrow M}:{\mathbb{R}}\rightarrow{\mathbb{R}},x\mapsto \tilde{f}_{\uparrow M}(x)=\sum_{k\in{\mathbb{Z}}}\,\tilde{c}_{\uparrow M}[{k\bmod K}]\,\beta^{n}(x-\delta x-k)
 
 and are such that the least-squares criterion
 
@@ -79,29 +91,29 @@ and are such that the least-squares criterion
 is minimized. While the desired spline :math:`\tilde{f}_{\uparrow M}` could be directly obtained as ``f0.upscaled(m).projected(degree = n, delay = dx)``, we propose here a combined approach. Letting :math:`{\mathbf{[\![}}\cdot\,{\mathbf{]\!]}}` be the notation for the Iverson bracket, we observe that, :math:`\forall q\in[0\ldots K],`
 
 ..  math::
-    \frac{\partial J}{\partial \tilde{c}_{\uparrow M}^{n}[q]}=\int_{0}^{K}\,\sum_{k\in{\mathbb{Z}}}\,{\mathbf{[\![}}q={k\bmod K}\,{\mathbf{]\!]}}\,\beta^{n}(x-\delta x-k)\,\left(\tilde{f}_{\uparrow M}(x)-f_{\uparrow M}(x)\right)\,{\mathrm{d}}x.
+    \frac{\partial J}{\partial \tilde{c}_{\uparrow M}[q]}=\int_{0}^{K}\,\sum_{k\in{\mathbb{Z}}}\,{\mathbf{[\![}}q={k\bmod K}\,{\mathbf{]\!]}}\,\beta^{n}(x-\delta x-k)\,\left(\tilde{f}_{\uparrow M}(x)-f_{\uparrow M}(x)\right)\,{\mathrm{d}}x.
 
-When the coefficients are optimal, :math:`\frac{\partial J}{\partial \tilde{c}_{\uparrow M}^{n}[q]}` vanishes. Now, the multiplication of this zero value by the quantity :math:`\tilde{c}_{\uparrow M}^{n}[q]` is still zero, and so is the sum over all indices :math:`q.` This leads to
+When the coefficients are optimal, :math:`\frac{\partial J}{\partial \tilde{c}_{\uparrow M}[q]}` vanishes. Now, the multiplication of this zero value by the quantity :math:`\tilde{c}_{\uparrow M}[q]` is still zero, and so is the sum over all indices :math:`q.` This leads to
 
 ..  math::
     \begin{array}{rcl}
-    0&=&\sum_{q=0}^{K-1}\,\tilde{c}_{\uparrow M}^{n}[q]\,\frac{\partial J}{\partial \tilde{c}_{\uparrow M}^{n}[q]}\\
+    0&=&\sum_{q=0}^{K-1}\,\tilde{c}_{\uparrow M}[q]\,\frac{\partial J}{\partial \tilde{c}_{\uparrow M}[q]}\\
     &=&\int_{0}^{K}\,\tilde{f}_{\uparrow M}(x)\,\left(\tilde{f}_{\uparrow M}(x)-f_{\uparrow M}(x)\right)\,{\mathrm{d}}x\\
     &=&\left(\tilde{f}_{\uparrow M}^{\vee}*\tilde{f}_{\uparrow M}\right)(0)-\left(\tilde{f}_{\uparrow M}^{\vee}*f_{\uparrow M}\right)(0),
     \end{array}
 
-where the last equality involves periodic convolutions and mirrored versions :math:`\tilde{f}_{\uparrow M}^{\vee}` of :math:`\tilde{f}_{\uparrow M}.` The solution of this equation in terms of the vector :math:`\tilde{{\mathbf{c}}}_{\uparrow M}^{n}=\left(\tilde{c}_{\uparrow M}^{n}[q]\right)_{q=0}^{K-1}` is obtained in the three successive steps
+where the last equality involves periodic convolutions and mirrored versions :math:`\tilde{f}_{\uparrow M}^{\vee}` of :math:`\tilde{f}_{\uparrow M}.` The solution of this equation in terms of the vector :math:`\tilde{{\mathbf{c}}}_{\uparrow M}=\left(\tilde{c}_{\uparrow M}[q]\right)_{q=0}^{K-1}` is obtained in the three successive steps
 
 ..  math::
-    \left(\tilde{{\mathbf{c}}}_{\uparrow M}^{n}\right)'=\left(\frac{1}{M^{n}}\,\sum_{q=\left\lceil\frac{k-\left(M-1\right)\,\left(n+1\right)}{M}\right\rceil}^{\left\lfloor\frac{k}{M}\right\rfloor}\,c_{0}[{q\bmod K_{0}}]\,h_{M}^{n}[k-M\,q]\right)_{k=0}^{K-1}
+    \left(\tilde{{\mathbf{c}}}_{\uparrow M}\right)'=\left(\frac{1}{M^{n}}\,\sum_{q=\left\lceil\frac{k-\left(M-1\right)\,\left(n+1\right)}{M}\right\rceil}^{\left\lfloor\frac{k}{M}\right\rfloor}\,c_{0}[{q\bmod K_{0}}]\,h_{M}^{n}[k-M\,q]\right)_{k=0}^{K-1}
 
 ..  math::
-    \left(\tilde{{\mathbf{c}}}_{\uparrow M}^{n}\right)''=\left(\left(\left(b^{2\,n+1}\right)^{-1}*\left(\tilde{c}_{\uparrow M}^{n}\right)'\right)[k]\right)_{k=0}^{K-1}
+    \left(\tilde{{\mathbf{c}}}_{\uparrow M}\right)''=\left(\left(\left(b^{2\,n+1}\right)^{-1}*\left(\tilde{c}_{\uparrow M}\right)'\right)[k]\right)_{k=0}^{K-1}
 
 ..  math::
-    \tilde{{\mathbf{c}}}_{\uparrow M}^{n}=\left(\sum_{q=\left\lceil-x_{0}-\frac{n_{0}+n+2}{2}\right\rceil}^{\left\lfloor-x_{0}+\frac{n_{0}+n+2}{2}\right\rfloor}\,\beta^{n_{0}+n+1}(q+x_{0})\,\left(\tilde{c}_{\uparrow M}^{n}\right)''[{\left(k-q\right)\bmod K}]\right)_{k=0}^{K-1},
+    \tilde{{\mathbf{c}}}_{\uparrow M}=\left(\sum_{q=\left\lceil-\tilde{x}_{0}-\frac{n_{0}+n+2}{2}\right\rceil}^{\left\lfloor-\tilde{x}_{0}+\frac{n_{0}+n+2}{2}\right\rfloor}\,\beta^{n_{0}+n+1}(q+\tilde{x}_{0})\,\left(\tilde{c}_{\uparrow M}\right)''[{\left(k-q\right)\bmod K}]\right)_{k=0}^{K-1},
 
-where :math:`x_{0}=\left(\delta x-M\,\delta x_{0}+\frac{\left(M-1\right)\,\left(n_{0}+1\right)}{2}\right)` and where :math:`\left(b^{2n+1}\right)^{-1}` represents a B-spline inverse sequence.
+where :math:`\tilde{x}_{0}=\left(\delta x-M\,\delta x_{0}+\frac{\left(M-1\right)\,\left(n_{0}+1\right)}{2}\right)` and where :math:`\left(b^{2n+1}\right)^{-1}` represents a B-spline inverse sequence.
 
 We now propose a few lines of code that first create a random spline :math:`f_{0}` of specified period :math:`K_{0},` degree :math:`n_{0},` and delay :math:`\delta x_{0},` and then display its :math:`M`-magnified version :math:`f_{\uparrow M}.` The spline :math:`\tilde{f}_{\uparrow M}` of arbitrary degree :math:`n` and arbitrary delay :math:`\delta x` that best represents :math:`f_{\uparrow M}` is then determined and displayed. We validate optimality by verifying that a quantity that vanishes in theory does so numerically, too, first through the explicit numerical estimate of an integral, then with the help of convolutions.
 
@@ -148,9 +160,9 @@ Here is a table that gives :math:`K` in terms of :math:`K_{0}` and :math:`m` for
 From now on, we assume for simplicity the generic case where :math:`K_{0}=m\,K` and let the desired minified spline be
 
 ..  math::
-    f_{K_{0}\downarrow m}:{\mathbb{R}}\rightarrow{\mathbb{R}},x\mapsto f_{K_{0}\downarrow m}(x)=\sum_{k\in{\mathbb{Z}}}\,c_{K_{0}\downarrow m}^{n}[{k\bmod K}]\,\beta^{n}(x-\delta x-k).
+    f_{K_{0}\downarrow m}:{\mathbb{R}}\rightarrow{\mathbb{R}},x\mapsto f_{K_{0}\downarrow m}(x)=\sum_{k\in{\mathbb{Z}}}\,c_{K_{0}\downarrow m}[{k\bmod K}]\,\beta^{n}(x-\delta x-k).
 
-Our goal is to determine the spline coefficients :math:`c_{K_{0}\downarrow m}^{n}` such that the least-squares criterion
+Our goal is to determine the spline coefficients :math:`c_{K_{0}\downarrow m}` such that the least-squares criterion
 
 ..  math::
     J=\frac{1}{2}\,\int_{0}^{K_{0}}\,\left(f_{K_{0}\downarrow m}(\frac{x}{m})-f_{0}(x)\right)^{2}\,{\mathrm{d}}x
@@ -159,21 +171,21 @@ is minimized. For reasons that are similar to those developed in the projected-u
 
 ..  math::
     \begin{array}{rcl}
-    0&=&\sum_{q=0}^{K-1}\,c_{K_{0}\downarrow m}^{n}[q]\,\frac{\partial J}{\partial c_{K_{0}\downarrow m}^{n}[q]}\\
+    0&=&\sum_{q=0}^{K-1}\,c_{K_{0}\downarrow m}[q]\,\frac{\partial J}{\partial c_{K_{0}\downarrow m}[q]}\\
     &=&\int_{0}^{K_{0}}\,f_{\left(K_{0}\downarrow m\right)\uparrow m}(x)\,\left(f_{\left(K_{0}\downarrow m\right)\uparrow m}(x)-f_{0}(x)\right)\,{\mathrm{d}}x\\
     &=&\left(f_{\left(K_{0}\downarrow m\right)\uparrow m}^{\vee}*f_{\left(K_{0}\downarrow m\right)\uparrow m}\right)(0)-\left(f_{\left(K_{0}\downarrow m\right)\uparrow m}^{\vee}*f_{0}\right)(0),
     \end{array}
 
-where :math:`f_{\left(K_{0}\downarrow m\right)\uparrow m}` is the exact :math:`m`-upscaled version of :math:`f_{K_{0}\downarrow m},` with :math:`f_{\left(K_{0}\downarrow m\right)\uparrow m}(x)=f_{K_{0}\downarrow m}(\frac{x}{m})` for all :math:`x\in{\mathbb{R}}.` The vector :math:`{\mathbf{c}}_{K_{0}\downarrow m}^{n}=\left(c_{K_{0}\downarrow m}^{n}[q]\right)_{q=0}^{K-1}` is obtained in the three successive steps
+where :math:`f_{\left(K_{0}\downarrow m\right)\uparrow m}` is the exact :math:`m`-upscaled version of :math:`f_{K_{0}\downarrow m},` with :math:`f_{\left(K_{0}\downarrow m\right)\uparrow m}(x)=f_{K_{0}\downarrow m}(\frac{x}{m})` for all :math:`x\in{\mathbb{R}}.` The vector :math:`{\mathbf{c}}_{K_{0}\downarrow m}=\left(c_{K_{0}\downarrow m}[q]\right)_{q=0}^{K-1}` is obtained in the three successive steps
 
 ..  math::
     \left({\mathbf{c}}_{0}\right)'=\left(\frac{1}{m^{n+1}}\,\sum_{q=0}^{\left(m-1\right)\,\left(n+1\right)}\,h_{m}^{n}[q]\,c_{0}[{\left(k-q\right)\bmod K_{0}}]\right)_{k=0}^{K_{0}-1}
 
 ..  math::
-    \left({\mathbf{c}}_{K_{0}\downarrow m}^{n}\right)'=\left(\sum_{q=0}^{n_{0}+n+1}\,\beta^{n_{0}+n+1}(q+k_{0}-x_{0})\,\left(c_{0}\right)'[{\left(m\,k-k_{0}-q\right)\bmod K_{0}}]\right)_{k=0}^{K-1}
+    \left({\mathbf{c}}_{K_{0}\downarrow m}\right)'=\left(\sum_{q=0}^{n_{0}+n+1}\,\beta^{n_{0}+n+1}(q+k_{0}-x_{0})\,\left(c_{0}\right)'[{\left(m\,k-k_{0}-q\right)\bmod K_{0}}]\right)_{k=0}^{K-1}
 
 ..  math::
-    {\mathbf{c}}_{K_{0}\downarrow m}^{n}=\left(\left(\left(b^{2\,n+1}\right)^{-1}*\left({\mathbf{c}}_{K_{0}\downarrow m}^{n}\right)'\right)[k]\right)_{k=0}^{K-1},
+    {\mathbf{c}}_{K_{0}\downarrow m}=\left(\left(\left(b^{2\,n+1}\right)^{-1}*\left({\mathbf{c}}_{K_{0}\downarrow m}\right)'\right)[k]\right)_{k=0}^{K-1},
 
 where :math:`x_{0}=\left(\delta x_{0}-m\,\delta x-\frac{\left(m-1\right)\,\left(n+1\right)}{2}\right)` and :math:`k_{0}=\left\lfloor x_{0}-\frac{n_{0}+n}{2}\right\rfloor.`
 
@@ -194,4 +206,16 @@ Next, we propose a notebook where the period of the spline at nominal scale can 
 Rescaling
 ---------
 
-TODO
+Consider again a periodic spline :math:`f_{0}` of nominal period :math:`K_{0},` degree :math:`n_{0},` and delay :math:`\delta x_{0},` characterized by the vector :math:`\left(c_{0}[k]\right)_{k=0}^{K_{0}-1}` of spline coefficients. We want now to establish a new periodic spline :math:`f_{K_{0}\rightarrow K}` of arbitrary period :math:`K\in{\mathbb{N}}+1,` arbitrary degree :math:`n\in{\mathbb{N}},` and arbitrary delay :math:`\delta x\in{\mathbb{R}}` such that the least-squares criterion
+
+..  math::
+    J=\frac{1}{2}\,\int_{0}^{K_{0}}\,\left(f_{K_{0}\rightarrow K}(\frac{K}{K_{0}}\,x)-f_{0}(x)\right)^{2}\,{\mathrm{d}}x
+
+is minimized, with
+
+..  math::
+    f_{K_{0}\rightarrow K}:{\mathbb{R}}\rightarrow{\mathbb{R}},x\mapsto f_{K_{0}\rightarrow K}(x)=\sum_{k\in{\mathbb{Z}}}\,c_{K_{0}\rightarrow K}[{k\bmod K}]\,\beta^{n}(x-\delta x-k).
+
+To do so, we first perform an exact upscaling of :math:`f_{0}` by the integer magnification factor :math:`\frac{K}{G},` with :math:`G=\gcd(K_{0},K).` This yields the intermediate spline :math:`f_{K_{0}\uparrow\frac{K}{G}},` which is :math:`\left(\frac{K_{0}\,K}{G}\right)`-periodic, has the same degree as :math:`f_{0},` and has the non-arbitrary delay :math:`\delta x_{\uparrow\frac{K}{G}}.` Then, we perform a downscaling of :math:`f_{K_{0}\uparrow\frac{K}{G}}` by the integer minification factor :math:`\frac{K_{0}}{G},` with arbitrary degree :math:`n` and arbitrary delay :math:`\delta x.` This yields the final spline :math:`f_{K_{0}\rightarrow K}=f_{\left(K_{0}\uparrow\frac{K}{G}\right)\downarrow\frac{K_{0}}{G}},` which is :math:`K`-periodic.
+
+Our proposed approach to the rescaling least-squares problem has the desirable property that it results in the exact solution. However, it relies on the explicit computation and storage of an intermediate spline whose period can be as large as the product :math:`K_{0}\,K` when the nominal period :math:`K_{0}` and the final period :math:`K` are co-prime.
