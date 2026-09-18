@@ -11,12 +11,12 @@ How to manipulate the period of splines.
 Roadmap
 -------
 
-We propose the solution to three common tasks
+We propose the solution to three common tasks.
 
 *   The upscaling of a spline by some integer magnification factor
 
-    *   The exact upscaling, seen as a geometric operation
-    *   The projected upscaling, where a spline of arbitrary degree and delay is produced
+    *   An exact upscaling, seen as a geometric operation
+    *   A projected upscaling, where a spline of arbitrary degree and delay is produced
 *   The downscaling of a spline by some integer minification factor, with provisions for the case when the minification factor fails to divide entirely the spline period
 *   The rescaling of a spline from a nominal period to an arbitrary period
 
@@ -37,7 +37,7 @@ Because a spline is itself a weighted sum of shifted B-splines, it benefits from
 ..  math::
     f_{0}:{\mathbb{R}}\rightarrow{\mathbb{R}},x\mapsto f_{0}(x)=\sum_{k\in{\mathbb{Z}}}\,c_{0}[{k\bmod K_{0}}]\,\beta^{n_{0}}(x-\delta x_{0}-k),
 
-and let its :math:`M`-enlarged version (the center of enlargement being at the origin) be
+where :math:`\left(c_{0}[k]\right)_{k=0}^{K_{0}-1}\in{\mathbb{R}}^{K_{0}}` is the vector of its spline coefficients. Then, we set the origin as the center of enlargment and let its :math:`M`-enlarged version be
 
 ..  math::
     f_{{\color{blue}{\uparrow M}}}:{\mathbb{R}}\rightarrow{\mathbb{R}},x\mapsto f_{{\color{blue}{\uparrow M}}}(x)=f_{0}(\frac{x}{{\color{blue}{M}}})=\sum_{k\in{\mathbb{Z}}}\,c_{0}[{k\bmod K_{0}}]\,\beta^{n_{0}}(\frac{x}{{\color{blue}{M}}}-\delta x_{0}-k).
@@ -68,7 +68,7 @@ We now propose a few lines of code that first create a random spline of specifie
 Projected
 ^^^^^^^^^
 
-We want now to determine which spline :math:`\tilde{f}_{\uparrow M}` of arbitrary degree :math:`n\in{\mathbb{N}}` and arbitrary delay :math:`\delta x\in{\mathbb{R}}` best represents the magnified spline :math:`f_{\uparrow M}` with, as before, a positive integer magnification :math:`M\in{\mathbb{N}}+1` and
+We want now to determine which spline :math:`\tilde{f}_{\uparrow M}` of arbitrary degree :math:`n\in{\mathbb{N}}` and arbitrary delay :math:`\delta x\in{\mathbb{R}}` best approximates the exact magnified spline :math:`f_{\uparrow M}` with, as before, a positive integer magnification :math:`M\in{\mathbb{N}}+1` and
 
 ..  math::
     f_{\uparrow M}:{\mathbb{R}}\rightarrow{\mathbb{R}},x\mapsto f_{\uparrow M}(x)=f_{0}(\frac{x}{M})=\sum_{k\in{\mathbb{Z}}}\,c_{0}[{k\bmod K_{0}}]\,\beta^{n_{0}}(\frac{x}{M}-\delta x_{0}-k),
@@ -218,4 +218,23 @@ is minimized, with
 
 To do so, we first perform an exact upscaling of :math:`f_{0}` by the integer magnification factor :math:`\frac{K}{G},` with :math:`G=\gcd(K_{0},K).` This yields the intermediate spline :math:`f_{K_{0}\uparrow\frac{K}{G}},` which is :math:`\left(\frac{K_{0}\,K}{G}\right)`-periodic, has the same degree as :math:`f_{0},` and has the non-arbitrary delay :math:`\delta x_{\uparrow\frac{K}{G}}.` Then, we perform a downscaling of :math:`f_{K_{0}\uparrow\frac{K}{G}}` by the integer minification factor :math:`\frac{K_{0}}{G},` with arbitrary degree :math:`n` and arbitrary delay :math:`\delta x.` This yields the final spline :math:`f_{K_{0}\rightarrow K}=f_{\left(K_{0}\uparrow\frac{K}{G}\right)\downarrow\frac{K_{0}}{G}},` which is :math:`K`-periodic.
 
-Our proposed approach to the rescaling least-squares problem has the desirable property that it results in the exact solution. However, it relies on the explicit computation and storage of an intermediate spline whose period can be as large as the product :math:`K_{0}\,K` when the nominal period :math:`K_{0}` and the final period :math:`K` are co-prime.
+Our proposed approach has the desirable property that it results in the exact minimization of the least-squares criterion. However, it relies on the explicit computation and storage of an intermediate spline whose period can be as large as the product :math:`K_{0}\,K` whenever the nominal period :math:`K_{0}` and the final period :math:`K` are co-prime.
+
+Here is a table that gives :math:`\frac{K_{0}\,K}{\gcd(K_{0},K)}` in terms of :math:`K_{0}` and :math:`K` for a few examples. The blue entries highlight those cases where the intermediate period exceeds neither the nominal nor the rescaled period.
+
+    :raw-html:`<TABLE border="1" frame="hsides" rules="groups" align="center">
+    <CAPTION><i>K</i><sub>0</sub> <i>K</i> &#x2215; gcd(<i>K</i><sub>0</sub>, <i>K<i>)</CAPTION>
+    <COLGROUP span="2">
+    <TR align="right"><TH><TH><i>K</i>&#160;<TH>&#160;1<TH>&#160;2<TH>&#160;3<TH>&#160;4<TH>&#160;5<TH>&#160;6<TH>&#160;7<TH>&#160;8<TH>&#160;9<TH>&#160;10
+    <TBODY>
+    <TR align="right"><TD><i>K</i><sub>0</sub><TD>1&#160;<TD>&#160;<FONT color="#0343df"><B>1</B><TD>&#160;<FONT color="#0343df"><B>2</B><TD>&#160;<FONT color="#0343df"><B>3</B><TD>&#160;<FONT color="#0343df"><B>4</B><TD>&#160;<FONT color="#0343df"><B>5</B><TD>&#160;<FONT color="#0343df"><B>6</B><TD>&#160;<FONT color="#0343df"><B>7</B><TD>&#160;<FONT color="#0343df"><B>8</B><TD>&#160;<FONT color="#0343df"><B>9</B><TD>&#160;<FONT color="#0343df"><B>10</B>
+    <TR align="right"><TD><TD>2&#160;<TD>&#160;<FONT color="#0343df"><B>2</B><TD>&#160;<FONT color="#0343df"><B>2</B><TD>&#160;6<TD>&#160;<FONT color="#0343df"><B>4</B><TD>&#160;10<TD>&#160;<FONT color="#0343df"><B>6</B><TD>&#160;14<TD>&#160;<FONT color="#0343df"><B>8</B><TD>&#160;18<TD>&#160;<FONT color="#0343df"><B>10</B>
+    <TR align="right"><TD><TD>3&#160;<TD>&#160;<FONT color="#0343df"><B>3</B><TD>&#160;6<TD>&#160;<FONT color="#0343df"><B>3</B><TD>&#160;12<TD>&#160;15<TD>&#160;<FONT color="#0343df"><B>6</B><TD>&#160;21<TD>&#160;24<TD>&#160;<FONT color="#0343df"><B>9</B><TD>&#160;30
+    <TR align="right"><TD><TD>4&#160;<TD>&#160;<FONT color="#0343df"><B>4</B><TD>&#160;<FONT color="#0343df"><B>4</B><TD>&#160;12<TD>&#160;<FONT color="#0343df"><B>4</B><TD>&#160;20<TD>&#160;12<TD>&#160;28<TD>&#160;<FONT color="#0343df"><B>8</B><TD>&#160;36<TD>&#160;20
+    <TR align="right"><TD><TD>5&#160;<TD>&#160;<FONT color="#0343df"><B>5</B><TD>&#160;10<TD>&#160;15<TD>&#160;20<TD>&#160;<FONT color="#0343df"><B>5</B><TD>&#160;30<TD>&#160;35<TD>&#160;40<TD>&#160;45<TD>&#160;<FONT color="#0343df"><B>10</B>
+    <TR align="right"><TD><TD>6&#160;<TD>&#160;<FONT color="#0343df"><B>6</B><TD>&#160;<FONT color="#0343df"><B>6</B><TD>&#160;<FONT color="#0343df"><B>6</B><TD>&#160;12<TD>&#160;30<TD>&#160;<FONT color="#0343df"><B>6</B><TD>&#160;42<TD>&#160;24<TD>&#160;18<TD>&#160;30
+    <TR align="right"><TD><TD>7&#160;<TD>&#160;<FONT color="#0343df"><B>7</B><TD>&#160;14<TD>&#160;21<TD>&#160;28<TD>&#160;35<TD>&#160;42<TD>&#160;<FONT color="#0343df"><B>7</B><TD>&#160;56<TD>&#160;63<TD>&#160;70
+    <TR align="right"><TD><TD>8&#160;<TD>&#160;<FONT color="#0343df"><B>8</B><TD>&#160;<FONT color="#0343df"><B>8</B><TD>&#160;24<TD>&#160;<FONT color="#0343df"><B>8</B><TD>&#160;40<TD>&#160;24<TD>&#160;56<TD>&#160;<FONT color="#0343df"><B>8</B><TD>&#160;72<TD>&#160;40
+    <TR align="right"><TD><TD>9&#160;<TD>&#160;<FONT color="#0343df"><B>9</B><TD>&#160;18<TD>&#160;<FONT color="#0343df"><B>9</B><TD>&#160;36<TD>&#160;45<TD>&#160;18<TD>&#160;63<TD>&#160;72<TD>&#160;<FONT color="#0343df"><B>9</B><TD>&#160;90
+    <TR align="right"><TD><TD>10&#160;<TD>&#160;<FONT color="#0343df"><B>10</B><TD>&#160;<FONT color="#0343df"><B>10</B><TD>&#160;30<TD>&#160;20<TD>&#160;<FONT color="#0343df"><B>10</B><TD>&#160;30<TD>&#160;70<TD>&#160;40<TD>&#160;90<TD>&#160;<FONT color="#0343df"><B>10</B>
+    </TABLE>`
