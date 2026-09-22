@@ -4555,20 +4555,15 @@ class PeriodicSpline1D:
 
         """
 
+        nu0 = nu % self.period
+        rfft = np.fft.rfft(self._spline_coeff)
+        fc = rfft[nu0] if nu0 < self.period // 2 + 1 else (
+            rfft[self.period - nu0].conjugate()
+        )
         return complex(
-            np.dot(
-                self._spline_coeff,
-                np.fromiter(
-                    (
-                        cmath.exp(-nu * 2j * np.pi * (k + self._delay) /
-                            self._period)
-                        for k in range(self._period)
-                    ),
-                    dtype = complex,
-                    count = self._period
-                )
-            ) * (np.sinc(nu / self._period) ** (self._degree + 1)) /
-                self._period
+            fc * cmath.exp(-nu * 2j * np.pi * self._delay / self.period) *
+                ((np.sinc(nu / self._period) ** (self._degree + 1))) /
+                self.period
         )
 
     #---------------
