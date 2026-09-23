@@ -1,4 +1,4 @@
-"""
+r"""
 This class handles periodic splines.
 
 Properties
@@ -31,8 +31,14 @@ Class Methods
 
     - :ref:`add <periodic_spline_1d-add>`
     - :ref:`add_projected <periodic_spline_1d-add_projected>`
+    - :ref:`subtract <periodic_spline_1d-subtract>`
     - :ref:`convolve <periodic_spline_1d-convolve>`
     - :ref:`normed_cross_correlate <periodic_spline_1d-normed_cross_correlate>`
+-   Dyadic Operators Applied to :math:`(f_{1},f_{2})`
+
+    - :ref:`__add__ <periodic_spline_1d-op-add>` ``+`` Addition : :math:`\fbox{$f_{1}+f_{2}$}`
+    - :ref:`__sub__ <periodic_spline_1d-op-sub>` ``-`` Subtraction: :math:`\fbox{$f_{1}-f_{2}$}`
+    - :ref:`__mul__ <periodic_spline_1d-op-mul>` ``*`` Convolution: :math:`\fbox{$f_{1}*f_{2}$}`
 -   Evaluate Nonstandard Spline Representations
 
     - :ref:`eval_piecewise_polynomials_at <periodic_spline_1d-eval_piecewise_polynomials_at>`
@@ -76,13 +82,11 @@ Instance Methods
     - :ref:`gradient <periodic_spline_1d-gradient>`
     - :ref:`anti_grad <periodic_spline_1d-anti_grad>`
     - :ref:`integrate <periodic_spline_1d-integrate>`
-
 -   Nonstandard Representations
 
     - :ref:`fourier_coeff <periodic_spline_1d-fourier_coeff>`
     - :ref:`piecewise_polynomials <periodic_spline_1d-piecewise_polynomials>`
     - :ref:`piecewise_sgn <periodic_spline_1d-piecewise_sgn>`
-
 -   Resampling and Projections
 
     - :ref:`projected <periodic_spline_1d-projected>`
@@ -90,6 +94,14 @@ Instance Methods
     - :ref:`upscaled_projected <periodic_spline_1d-upscaled_projected>`
     - :ref:`downscaled_projected <periodic_spline_1d-downscaled_projected>`
     - :ref:`rescaled_projected <periodic_spline_1d-rescaled_projected>`
+-   Monadic Operators Applied to :math:`f`
+
+    - :ref:`__invert__ <periodic_spline_1d-op-invert>` ``~`` Mirroring around the origin: :math:`\fbox{$f^{\vee}$}`
+    - :ref:`__neg__ <periodic_spline_1d-op-neg>` ``-`` Multiplication by :math:`\left(-1\right)`: :math:`\fbox{$-f$}`
+-   Dyadic Operators Applied to :math:`(f,\delta x)`
+
+    - :ref:`__lshift__ <periodic_spline_1d-op-lshift>` ``<<`` Advance: :math:`\fbox{$f(\cdot+\delta x)$}`
+    - :ref:`__rshift__ <periodic_spline_1d-op-rshift>` ``>>`` Delay: :math:`\fbox{$f(\cdot-\delta x)$}`
 
 ====
 
@@ -102,6 +114,7 @@ from __future__ import annotations
 from typing import cast
 from typing import List
 from typing import NamedTuple
+from typing import Self
 from typing import Tuple
 
 #---------------
@@ -1195,6 +1208,41 @@ class PeriodicSpline1D:
         )
 
     #---------------
+    def __add__ (
+        self,
+        other: Self
+    ) -> PeriodicSpline1D:
+
+        r"""
+        .. _periodic_spline_1d-op-add:
+
+        Operator version of the ``add`` function.
+
+        Examples
+        --------
+        Load the libraries.
+            >>> import numpy as np
+            >>> import splinekit as sk
+        Create two undelayed cubic splines and sum them.
+            >>> c1 = np.array([1, 9, -7], dtype = float)
+            >>> s1 = sk.PeriodicSpline1D.from_spline_coeff(c1, degree = 3)
+            >>> c2 = np.array([6, -3, -2], dtype = float)
+            >>> s2 = sk.PeriodicSpline1D.from_spline_coeff(c2, degree = 3)
+            >>> s1 + s2
+            PeriodicSpline1D([ 7.  6. -9.], degree = 3, delay = 0.0)
+
+        See Also
+        --------
+        add : Addition of two splines.
+
+
+        ----
+
+        """
+
+        return PeriodicSpline1D.add(self, other)
+
+    #---------------
     @classmethod
     def add_projected (
         cls,
@@ -1318,6 +1366,114 @@ class PeriodicSpline1D:
 
     #---------------
     @classmethod
+    def subtract (
+        cls,
+        minuend: PeriodicSpline1D,
+        subtrahend: PeriodicSpline1D
+    ) -> PeriodicSpline1D:
+
+        r"""
+        .. _periodic_spline_1d-subtract:
+
+        Create a spline from the difference of two splines.
+
+        Given two ``PeriodicSpline1D`` objects of identical period :math:`K,`
+        degree :math:`n,` and delay :math:`\delta x,` this constructor
+        returns a new ``PeriodicSpline1D`` spline that represents their
+        difference. The created object has period :math:`K,` degree :math:`n,`
+        and delay :math:`\delta x,` too.
+
+        Parameters
+        ----------
+        minuend : PeriodicSpline1D
+            A ``PeriodicSpline1D`` spline.
+        subtrahend : PeriodicSpline1D
+            A ``PeriodicSpline1D`` spline.
+
+        Returns
+        -------
+        PeriodicSpline1D
+            The spline equal to the difference between ``minuend`` and ``subtrahend``.
+
+        Examples
+        --------
+        Load the libraries.
+            >>> import numpy as np
+            >>> import splinekit as sk
+        Create two undelayed cubic splines and sum them.
+            >>> c1 = np.array([1, 9, -7], dtype = float)
+            >>> s1 = sk.PeriodicSpline1D.from_spline_coeff(c1, degree = 3)
+            >>> c2 = np.array([6, -3, -2], dtype = float)
+            >>> s2 = sk.PeriodicSpline1D.from_spline_coeff(c2, degree = 3)
+            >>> sk.PeriodicSpline1D.subtract(s1, s2)
+            PeriodicSpline1D([ -5. 12. -5.], degree = 3, delay = 0.0)
+
+        Raises
+        ------
+        ValueError
+            Raised when ``minuend.period != subtrahend.period``.
+        ValueError
+            Raised when ``minuend.degree != subtrahend.degree``.
+        ValueError
+            Raised when ``minuend.delay != subtrahend.delay``.
+
+
+        ----
+
+        """
+
+        if minuend.period != subtrahend.period:
+            raise ValueError("The periods must match")
+        if minuend.degree != subtrahend.degree:
+            raise ValueError("The degrees must match")
+        if minuend.delay != subtrahend.delay:
+            raise ValueError("The delays must match")
+        return PeriodicSpline1D.from_spline_coeff(
+            cast(
+                np.ndarray[tuple[int], np.dtype[np.float64]],
+                np.subtract(minuend.spline_coeff, subtrahend.spline_coeff)
+            ),
+            degree = minuend.degree,
+            delay = minuend.delay
+        )
+
+    #---------------
+    def __sub__ (
+        self,
+        other: Self
+    ) -> PeriodicSpline1D:
+
+        r"""
+        .. _periodic_spline_1d-op-sub:
+
+        Operator version of the ``subtract`` function.
+
+        Examples
+        --------
+        Load the libraries.
+            >>> import numpy as np
+            >>> import splinekit as sk
+        Create two undelayed cubic splines and sum them.
+            >>> c1 = np.array([1, 9, -7], dtype = float)
+            >>> s1 = sk.PeriodicSpline1D.from_spline_coeff(c1, degree = 3)
+            >>> c2 = np.array([6, -3, -2], dtype = float)
+            >>> s2 = sk.PeriodicSpline1D.from_spline_coeff(c2, degree = 3)
+            >>> s1 - s2
+            PeriodicSpline1D([ -5. 12. -5.], degree = 3, delay = 0.0)
+
+        See Also
+        --------
+        subtract : Subtraction of two splines.
+
+
+        ----
+
+        """
+
+        return PeriodicSpline1D.subtract(self, other)
+
+    #---------------
+    @classmethod
     def convolve (
         cls,
         s1: PeriodicSpline1D,
@@ -1392,21 +1548,50 @@ class PeriodicSpline1D:
         return PeriodicSpline1D.from_spline_coeff(
             cast(
                 np.ndarray[tuple[int], np.dtype[np.float64]],
-                np.fromiter(
-                    (
-                        fsum(
-                            s1q * s2.spline_coeff[(k - q) % s2.period]
-                            for (q, s1q) in enumerate(s1.spline_coeff)
-                        )
-                        for k in range(s1.period)
-                    ),
-                    dtype = float,
-                    count = s1.period
+                np.fft.irfft(
+                    np.fft.rfft(s1.spline_coeff) *
+                        np.fft.rfft(s2.spline_coeff),
+                    n = s1.period
                 )
             ),
             degree = s2.degree + s1.degree + 1,
             delay = s2.delay + s1.delay
         )
+
+    #---------------
+    def __mul__ (
+        self,
+        other: Self
+    ) -> PeriodicSpline1D:
+
+        r"""
+        .. _periodic_spline_1d-op-mul:
+
+        Operator version of the ``convolve`` function.
+
+        Examples
+        --------
+        Load the libraries.
+            >>> import numpy as np
+            >>> import splinekit as sk
+        Create two splines and convolve them.
+            >>> c1 = np.array([1, 9, -7], dtype = float)
+            >>> s1 = sk.PeriodicSpline1D.from_spline_coeff(c1, degree = 3, delay = 8.4)
+            >>> c2 = np.array([6, -3, -2], dtype = float)
+            >>> s2 = sk.PeriodicSpline1D.from_spline_coeff(c2, degree = 1, delay = 0.1)
+            >>> s1 * s2
+            PeriodicSpline1D([  9.  65. -71.], degree = 5, delay = 8.5)
+
+        See Also
+        --------
+        convolve : Convolution of two splines.
+
+
+        ----
+
+        """
+
+        return PeriodicSpline1D.convolve(self, other)
 
     #---------------
     @classmethod
@@ -1503,16 +1688,10 @@ class PeriodicSpline1D:
         return PeriodicSpline1D.from_spline_coeff(
             cast(
                 np.ndarray[tuple[int], np.dtype[np.float64]],
-                np.fromiter(
-                    (
-                        s0 * fsum(
-                            (s1q - m1) * s2.spline_coeff[(k + q) % s2.period]
-                            for (q, s1q) in enumerate(s1.spline_coeff)
-                        )
-                        for k in range(s1.period)
-                    ),
-                    dtype = float,
-                    count = s1.period
+                np.fft.irfft(
+                    np.fft.rfft(s1.plus(-m1).mirrored().spline_coeff) *
+                        np.fft.rfft(s2.times(s0).spline_coeff),
+                    n = s1.period
                 )
             ),
             degree = s2.degree + s1.degree + 1,
@@ -4059,6 +4238,38 @@ class PeriodicSpline1D:
         )
 
     #---------------
+    def __neg__ (
+        self
+    ) -> PeriodicSpline1D:
+
+        r"""
+        .. _periodic_spline_1d-op-neg:
+
+        Operator version of the ``negated`` function.
+
+        Examples
+        --------
+        Load the libraries.
+            >>> import numpy as np
+            >>> import splinekit as sk
+        Create a spline and flip its signum.
+            >>> c = np.array([1, 9, -7], dtype = float)
+            >>> s = sk.PeriodicSpline1D.from_spline_coeff(c, degree = 3)
+            >>> -s
+            PeriodicSpline1D([-1. -9.  7.], degree = 3, delay = 0.0)
+
+        See Also
+        --------
+        negated : Multiply this spline by the constant ``-1.0``.
+
+
+        ----
+
+        """
+
+        return self.negated()
+
+    #---------------
     def mirrored (
         self
     ) -> PeriodicSpline1D:
@@ -4117,6 +4328,38 @@ class PeriodicSpline1D:
             degree = self._degree,
             delay = -self._delay
         )
+
+    #---------------
+    def __invert__ (
+        self
+    ) -> PeriodicSpline1D:
+
+        r"""
+        .. _periodic_spline_1d-op-invert:
+
+        Operator version of the ``mirrored`` function.
+
+        Examples
+        --------
+        Load the libraries.
+            >>> import numpy as np
+            >>> import splinekit as sk
+        Create a spline and mirror it.
+            >>> c = np.array([1, 9, -7], dtype = float)
+            >>> s = sk.PeriodicSpline1D.from_spline_coeff(c, degree = 3, delay = 0.71)
+            >>> ~s
+            PeriodicSpline1D([ 1. -7.  9.], degree = 3, delay = -0.71)
+
+        See Also
+        --------
+        mirrored : Mirror this spline around the origin.
+
+
+        ----
+
+        """
+
+        return self.mirrored()
 
     #---------------
     def fractionalized_delay (
@@ -4223,6 +4466,72 @@ class PeriodicSpline1D:
             degree = self._degree,
             delay = self._delay + dx
         )
+
+    #---------------
+    def __lshift__ (
+        self,
+        other: float
+    ) -> PeriodicSpline1D:
+
+        r"""
+        .. _periodic_spline_1d-op-lshift:
+
+        Operator version of the ``delayed_by`` function.
+
+        Examples
+        --------
+        Load the libraries.
+            >>> import numpy as np
+            >>> import splinekit as sk
+        Create a spline with an arbitrary delay, and delay it further.
+            >>> c = np.array([1, 9, -7], dtype = float)
+            >>> s = sk.PeriodicSpline1D.from_spline_coeff(c, degree = 3, delay = 0.71)
+            >>> s << 5.2
+            PeriodicSpline1D([ 1.  9. -7.], degree = 3, delay = -4.49)
+
+        See Also
+        --------
+        delayed_by : Addition of an advance to a spline.
+
+
+        ----
+
+        """
+
+        return self.delayed_by(-other)
+
+    #---------------
+    def __rshift__ (
+        self,
+        other: float
+    ) -> PeriodicSpline1D:
+
+        r"""
+        .. _periodic_spline_1d-op-rshift:
+
+        Operator version of the ``delayed_by`` function.
+
+        Examples
+        --------
+        Load the libraries.
+            >>> import numpy as np
+            >>> import splinekit as sk
+        Create a spline with an arbitrary delay, and delay it further.
+            >>> c = np.array([1, 9, -7], dtype = float)
+            >>> s = sk.PeriodicSpline1D.from_spline_coeff(c, degree = 3, delay = 0.71)
+            >>> s >> 5.2
+            PeriodicSpline1D([ 1.  9. -7.], degree = 3, delay = 5.91)
+
+        See Also
+        --------
+        delayed_by : Addition of a delay to a spline.
+
+
+        ----
+
+        """
+
+        return self.delayed_by(other)
 
     #---------------
     def differentiated (

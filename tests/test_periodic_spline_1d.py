@@ -948,6 +948,50 @@ class TestPeriodicSpline1D:
                     rel_tol = sqrt(ulp(1.0)),
                     abs_tol = sqrt(ulp(1.0))
                 )
+            ps = ps1 + ps2
+            assert ps1.period == ps.period
+            assert ps1.degree == ps.degree
+            assert ps1.delay == ps.delay
+            for (k, c) in enumerate(known_add):
+                assert isclose(
+                    c,
+                    ps.spline_coeff[k],
+                    rel_tol = sqrt(ulp(1.0)),
+                    abs_tol = sqrt(ulp(1.0))
+                )
+            ps = PeriodicSpline1D.subtract(ps1, ps2.negated())
+            assert ps1.period == ps.period
+            assert ps1.degree == ps.degree
+            assert ps1.delay == ps.delay
+            for (k, c) in enumerate(known_add):
+                assert isclose(
+                    c,
+                    ps.spline_coeff[k],
+                    rel_tol = sqrt(ulp(1.0)),
+                    abs_tol = sqrt(ulp(1.0))
+                )
+            ps = PeriodicSpline1D.subtract(ps1, -ps2)
+            assert ps1.period == ps.period
+            assert ps1.degree == ps.degree
+            assert ps1.delay == ps.delay
+            for (k, c) in enumerate(known_add):
+                assert isclose(
+                    c,
+                    ps.spline_coeff[k],
+                    rel_tol = sqrt(ulp(1.0)),
+                    abs_tol = sqrt(ulp(1.0))
+                )
+            ps = ps1 - ps2.negated()
+            assert ps1.period == ps.period
+            assert ps1.degree == ps.degree
+            assert ps1.delay == ps.delay
+            for (k, c) in enumerate(known_add):
+                assert isclose(
+                    c,
+                    ps.spline_coeff[k],
+                    rel_tol = sqrt(ulp(1.0)),
+                    abs_tol = sqrt(ulp(1.0))
+                )
 
     #---------------
     def test_add_projected (
@@ -1104,6 +1148,17 @@ class TestPeriodicSpline1D:
             ps1 = PeriodicSpline1D.from_spline_coeff(c1, degree = degree1, delay = delay1)
             ps2 = PeriodicSpline1D.from_spline_coeff(c2, degree = degree2, delay = delay2)
             ps = PeriodicSpline1D.convolve(ps1, ps2)
+            assert ps1.period == ps.period
+            assert known_degree == ps.degree
+            assert known_delay == ps.delay
+            for (k, c) in enumerate(known_convolve):
+                assert isclose(
+                    c,
+                    ps.spline_coeff[k],
+                    rel_tol = sqrt(ulp(1.0)),
+                    abs_tol = sqrt(ulp(1.0))
+                )
+            ps = ps1 * ps2
             assert ps1.period == ps.period
             assert known_degree == ps.degree
             assert known_delay == ps.delay
@@ -5694,6 +5749,17 @@ class TestPeriodicSpline1D:
                     rel_tol = sqrt(ulp(1.0)),
                     abs_tol = sqrt(ulp(1.0))
                 )
+            ps = -known_ps
+            assert known_ps.period == ps.period
+            assert known_ps.degree == ps.degree
+            assert known_ps.delay == ps.delay
+            for (k, c) in enumerate(known_negated):
+                assert isclose(
+                    c,
+                    ps.spline_coeff[k],
+                    rel_tol = sqrt(ulp(1.0)),
+                    abs_tol = sqrt(ulp(1.0))
+                )
 
     #---------------
     def test_mirrored (
@@ -5765,6 +5831,17 @@ class TestPeriodicSpline1D:
             c = np.array(data, dtype = "float")
             known_ps = PeriodicSpline1D.from_spline_coeff(c, degree = degree, delay = delay)
             ps = known_ps.mirrored()
+            assert known_ps.period == ps.period
+            assert known_ps.degree == ps.degree
+            assert known_delay == ps.delay
+            for (k, c) in enumerate(known_mirrored):
+                assert isclose(
+                    c,
+                    ps.spline_coeff[k],
+                    rel_tol = sqrt(ulp(1.0)),
+                    abs_tol = sqrt(ulp(1.0))
+                )
+            ps = ~known_ps
             assert known_ps.period == ps.period
             assert known_ps.degree == ps.degree
             assert known_delay == ps.delay
@@ -5928,6 +6005,28 @@ class TestPeriodicSpline1D:
             c = np.array(data, dtype = "float")
             known_ps = PeriodicSpline1D.from_spline_coeff(c, degree = degree, delay = delay)
             ps = known_ps.delayed_by(dx)
+            assert known_ps.period == ps.period
+            assert known_ps.degree == ps.degree
+            assert known_delay == ps.delay
+            for (k, c) in enumerate(known_delayed_by):
+                assert isclose(
+                    c,
+                    ps.spline_coeff[k],
+                    rel_tol = sqrt(ulp(1.0)),
+                    abs_tol = sqrt(ulp(1.0))
+                )
+            ps = known_ps >> dx
+            assert known_ps.period == ps.period
+            assert known_ps.degree == ps.degree
+            assert known_delay == ps.delay
+            for (k, c) in enumerate(known_delayed_by):
+                assert isclose(
+                    c,
+                    ps.spline_coeff[k],
+                    rel_tol = sqrt(ulp(1.0)),
+                    abs_tol = sqrt(ulp(1.0))
+                )
+            ps = known_ps << -dx
             assert known_ps.period == ps.period
             assert known_ps.degree == ps.degree
             assert known_delay == ps.delay
