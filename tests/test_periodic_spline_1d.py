@@ -1564,6 +1564,15 @@ class TestPeriodicSpline1D:
                     rel_tol = sqrt(ulp(1.0)),
                     abs_tol = sqrt(ulp(1.0))
                 )
+            ps = PeriodicSpline1D.from_spline_coeff(c, degree = degree, delay = delay)
+            for (k, x) in enumerate(arguments):
+                known_at = known_ats[k]
+                assert isclose(
+                    known_at,
+                    ps(x),
+                    rel_tol = sqrt(ulp(1.0)),
+                    abs_tol = sqrt(ulp(1.0))
+                )
 
     #---------------
     def test_get_samples (

@@ -54,6 +54,9 @@ Instance Methods
 
     - :ref:`at <periodic_spline_1d-at>`
     - :ref:`get_samples <periodic_spline_1d-get_samples>`
+-   Callable Applied to :math:`(x)`
+
+    - :ref:`__call__ <periodic_spline_1d-op-call>` ``(x)`` Evaluation: :math:`\fbox{$f(x)$}`
 -   Empirical Statistics
 
     - :ref:`mean <periodic_spline_1d-mean>`
@@ -85,6 +88,7 @@ Instance Methods
 -   Nonstandard Representations
 
     - :ref:`fourier_coeff <periodic_spline_1d-fourier_coeff>`
+    - :ref:`fourier_series <periodic_spline_1d-fourier_series>`
     - :ref:`piecewise_polynomials <periodic_spline_1d-piecewise_polynomials>`
     - :ref:`piecewise_sgn <periodic_spline_1d-piecewise_sgn>`
 -   Resampling and Projections
@@ -2636,6 +2640,39 @@ class PeriodicSpline1D:
         )
 
     #---------------
+    def __call__ (
+        self,
+        x: float
+    ) -> float:
+
+        r"""
+        .. _periodic_spline_1d-op-call:
+
+        Operator version of the ``at`` function.
+
+        Examples
+        --------
+        Load the libraries.
+            >>> import numpy as np
+            >>> import splinekit as sk
+        Create a spline and evaluate it at the abscissa ``-18.5``.
+            >>> c = np.array([1, 9, -7], dtype = float)
+            >>> s = sk.PeriodicSpline1D.from_spline_coeff(c, degree = 3)
+            >>> s(-18.5)
+            -2.5
+
+        See Also
+        --------
+        at : Evaluation of this spline at an abscissa.
+
+
+        ----
+
+        """
+
+        return self.at(x)
+
+    #---------------
     def get_samples (
         self,
         starting_at: float,
@@ -4874,6 +4911,83 @@ class PeriodicSpline1D:
                 ((np.sinc(nu / self._period) ** (self._degree + 1))) /
                 self.period
         )
+
+    #---------------
+    def fourier_series (
+        self
+    ) -> np.ndarray[tuple[int], np.dtype[np.complex64]]:
+
+        r"""
+        .. _periodic_spline_1d-fourier_series:
+
+        The Fourier series over a support sufficient to recover this spline.
+
+        Letting this spline of period :math:`K` be
+        :math:`f:{\mathbb{R}}\rightarrow{\mathbb{R}},x\mapsto f(x),` extract
+        a finite-support vector :math:`\hat{{\mathbf{f}}}\in{\mathbb{C}}^
+        {\left\lfloor\frac{K}{2}\right\rfloor+1}` from the infinitely supported
+        Fourier series of :math:`f,` as
+
+        ..  math::
+
+            \hat{{\mathbf{f}}}=\left(F[\nu]\right)_{\nu=0}^{\nu=
+            \left\lfloor\frac{K}{2}\right\rfloor},
+
+        where :math:`F[\nu]` is the Fourier coefficient of index :math:`\nu.`
+        Because :math:`f` is a spline, any Fourier coefficient can be recovered
+        for :math:`\nu\in[1\ldots\left\lfloor\frac{K}{2}\right\rfloor]` from
+        :math:`\hat{{\mathbf{f}}}` according to
+
+        ..  math::
+
+            F[\nu+K\,k]=\hat{f}[\nu]\,
+            {\mathrm{e}}^{-{\mathrm{j}}\,k\,2\,\pi\,\delta x}\,
+            \left(\left(-1\right)^{k}\,\frac{\nu}{\nu+K\,k}\right)^{n+1}
+
+        for any :math:`k\in{\mathbb{Z}},` along with
+
+        ..  math::
+
+            F[K-\nu]=\hat{f}^{*}[\nu]\,
+            {\mathrm{e}}^{-{\mathrm{j}}\,2\,\pi\,\delta x}\,
+            \left(\frac{\nu}{K-\nu}\right)^{n+1}
+
+        and
+
+        ..  math::
+
+            F[K\,k]=\left\{\begin{array}{ll}
+            \hat{f}[0],&k=0\\0,&k\neq0.
+            \end{array}\right.
+
+
+        Returns
+        -------
+        np.ndarray[tuple[int], np.dtype[np.complex64]]
+            The defining Fourier series of this spline.
+
+        Examples
+        --------
+        Load the libraries.
+            >>> import numpy as np
+            >>> import splinekit as sk
+        Create a spline and compute its Fourier series.
+            >>> c = np.array([1, 9, -7], dtype = float)
+            >>> s = sk.PeriodicSpline1D.from_spline_coeff(c, degree = 3, delay = 0.71)
+            >>> s.fourier_series()
+            array([ 1.        +0.j        , -2.15283926-0.18077896j])
+
+        ----
+
+        """
+
+        rfft = np.fft.rfft(self._spline_coeff)
+        return np.array([
+            cmath.exp(-1j * nu * 2.0 * np.pi * self.delay / self.period) *
+                (np.sinc(nu / self.period) ** (self.degree + 1)) * rfft[nu] /
+                self.period
+            for nu in range(len(rfft))
+        ])
 
     #---------------
     def piecewise_polynomials (

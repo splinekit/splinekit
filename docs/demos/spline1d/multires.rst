@@ -238,3 +238,10 @@ Here is a table that gives :math:`\frac{K_{0}\,K}{\gcd(K_{0},K)}` in terms of :m
     <TR align="right"><TD><TD>9&#160;<TD>&#160;<FONT color="#0343df"><B>9</B><TD>&#160;18<TD>&#160;<FONT color="#0343df"><B>9</B><TD>&#160;36<TD>&#160;45<TD>&#160;18<TD>&#160;63<TD>&#160;72<TD>&#160;<FONT color="#0343df"><B>9</B><TD>&#160;90
     <TR align="right"><TD><TD>10&#160;<TD>&#160;<FONT color="#0343df"><B>10</B><TD>&#160;<FONT color="#0343df"><B>10</B><TD>&#160;30<TD>&#160;20<TD>&#160;<FONT color="#0343df"><B>10</B><TD>&#160;30<TD>&#160;70<TD>&#160;40<TD>&#160;90<TD>&#160;<FONT color="#0343df"><B>10</B>
     </TABLE>`
+
+Here are a few lines of code that first create a random spline :math:`f_{0}` whose period :math:`K_{0},` degree :math:`n_{0},` and delay :math:`\delta x_{0}` can be specified. We then determine and display its optimal version :math:`f_{K_{0}\rightarrow K}` of arbitrary period :math:`K,` degree :math:`n,` and delay :math:`\delta x.` We validate optimality by verifying that a quantity that vanishes in theory does so numerically.
+
+..  admonition:: Jupyter Lab notebook
+
+    `Rescaling of a spline to an arbitrary period <https://splinekit.github.io/splinekit-jupyterlite/lab/?path=periodic-spline/multiresolution/spline_rescale.ipynb&mode=single-document>`_
+
