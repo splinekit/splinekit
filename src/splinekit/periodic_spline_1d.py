@@ -24,6 +24,7 @@ Constructors
     - :ref:`from_samples <periodic_spline_1d-from_samples>`
     - :ref:`from_smoothed_samples <periodic_spline_1d-from_smoothed_samples>`
     - :ref:`from_spline_coeff <periodic_spline_1d-from_spline_coeff>`
+    - :ref:`from_fourier_series <periodic_spline_1d-from_fourier_series>`
 
 Class Methods
 =============
@@ -1134,6 +1135,144 @@ class PeriodicSpline1D:
             raise ValueError("Degree must be nonnegative")
         s = cls()
         s.spline_coeff = spline_coeff
+        s.degree = degree
+        s.delay = delay
+        return s
+
+    #---------------
+    @classmethod
+    def from_fourier_series (
+        cls,
+        fourier_series: np.ndarray[tuple[int], np.dtype[np.complex64]],
+        *,
+        period: int,
+        degree: int,
+        delay: float = 0.0
+    ) -> PeriodicSpline1D:
+
+        r"""
+        .. _periodic_spline_1d-from_fourier_series:
+
+        A constructor from a partial Fourier series.
+
+        Let :math:`K\in{\mathbb{N}}+1` be a positive integer ``period`` and let
+        the ``fourier_series`` :math:`\hat{{\mathbf{f}}}\in
+        {\mathbb{C}}^{\left\lfloor\frac{K}{2}\right\rfloor+1}` be a vector such
+        that :math:`\hat{f}[0]\in{\mathbb{R}}.` Then, with the appropriate
+        nonnegative integer ``degree`` :math:`n\in{\mathbb{N}}` and ``delay``
+        :math:`\delta x\in{\mathbb{R}},` one can build a periodic
+        uniform piecewise polynomial spline
+
+        ..  math::
+
+            f:{\mathbb{R}}\rightarrow{\mathbb{R}},x\mapsto f(x)=
+            \sum_{k\in{\mathbb{Z}}}\,c[{k\bmod K}]\,\beta^{n}(x-\delta x-k)
+
+        such that :math:`\left(F[\nu]\right)_{\nu=0}^{\left\lfloor\frac{K}{2}\right\rfloor}=
+        \hat{{\mathbf{f}}},` where
+
+        ..  math::
+
+            F[\nu]=\frac{1}{K}\,\int_{0}^{K}\,f(x)\,
+            {\mathrm{e}}^{-{\mathrm{j}\,\nu\,\frac{2\,\pi}{K}\,x}}\,
+            {\mathrm{d}}x
+
+        is the :math:`\nu`-th coefficient of the Fourier series
+        of the spline.
+
+        Parameters
+        ----------
+        fourier_series: np.ndarray[tuple[int], np.dtype[np.complex64]]
+            A one-dimensional ``numpy`` array of complex Fourier coefficients.
+        period : int
+            The :ref:`positive<def-positive>` period of the spline.
+        degree : int
+            The :ref:`nonnegative<def-negative>` degree of the polynomial
+            spline.
+        delay : float
+            The delay of this spline.
+
+        Returns
+        -------
+        PeriodicSpline1D
+            The spline.
+
+        Examples
+        --------
+        Load the libraries.
+            >>> import numpy as np
+            >>> import splinekit as sk
+        Create a spline and verify that it can be recovered from its Fourier series.
+            >>> c = np.array([1, 9, -7], dtype = float)
+            >>> s = sk.PeriodicSpline1D.from_spline_coeff(c, degree = 3, delay = 0.71)
+            >>> f = s.fourier_series()
+            >>> sk.PeriodicSpline1D.from_fourier_series(f, period = 3, degree = 3, delay = 0.71)
+            PeriodicSpline1D([ 1.  9. -7.], degree = 3, delay = 0.71)
+
+        Notes
+        -----
+        While a periodic function is uniquely defined by its infinite-support
+        Fourier series, a finite subsequence thereof (such as the
+        finite-dimensional vector provided as the first argument of this
+        constructor) does not carry enough information to recover the spline
+        degree and delay. Those must be provided as ancillary parameters.
+
+        See Also
+        --------
+        fourier_series : A finite-length subsequence of the infinite-length
+        Fourier series of this spline.
+
+        Raises
+        ------
+        ValueError
+            Raised when ``fourier_series`` fails to be a ``numpy``
+            one-dimensional ``complex`` array that contains at least one
+            element.
+        ValueError
+            Raised when ``period`` is not :ref:`positive<def-positive>`.
+        ValueError
+            Raised when ``period // 2 + 1`` differs from
+            ``len(fourier_series)``.
+        ValueError
+            Raised when ``fourier_series[0].imag`` is non-zero.
+        ValueError
+            Raised when ``degree`` is :ref:`negative<def-negative>`.
+
+
+        ----
+
+        """
+
+        if np.ndarray != type(fourier_series):
+            raise ValueError("Fourier_series must be a numpy array")
+        if 1 != len(fourier_series.shape):
+            raise ValueError(
+                "Fourier_series must be a one-dimensional numpy array"
+            )
+        if complex != fourier_series.dtype:
+            raise ValueError(
+                "Fourier_series must be of type np.ndarray[tuple[int], np.dtype[np.complex64]]"
+            )
+        if 0 >= period:
+            raise ValueError("Period must be positive")
+        if len(fourier_series) != period // 2 + 1:
+            raise ValueError("Len(fourier_series) must match period // 2 + 1")
+        if 0.0 != fourier_series[0].imag:
+            raise ValueError("The first element of fourier_series must be real")
+        if 0 > degree:
+            raise ValueError("Degree must be nonnegative")
+        s = cls()
+        s.spline_coeff = np.fft.irfft(
+            fourier_series * np.array(
+                [
+                    period * cmath.exp(1j * nu * 2.0 * np.pi * delay / period) /
+                        (np.sinc(nu / period) ** (degree + 1))
+                    for nu in range(len(fourier_series))
+                ],
+                dtype = complex
+            ),
+            n = period
+        )
         s.degree = degree
         s.delay = delay
         return s
@@ -4876,6 +5015,32 @@ class PeriodicSpline1D:
             f(x)=\sum_{\nu\in{\mathbb{Z}}}\,F[\nu]\,{\mathrm{e}}^
             {{\mathrm{j}\,\nu\,\frac{2\,\pi}{K}\,x}}.
 
+        Because :math:`f` is a spline, any Fourier coefficient can be recovered
+        for :math:`\nu\in[1\ldots\left\lfloor\frac{K}{2}\right\rfloor]` from
+        :math:`\hat{{\mathbf{f}}}` according to
+
+        ..  math::
+
+            F[\nu+K\,k]=\hat{f}[\nu]\,
+            {\mathrm{e}}^{-{\mathrm{j}}\,k\,2\,\pi\,\delta x}\,
+            \left(\left(-1\right)^{k}\,\frac{\nu}{\nu+K\,k}\right)^{n+1}
+
+        for any :math:`k\in{\mathbb{Z}},` along with
+
+        ..  math::
+
+            F[K-\nu]=\hat{f}^{*}[\nu]\,
+            {\mathrm{e}}^{-{\mathrm{j}}\,2\,\pi\,\delta x}\,
+            \left(\frac{\nu}{K-\nu}\right)^{n+1}
+
+        and
+
+        ..  math::
+
+            F[K\,k]=\left\{\begin{array}{ll}
+            \hat{f}[0],&k=0\\0,&k\neq0.
+            \end{array}\right.
+
         Parameters
         ----------
         nu : int
@@ -4934,32 +5099,6 @@ class PeriodicSpline1D:
             \left\lfloor\frac{K}{2}\right\rfloor},
 
         where :math:`F[\nu]` is the Fourier coefficient of index :math:`\nu.`
-        Because :math:`f` is a spline, any Fourier coefficient can be recovered
-        for :math:`\nu\in[1\ldots\left\lfloor\frac{K}{2}\right\rfloor]` from
-        :math:`\hat{{\mathbf{f}}}` according to
-
-        ..  math::
-
-            F[\nu+K\,k]=\hat{f}[\nu]\,
-            {\mathrm{e}}^{-{\mathrm{j}}\,k\,2\,\pi\,\delta x}\,
-            \left(\left(-1\right)^{k}\,\frac{\nu}{\nu+K\,k}\right)^{n+1}
-
-        for any :math:`k\in{\mathbb{Z}},` along with
-
-        ..  math::
-
-            F[K-\nu]=\hat{f}^{*}[\nu]\,
-            {\mathrm{e}}^{-{\mathrm{j}}\,2\,\pi\,\delta x}\,
-            \left(\frac{\nu}{K-\nu}\right)^{n+1}
-
-        and
-
-        ..  math::
-
-            F[K\,k]=\left\{\begin{array}{ll}
-            \hat{f}[0],&k=0\\0,&k\neq0.
-            \end{array}\right.
-
 
         Returns
         -------
