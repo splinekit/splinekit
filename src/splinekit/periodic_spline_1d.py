@@ -1211,16 +1211,17 @@ class PeriodicSpline1D:
 
         Notes
         -----
-        While a periodic function is uniquely defined by its infinite-support
-        Fourier series, a finite subsequence thereof (such as the
+        While a periodic spline is uniquely defined by its infinite-support
+        Fourier series, a finite-length subsequence thereof (such as the
         finite-dimensional vector provided as the first argument of this
         constructor) does not carry enough information to recover the spline
-        degree and delay. Those must be provided as ancillary parameters.
+        degree and delay. Those must be provided as ancillary parameters. The
+        period itself must also be provided to disambiguate its parity.
 
         See Also
         --------
         fourier_series : A finite-length subsequence of the infinite-length
-        Fourier series of this spline.
+            Fourier series of this spline.
 
         Raises
         ------
@@ -5015,31 +5016,30 @@ class PeriodicSpline1D:
             f(x)=\sum_{\nu\in{\mathbb{Z}}}\,F[\nu]\,{\mathrm{e}}^
             {{\mathrm{j}\,\nu\,\frac{2\,\pi}{K}\,x}}.
 
-        Because :math:`f` is a spline, any Fourier coefficient can be recovered
-        for :math:`\nu\in[1\ldots\left\lfloor\frac{K}{2}\right\rfloor]` from
-        :math:`\hat{{\mathbf{f}}}` according to
+        Because :math:`f` is a spline, a Fourier coefficient of arbitrary
+        index :math:`\nu\in{\mathbb{Z}}` is related to Fourier coefficients of
+        index in :math:`\{0\}\cup[1\ldots\left\lfloor\frac{K}{2}\right\rfloor]`
+        according to
 
         ..  math::
 
-            F[\nu+K\,k]=\hat{f}[\nu]\,
+            F[\nu]=\left\{\begin{array}{ll}
+            F[0],&\nu=0=\nu_{0}\\
+            0,&\nu\neq0=\nu_{0}\\
+            F[\nu_{0}]\,
             {\mathrm{e}}^{-{\mathrm{j}}\,k\,2\,\pi\,\delta x}\,
-            \left(\left(-1\right)^{k}\,\frac{\nu}{\nu+K\,k}\right)^{n+1}
-
-        for any :math:`k\in{\mathbb{Z}},` along with
-
-        ..  math::
-
-            F[K-\nu]=\hat{f}^{*}[\nu]\,
-            {\mathrm{e}}^{-{\mathrm{j}}\,2\,\pi\,\delta x}\,
-            \left(\frac{\nu}{K-\nu}\right)^{n+1}
-
-        and
-
-        ..  math::
-
-            F[K\,k]=\left\{\begin{array}{ll}
-            \hat{f}[0],&k=0\\0,&k\neq0.
+            \left(\left(-1\right)^{k}\,\frac{\nu_{0}}{\nu}\right)^{n+1},&
+            \nu_{0}\in[1\ldots\left\lfloor\frac{K}{2}\right\rfloor]\\
+            F^{*}[K-\nu_{0}]\,
+            {\mathrm{e}}^{-{\mathrm{j}}\,\left(k+1\right)\,2\,\pi\,\delta x}\,
+            \left(\left(-1\right)^{k}\,\frac{K-\nu_{0}}{\nu}\right)^{n+1},&
+            \nu_{0}\in[\left\lfloor\frac{K}{2}\right\rfloor+1\ldots K-1],
             \end{array}\right.
+
+        where the complex conjugate of :math:`F` is notated
+        :math:`F^{*}:=\left(\Re(F)-{\mathrm{j}}\,\Im(F)\right),` and where
+        :math:`\nu_{0}={\nu\bmod K}` and
+        :math:`k=\left\lfloor\frac{\nu}{K}\right\rfloor.`
 
         Parameters
         ----------
@@ -5091,7 +5091,7 @@ class PeriodicSpline1D:
         :math:`f:{\mathbb{R}}\rightarrow{\mathbb{R}},x\mapsto f(x),` extract
         a finite-support vector :math:`\hat{{\mathbf{f}}}\in{\mathbb{C}}^
         {\left\lfloor\frac{K}{2}\right\rfloor+1}` from the infinitely supported
-        Fourier series of :math:`f,` as
+        Fourier series of :math:`f,` with
 
         ..  math::
 
