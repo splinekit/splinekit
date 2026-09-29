@@ -1178,7 +1178,9 @@ class PeriodicSpline1D:
             {\mathrm{d}}x
 
         is the :math:`\nu`-th coefficient of the Fourier series
-        of the spline.
+        of the spline. When the period is even, it is assumed (without test)
+        that :math:`F[\frac{K}{2}]\,{\mathrm{e}}^{{\mathrm{j}}\,\pi\,\delta x}
+        \in{\mathbb{R}}.`
 
         Parameters
         ----------
@@ -5095,8 +5097,8 @@ class PeriodicSpline1D:
 
         ..  math::
 
-            \hat{{\mathbf{f}}}=\left(F[\nu]\right)_{\nu=0}^{\nu=
-            \left\lfloor\frac{K}{2}\right\rfloor},
+            \hat{{\mathbf{f}}}=\left(F[\nu]\right)_{\nu=0}^
+            {\left\lfloor\frac{K}{2}\right\rfloor},
 
         where :math:`F[\nu]` is the Fourier coefficient of index :math:`\nu.`
 

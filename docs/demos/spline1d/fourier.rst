@@ -53,7 +53,7 @@ Series
 It is also possible to mix the discrete and the continuous world. A third brand of Fourier transform is called a *Fourier series*. It maps a complex periodic function of positive integer period :math:`K\in{\mathbb{N}}+1` to a sequence of complex coefficients, according to
 
 ..  math::
-    F:\left({\mathbb{R}}\rightarrow{\mathbb{C}}\right)\rightarrow\left({\mathbb{Z}}\rightarrow{\mathbb{C}}\right),f\mapsto F\{f\}=\left(\frac{1}{K}\,\int_{0}^{K}\,f(x)\,{\mathrm{e}}^{-{\mathrm{j}}\,\nu\,\frac{2\,\pi}{K}\,x}\,{\mathrm{d}}x\right)_{\nu\in{\mathbb{Z}}}.
+    F:\left({\mathbb{R}}\rightarrow{\mathbb{C}}\right)\rightarrow\left({\mathbb{Z}}\rightarrow{\mathbb{C}}\right),f\mapsto F\{f\}=\left(F[\nu]\right)_{\nu\in{\mathbb{Z}}}=\left(\frac{1}{K}\,\int_{0}^{K}\,f(x)\,{\mathrm{e}}^{-{\mathrm{j}}\,\nu\,\frac{2\,\pi}{K}\,x}\,{\mathrm{d}}x\right)_{\nu\in{\mathbb{Z}}}.
 
 Discrete-Time
 """""""""""""
@@ -75,7 +75,7 @@ The first three versions of the Fourier transform (continuous-time, discrete, an
     {\mathbf{F}}^{-1}:{\mathbb{C}}^{K}\rightarrow{\mathbb{C}}^{K},\hat{{\mathbf{x}}}\mapsto{\mathbf{F}}^{-1}(\hat{{\mathbf{x}}})=\frac{1}{K}\,\left(\sum_{\nu=0}^{K-1}\,\hat{x}[\nu]\,{\mathrm{e}}^{{\mathrm{j}}\,\nu\,\frac{2\,\pi}{K}\,k}\right)_{k=0}^{K-1}
 
 ..  math::
-    F^{-1}:\left({\mathbb{Z}}\rightarrow{\mathbb{C}}\right)\rightarrow\left({\mathbb{R}}\rightarrow{\mathbb{C}}\right),\left(c[\nu]\right)_{\nu\in{\mathbb{Z}}}\mapsto\left(x\mapsto\sum_{\nu\in{\mathbb{Z}}}\,c[\nu]\,{\mathrm{e}}^{{\mathrm{j}}\,\nu\,\frac{2\,\pi}{K}\,x}\right).
+    F^{-1}:\left({\mathbb{Z}}\rightarrow{\mathbb{C}}\right)\rightarrow\left({\mathbb{R}}\rightarrow{\mathbb{C}}\right),\left(F[\nu]\right)_{\nu\in{\mathbb{Z}}}\mapsto\left(x\mapsto\sum_{\nu\in{\mathbb{Z}}}\,F[\nu]\,{\mathrm{e}}^{{\mathrm{j}}\,\nu\,\frac{2\,\pi}{K}\,x}\right).
 
 Meanwhile, the inspection of the definition of the discrete-time Fourier transform reveals that only samples of the continuously defined function :math:`f` being transformed are taken into account. Consequently, in the absence of restrictions on :math:`f,` no inverse can be found that would recreate the whole of :math:`f:{\mathbb{R}}\rightarrow{\mathbb{C}}.` However, its samples can still be recovered from :math:`{\mathcal{F}}_{1/T}\{f\}` as
 
@@ -94,7 +94,7 @@ Truncated Fourier Series
 
 The ``splinekit.PeriodicSpline1D`` class maintains periodic functions. Thus, the most appropriate Fourier tool is the Fourier series, and the library gives access to coefficients of any index :math:`\nu\in{\mathbb{Z}}.` These coefficients are ordered by level of detail, with coefficients of low absolute index providing coarse contributions and coefficients of high absolute index carrying the details of the function.
 
-Instead of considering the infinite sequence of Fourier coefficients :math:`c` to get the full signal recovery :math:`x\mapsto\sum_{\nu\in{\mathbb{Z}}}\,c[\nu]\,{\mathrm{e}}^{{\mathrm{j}}\,\nu\,\frac{2\,\pi}{K}\,x},` we can approximate a periodic function as the partial reconstruction :math:`x\mapsto\sum_{\nu=-N}^{N}\,c[\nu]\,{\mathrm{e}}^{{\mathrm{j}}\,\nu\,\frac{2\,\pi}{K}\,x}` obtained over a finite sum of :math:`2\,N+1` terms, with :math:`N\in{\mathbb{N}}.` This reconstruction will capture the overall shape of a periodic function when :math:`N` is small, and additional details will emerge when :math:`N` increases. Moreover, when the fonction being transformed is real, it turns out that its Fourier-series coefficients, although complex, are organized in such a way that the proposed partial reconstruction, with symmetric upper and lower limits, is also real.
+Instead of considering the infinite sequence of Fourier coefficients :math:`F` to get the full signal recovery :math:`x\mapsto\sum_{\nu\in{\mathbb{Z}}}\,F[\nu]\,{\mathrm{e}}^{{\mathrm{j}}\,\nu\,\frac{2\,\pi}{K}\,x},` we can approximate a periodic function as the partial reconstruction :math:`x\mapsto\sum_{\nu=-N}^{N}\,F[\nu]\,{\mathrm{e}}^{{\mathrm{j}}\,\nu\,\frac{2\,\pi}{K}\,x}` obtained over a finite sum of :math:`2\,N+1` terms, with :math:`N\in{\mathbb{N}}.` This reconstruction will capture the overall shape of a periodic function when :math:`N` is small, and additional details will emerge when :math:`N` increases. Moreover, when the fonction being transformed is real, it turns out that its Fourier-series coefficients, although complex, are organized in such a way that the proposed partial reconstruction, with symmetric upper and lower limits, is also real.
 
 We give now a piece of code that illustrates how a truncated Fourier-series reconstruction approximates a random periodic spline of specified period, degree, and delay.
 
@@ -107,10 +107,10 @@ We give now a piece of code that illustrates how a truncated Fourier-series reco
 Fourier Smoothness
 ------------------
 
-It is easy to verify that the partial reconstruction obtained with :math:`N=0` is nothing but a constant-valued function that takes as value the average of the continuously defined periodic function. Then, for larger :math:`N,` the partial reconstruction :math:`\tilde{f}_{N-1}` with :math:`\left(N-1\right)` terms can be refined one term at a time to obtain :math:`\tilde{f}_{N}.` Because :math:`c[N]=\left(c[-N]\right)^{*}` for the real :math:`f` that we consider here, such a refinement can be expressed as
+It is easy to verify that the partial reconstruction obtained with :math:`N=0` is nothing but a constant-valued function that takes as value the average of the continuously defined periodic function. Then, for larger :math:`N,` the partial reconstruction :math:`\tilde{f}_{N-1}` with :math:`\left(N-1\right)` terms can be refined one term at a time to obtain :math:`\tilde{f}_{N}.` Because :math:`F[N]=\left(F[-N]\right)^{*}` for the real :math:`f` that we consider here, such a refinement can be expressed as
 
 ..  math::
-    \tilde{f}_{N}(x)-\tilde{f}_{N-1}(x)=2\,\Re(c[N])\,\cos(N\,\frac{2\,\pi}{K}\,x)-2\,\Im(c[N])\,\sin(N\,\frac{2\,\pi}{K}\,x).
+    \tilde{f}_{N}(x)-\tilde{f}_{N-1}(x)=2\,\Re(F[N])\,\cos(N\,\frac{2\,\pi}{K}\,x)-2\,\Im(F[N])\,\sin(N\,\frac{2\,\pi}{K}\,x).
 
 This refinement term is a continuously defined periodic function in :math:`x,` with rational period :math:`K/N` that dwindles as :math:`N` increases. Thus, the more Fourier terms are taken into account in the partial reconstruction, the more agitated the reconstruction becomes. The phase and the amplitude of the refining terms is governed jointly by the real and imaginary parts of the corresponding Fourier-series coefficient.
 
@@ -121,3 +121,23 @@ We give now a piece of code that illustrates this behavior. We synthesize a set 
 ..  admonition:: Jupyter Lab notebook
 
     `Fourier smoothness of periodic splines <https://splinekit.github.io/splinekit-jupyterlite/lab/?path=periodic-spline/fourier/spline_smoothness.ipynb&mode=single-document>`_
+
+----
+
+Fourier Filters
+---------------
+
+Assume now that it is a uniform periodic piecewise-polynomial spline
+
+..  math::
+    f:{\mathbb{R}}\rightarrow{\mathbb{R}},x\mapsto f(x)=\sum_{k\in{\mathbb{Z}}}\,c[{k\bmod K}]\,\beta^{n}(x-\delta x-k)
+
+of nonnegative integer degree :math:`n\in{\mathbb{N}}` and delay :math:`\delta x\in{\mathbb{R}}` that plays the role of the periodic function of positive integer period :math:`K\in{\mathbb{N}}+1` from which a Fourier series is computed. (There, :math:`c` represents the spline coefficients.) Because a Fourier series is invertible, the infinite-length sequence :math:`\left(F\{f\}[\nu]\right)_{\nu\in{\mathbb{Z}}}=\left(F[\nu]\right)_{\nu\in{\mathbb{Z}}}` provides a faithful alternative representation of the spline.
+
+Let :math:`\hat{{\mathbf{f}}}=\left(F[\nu]\right)_{\nu=0}^{\left\lfloor\frac{K}{2}\right\rfloor}\in{\mathbb{C}}^{\left\lfloor\frac{K}{2}\right\rfloor+1}` be a finite-dimensional vector given by a finite-length subsequence of the Fourier series of the spline. Now, it is possible to recover the spline exactly out of just :math:`\hat{{\mathbf{f}}},` under the knowledge that it is a spline of period :math:`K,` degree :math:`n,` and delay :math:`\delta x` that is being recovered. The vector :math:`\hat{{\mathbf{f}}}` is an admissible representation of the spline if :math:`\hat{f}[0]\in{\mathbb{R}}.` A second condition of admissibility arises when the period is even, in which case it must hold that :math:`\hat{f}[\frac{K}{2}]\,{\mathrm{e}}^{{\mathrm{j}}\,\pi\,\delta x}\in{\mathbb{R}},` too. The remaining components of :math:`\hat{{\mathbf{f}}}` are free of constraints.
+
+In the piece of code below, we annihilate a range of components of the subsequence of the Fourier series of some random spline. We then synthesize a new spline from this manipulated subsequence. This operation is equivalent to the filtering of a spline. It differs from the truncated Fourier-series approach proposed in an earlier notebook because the truncated version does not return a spline while the filtering version does.
+
+..  admonition:: Jupyter Lab notebook
+
+    `Periodic Splines from Fourier Coefficients <https://splinekit.github.io/splinekit-jupyterlite/lab/?path=periodic-spline/fourier/spline_from_fourier.ipynb&mode=single-document>`_
