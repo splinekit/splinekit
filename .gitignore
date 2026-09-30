@@ -94,6 +94,9 @@ target/
 # Jupyter Notebook
 .ipynb_checkpoints
 
+# Jupyterlite
+_output/
+
 # IPython
 profile_default/
 ipython_config.py
