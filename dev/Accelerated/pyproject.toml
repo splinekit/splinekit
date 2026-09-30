@@ -10,7 +10,7 @@ build-backend = "scikit_build_core.build" # Activate for C dynamic library
 # Project
 [project]
 name = "splinekit"
-version = "0.2.8"
+version = "0.2.9"
 dependencies = [
     "numpy >=1.26",
     "scipy >=1.15",
