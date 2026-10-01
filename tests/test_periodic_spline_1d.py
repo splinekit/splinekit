@@ -5597,6 +5597,28 @@ class TestPeriodicSpline1D:
                     rel_tol = sqrt(ulp(1.0)),
                     abs_tol = sqrt(ulp(1.0))
                 )
+            ps = known_ps + constant
+            assert known_ps.period == ps.period
+            assert known_ps.degree == ps.degree
+            assert known_ps.delay == ps.delay
+            for (k, c) in enumerate(known_plus):
+                assert isclose(
+                    c,
+                    ps.spline_coeff[k],
+                    rel_tol = sqrt(ulp(1.0)),
+                    abs_tol = sqrt(ulp(1.0))
+                )
+            ps = known_ps - (-constant)
+            assert known_ps.period == ps.period
+            assert known_ps.degree == ps.degree
+            assert known_ps.delay == ps.delay
+            for (k, c) in enumerate(known_plus):
+                assert isclose(
+                    c,
+                    ps.spline_coeff[k],
+                    rel_tol = sqrt(ulp(1.0)),
+                    abs_tol = sqrt(ulp(1.0))
+                )
 
     #---------------
     def test_times (
@@ -5668,6 +5690,28 @@ class TestPeriodicSpline1D:
             c = np.array(data, dtype = "float")
             known_ps = PeriodicSpline1D.from_spline_coeff(c, degree = degree, delay = delay)
             ps = known_ps.times(constant)
+            assert known_ps.period == ps.period
+            assert known_ps.degree == ps.degree
+            assert known_ps.delay == ps.delay
+            for (k, c) in enumerate(known_times):
+                assert isclose(
+                    c,
+                    ps.spline_coeff[k],
+                    rel_tol = sqrt(ulp(1.0)),
+                    abs_tol = sqrt(ulp(1.0))
+                )
+            ps = known_ps * constant
+            assert known_ps.period == ps.period
+            assert known_ps.degree == ps.degree
+            assert known_ps.delay == ps.delay
+            for (k, c) in enumerate(known_times):
+                assert isclose(
+                    c,
+                    ps.spline_coeff[k],
+                    rel_tol = sqrt(ulp(1.0)),
+                    abs_tol = sqrt(ulp(1.0))
+                )
+            ps = known_ps / (1.0 / constant)
             assert known_ps.period == ps.period
             assert known_ps.degree == ps.degree
             assert known_ps.delay == ps.delay
