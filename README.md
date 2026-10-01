@@ -1,6 +1,6 @@
 <!-- splinekit/README.md -->
 
-# Version 0.2.9
+# Version 0.2.10
 
 # splinekit: Spline Operations
 `splinekit` is a Python-based open-source software library aimed at the manipulation of one-dimensional periodic splines.
@@ -86,5 +86,5 @@ Upgraded to jupyterlite 0.7
 ### 0.2.8
 Some demos added.
 
-### 0.2.9
+### 0.2.9 — 0.2.10
 All demos added. Operators. Faster execution.
