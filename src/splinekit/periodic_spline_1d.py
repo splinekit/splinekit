@@ -107,6 +107,12 @@ Instance Methods
 
     - :ref:`__lshift__ <periodic_spline_1d-op-lshift>` ``<<`` Advance: :math:`\fbox{$f(\cdot+\delta x)$}`
     - :ref:`__rshift__ <periodic_spline_1d-op-rshift>` ``>>`` Delay: :math:`\fbox{$f(\cdot-\delta x)$}`
+-   Dyadic Operators Applied to :math:`(f,\lambda)`
+
+    - :ref:`__add__ <periodic_spline_1d-op-add>` ``+`` Sum: :math:`\fbox{$f+\lambda$}`
+    - :ref:`__sub__ <periodic_spline_1d-op-sub>` ``-`` Difference: :math:`\fbox{$f-\lambda$}`
+    - :ref:`__mul__ <periodic_spline_1d-op-mul>` ``*`` Product: :math:`\fbox{$f\,\lambda$}`
+    - :ref:`__truediv__ <periodic_spline_1d-op-truediv>` ``/`` Ratio: :math:`\fbox{$\frac{f}{\lambda}$}`
 
 ====
 
@@ -119,8 +125,10 @@ from __future__ import annotations
 from typing import cast
 from typing import List
 from typing import NamedTuple
-from typing import Self
 from typing import Tuple
+
+#---------------
+from fractions import Fraction
 
 #---------------
 from math import ceil
@@ -1265,16 +1273,20 @@ class PeriodicSpline1D:
         if 0 > degree:
             raise ValueError("Degree must be nonnegative")
         s = cls()
-        s.spline_coeff = np.fft.irfft(
-            fourier_series * np.array(
-                [
-                    period * cmath.exp(1j * nu * 2.0 * np.pi * delay / period) /
-                        (np.sinc(nu / period) ** (degree + 1))
-                    for nu in range(len(fourier_series))
-                ],
-                dtype = complex
-            ),
-            n = period
+        s.spline_coeff = cast(
+            np.ndarray[tuple[int], np.dtype[np.float64]],
+            np.fft.irfft(
+                fourier_series * np.array(
+                    [
+                        period * cmath.exp(
+                            1j * nu * 2.0 * np.pi * delay / period
+                        ) / (np.sinc(nu / period) ** (degree + 1))
+                        for nu in range(len(fourier_series))
+                    ],
+                    dtype = complex
+                ),
+                n = period
+            )
         )
         s.degree = degree
         s.delay = delay
@@ -1356,13 +1368,14 @@ class PeriodicSpline1D:
     #---------------
     def __add__ (
         self,
-        other: Self
+        other: PeriodicSpline1D | Fraction | int | float | np.number
     ) -> PeriodicSpline1D:
 
         r"""
         .. _periodic_spline_1d-op-add:
 
-        Operator version of the ``add`` function.
+        Operator version of the ``add`` function between splines; sum of a
+        spline (the augend) and a numeric quantity (the addend).
 
         Examples
         --------
@@ -1374,8 +1387,9 @@ class PeriodicSpline1D:
             >>> s1 = sk.PeriodicSpline1D.from_spline_coeff(c1, degree = 3)
             >>> c2 = np.array([6, -3, -2], dtype = float)
             >>> s2 = sk.PeriodicSpline1D.from_spline_coeff(c2, degree = 3)
-            >>> s1 + s2
-            PeriodicSpline1D([ 7.  6. -9.], degree = 3, delay = 0.0)
+            >>> (s1 + s2, s1 + 1000)
+            (PeriodicSpline1D([ 7.  6. -9.], degree = 3, delay = 0.0),
+             PeriodicSpline1D([1001. 1009.  993.], degree = 3, delay = 0.0))
 
         See Also
         --------
@@ -1386,7 +1400,9 @@ class PeriodicSpline1D:
 
         """
 
-        return PeriodicSpline1D.add(self, other)
+        if isinstance(other, PeriodicSpline1D):
+            return PeriodicSpline1D.add(self, other)
+        return(self.plus(float(other)))
 
     #---------------
     @classmethod
@@ -1586,13 +1602,15 @@ class PeriodicSpline1D:
     #---------------
     def __sub__ (
         self,
-        other: Self
+        other: PeriodicSpline1D | Fraction | int | float | np.number
     ) -> PeriodicSpline1D:
 
         r"""
         .. _periodic_spline_1d-op-sub:
 
-        Operator version of the ``subtract`` function.
+        Operator version of the ``subtract`` function between splines;
+        difference between a spline (the minuend) and a numeric quantity (the
+        subtrahend).
 
         Examples
         --------
@@ -1604,8 +1622,9 @@ class PeriodicSpline1D:
             >>> s1 = sk.PeriodicSpline1D.from_spline_coeff(c1, degree = 3)
             >>> c2 = np.array([6, -3, -2], dtype = float)
             >>> s2 = sk.PeriodicSpline1D.from_spline_coeff(c2, degree = 3)
-            >>> s1 - s2
-            PeriodicSpline1D([ -5. 12. -5.], degree = 3, delay = 0.0)
+            >>> (s1 - s2, s1 - 1000)
+            (PeriodicSpline1D([-5. 12. -5.], degree = 3, delay = 0.0),
+             PeriodicSpline1D([ -999.  -991. -1007.], degree = 3, delay = 0.0))
 
         See Also
         --------
@@ -1616,7 +1635,9 @@ class PeriodicSpline1D:
 
         """
 
-        return PeriodicSpline1D.subtract(self, other)
+        if isinstance(other, PeriodicSpline1D):
+            return PeriodicSpline1D.subtract(self, other)
+        return(self.plus(-float(other)))
 
     #---------------
     @classmethod
@@ -1707,13 +1728,15 @@ class PeriodicSpline1D:
     #---------------
     def __mul__ (
         self,
-        other: Self
+        other: PeriodicSpline1D | Fraction | int | float | np.number
     ) -> PeriodicSpline1D:
 
         r"""
         .. _periodic_spline_1d-op-mul:
 
-        Operator version of the ``convolve`` function.
+        Operator version of the ``convolve`` function between splines;
+        product between a spline (the multiplicand) and a numeric quantity
+        (the multiplier).
 
         Examples
         --------
@@ -1725,19 +1748,57 @@ class PeriodicSpline1D:
             >>> s1 = sk.PeriodicSpline1D.from_spline_coeff(c1, degree = 3, delay = 8.4)
             >>> c2 = np.array([6, -3, -2], dtype = float)
             >>> s2 = sk.PeriodicSpline1D.from_spline_coeff(c2, degree = 1, delay = 0.1)
-            >>> s1 * s2
-            PeriodicSpline1D([  9.  65. -71.], degree = 5, delay = 8.5)
+            >>> (s1 * s2, s1 * 1000)
+            (PeriodicSpline1D([  9.  65. -71.], degree = 5, delay = 8.5),
+             PeriodicSpline1D([ 1000.  9000. -7000.], degree = 3, delay = 8.4))
 
         See Also
         --------
         convolve : Convolution of two splines.
+        times : Multiply a spline by a constant.
 
 
         ----
 
         """
 
-        return PeriodicSpline1D.convolve(self, other)
+        if isinstance(other, PeriodicSpline1D):
+            return PeriodicSpline1D.convolve(self, other)
+        return(self.times(float(other)))
+
+    #---------------
+    def __truediv__ (
+        self,
+        other: Fraction | int | float | np.number
+    ) -> PeriodicSpline1D:
+
+        r"""
+        .. _periodic_spline_1d-op-truediv:
+
+        Ratio between a spline (the dividend) and a numeric quantity (the
+        divisor).
+
+        Examples
+        --------
+        Load the libraries.
+            >>> import numpy as np
+            >>> import splinekit as sk
+        Create two splines and convolve them.
+            >>> c1 = np.array([1, 9, -7], dtype = float)
+            >>> s1 = sk.PeriodicSpline1D.from_spline_coeff(c1, degree = 3, delay = 8.4)
+            >>> s1 / 1000
+            PeriodicSpline1D([ 0.001  0.009 -0.007], degree = 3, delay = 8.4)
+
+        See Also
+        --------
+        times : Multiply a spline by a constant.
+
+
+        ----
+
+        """
+
+        return(self.times(1.0 / float(other)))
 
     #---------------
     @classmethod
@@ -2784,7 +2845,7 @@ class PeriodicSpline1D:
     #---------------
     def __call__ (
         self,
-        x: float
+        x: Fraction | int | float | np.number
     ) -> float:
 
         r"""
@@ -2812,7 +2873,7 @@ class PeriodicSpline1D:
 
         """
 
-        return self.at(x)
+        return self.at(float(x))
 
     #---------------
     def get_samples (
@@ -4649,7 +4710,7 @@ class PeriodicSpline1D:
     #---------------
     def __lshift__ (
         self,
-        other: float
+        other: Fraction | int | float | np.number
     ) -> PeriodicSpline1D:
 
         r"""
@@ -4677,12 +4738,12 @@ class PeriodicSpline1D:
 
         """
 
-        return self.delayed_by(-other)
+        return self.delayed_by(-float(other))
 
     #---------------
     def __rshift__ (
         self,
-        other: float
+        other: Fraction | int | float | np.number
     ) -> PeriodicSpline1D:
 
         r"""
@@ -4710,7 +4771,7 @@ class PeriodicSpline1D:
 
         """
 
-        return self.delayed_by(other)
+        return self.delayed_by(float(other))
 
     #---------------
     def differentiated (
